@@ -77,6 +77,29 @@ public class Player : MonoBehaviour
        
     }
 
+    IEnumerator Move()
+    {
+        int dieRoll = my_die.GetRoll();
+        for (int x = 0; x < dieRoll; ++x)
+        { 
+            Vector3 nextTile = current_tile.GetNextTilePosition();
+            float n = 0.0f;
+            Vector3 currentPosition = current_tile.GetTilePosition();
+            Vector3 nextPosition = current_tile.GetNextTilePosition();
+            //Debug.Log(currentPosition);
+            //Debug.Log(nextPosition);
+            while (n < 1f)
+            {
+                Transform tf = GetComponent<Transform>();
+                float journeyLength = Vector3.Distance(currentPosition, nextPosition);
+                tf.position = Vector3.Lerp(currentPosition, nextPosition, n);
+                n += 0.1f;
+                yield return null;
+            }
+            current_tile = current_tile.next_tile;
+        }
+    }
+
     private void FixedUpdate()
     {
         //Rigidbody rb = GetComponent<Rigidbody>();
@@ -85,17 +108,7 @@ public class Player : MonoBehaviour
 
     private void OnMouseDown()
     {
-        int dieRoll = my_die.GetRoll();
-
-        for (int x = 0; x < dieRoll; ++x)
-        {
-            Vector3 nextTile = current_tile.GetNextTilePosition();
-            Transform tf = GetComponent<Transform>();
-            //rb.MovePosition(transform.position + transform.forward * Time.deltaTime);
-            tf.SetPositionAndRotation(nextTile, transform.rotation);
-            // WaitForSeconds(0.25);
-            current_tile = current_tile.next_tile;
-        }
+        StartCoroutine("Move");
     }
 
     // Update is called once per frame
