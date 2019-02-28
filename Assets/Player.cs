@@ -13,7 +13,8 @@ public class Player : MonoBehaviour
     public int money;
     public List<string> weapons;
     public string armor;
-    public bool isActive;
+    //public bool isActive;
+    public bool hasMoved;
     public Dice my_die;
     public GameTile current_tile;
 
@@ -21,7 +22,9 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("I am alive and my name is " + playerName);
+        Debug.Log("My name is " + playerName);
+        //isActive = false;
+        hasMoved = false;
 
         //Fetch the Renderer from the GameObject
         Renderer rend = GetComponent<Renderer>();
@@ -77,11 +80,10 @@ public class Player : MonoBehaviour
        
     }
 
-    IEnumerator Move()
-    {
-        int dieRoll = my_die.GetRoll();
-        for (int x = 0; x < dieRoll; ++x)
-        { 
+    IEnumerator Move(int numSpaces)
+    { 
+        for (int x = 0; x < numSpaces; ++x)
+        {
             Vector3 nextTile = current_tile.GetNextTilePosition();
             float n = 0.0f;
             Vector3 currentPosition = current_tile.GetTilePosition();
@@ -98,17 +100,38 @@ public class Player : MonoBehaviour
             }
             current_tile = current_tile.next_tile;
         }
+        my_die.MakeDieAvailable();
+        hasMoved = true;
+    }
+
+
+    //IEnumerator WaitForRoll()
+   // {
+    //    while (false)
+    //        yield return null;
+    //}
+
+    //IEnumerator WaitForKeyMove()
+    //{
+    //    while (!hasMoved)
+    //        yield return null;
+    //}
+
+    public void TakeTurn()
+    {
+        while (!hasMoved) { }
+        EndTurn();
+    }
+
+    public void EndTurn()
+    {
+        gameObject.SendMessage("ChangePlayer");
     }
 
     private void FixedUpdate()
     {
         //Rigidbody rb = GetComponent<Rigidbody>();
         //rb.MovePosition(transform.position + transform.forward * Time.deltaTime);
-    }
-
-    private void OnMouseDown()
-    {
-        StartCoroutine("Move");
     }
 
     // Update is called once per frame
@@ -123,7 +146,7 @@ public class Player : MonoBehaviour
         if (GUI.Button(new Rect(10, 10, 150, 100), "End Turn"))
         {
             print("Your turn is now over.");
-            isActive = false;
+            //isActive = false;
         }
     }
 }

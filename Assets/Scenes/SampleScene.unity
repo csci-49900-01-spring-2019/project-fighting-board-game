@@ -432,6 +432,7 @@ MonoBehaviour:
   weapons: []
   armor: 
   isActive: 0
+  hasMoved: 0
   my_die: {fileID: 981214178}
   current_tile: {fileID: 937456294}
 --- !u!135 &258740720
@@ -1445,6 +1446,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 720660952}
+  - component: {fileID: 720660953}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -1467,6 +1469,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &720660953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720660951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6083ac63da991438f8df12505dd70396, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players:
+  - {fileID: 1738875945}
+  - {fileID: 258740719}
+  - {fileID: 1032092101}
+  - {fileID: 1403906605}
+  gameOver: 0
 --- !u!1 &791393406
 GameObject:
   m_ObjectHideFlags: 0
@@ -1930,6 +1950,7 @@ MonoBehaviour:
   weapons: []
   armor: 
   isActive: 0
+  hasMoved: 0
   my_die: {fileID: 981214178}
   current_tile: {fileID: 1637721746}
 --- !u!135 &1032092102
@@ -2632,6 +2653,7 @@ MonoBehaviour:
   weapons: []
   armor: 
   isActive: 0
+  hasMoved: 0
   my_die: {fileID: 981214178}
   current_tile: {fileID: 275534397}
 --- !u!135 &1403906606
@@ -3205,6 +3227,7 @@ MonoBehaviour:
   weapons: []
   armor: 
   isActive: 0
+  hasMoved: 0
   my_die: {fileID: 981214178}
   current_tile: {fileID: 628473735}
 --- !u!1 &1822009588
