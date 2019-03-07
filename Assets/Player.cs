@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public State status;
     public int health;
     public int money;
-    public List<string> weapons;
+    public string weapon;
     public string armor;
     //public bool isActive;
     public bool hasMoved;
@@ -23,65 +23,60 @@ public class Player : MonoBehaviour
     void Start()
     {
         Debug.Log("My name is " + playerName);
-        //isActive = false;
         hasMoved = false;
+        health = 100;
 
+        Renderer rend = GetComponent<Renderer>();
+        rend.material.shader = Shader.Find("_Color");
+        rend.material.SetColor("_Color", Random.ColorHSV());
+        rend.material.shader = Shader.Find("Specular");
+        rend.material.SetColor("_SpecColor", Color.black);
+    }
+
+    public void PlayerAttacked(int damage, State effect = State.normal)
+    {
+        health -= damage;
+        if (health <= 0)
+            status = State.dead;
+        else
+            status = effect;
+    }
+
+    public void UpdatePlayerStatus()
+    {
         //Fetch the Renderer from the GameObject
         Renderer rend = GetComponent<Renderer>();
 
         switch (status)
         {
             case State.normal:
-                //Set the main Color of the Material to green
-                rend.material.shader = Shader.Find("_Color");
-                rend.material.SetColor("_Color", Color.white);
-
-                //Find the Specular shader and change its Color to red
+                //Find the Specular shader and change its Color to black
                 rend.material.shader = Shader.Find("Specular");
-                rend.material.SetColor("_SpecColor", Color.red);
+                rend.material.SetColor("_SpecColor", Color.black);
                 break;
             case State.stunned:
-                //Set the main Color of the Material to green
-                rend.material.shader = Shader.Find("_Color");
-                rend.material.SetColor("_Color", Color.yellow);
-
-                //Find the Specular shader and change its Color to red
                 rend.material.shader = Shader.Find("Specular");
-                rend.material.SetColor("_SpecColor", Color.red);
+                rend.material.SetColor("_SpecColor", Color.yellow);
                 break;
             case State.poisoned:
-                //Set the main Color of the Material to green
-                rend.material.shader = Shader.Find("_Color");
-                rend.material.SetColor("_Color", Color.green);
-
-                //Find the Specular shader and change its Color to red
                 rend.material.shader = Shader.Find("Specular");
-                rend.material.SetColor("_SpecColor", Color.red);
+                rend.material.SetColor("_SpecColor", Color.green);
+                health -= 1;
                 break;
             case State.burned:
-                //Set the main Color of the Material to green
-                rend.material.shader = Shader.Find("_Color");
-                rend.material.SetColor("_Color", Color.red);
-
-                //Find the Specular shader and change its Color to red
                 rend.material.shader = Shader.Find("Specular");
                 rend.material.SetColor("_SpecColor", Color.red);
+                health -= 1;
                 break;
             default: // status == dead
-                //Set the main Color of the Material to green
-                rend.material.shader = Shader.Find("_Color");
-                rend.material.SetColor("_Color", Color.gray);
-
-                //Find the Specular shader and change its Color to red
                 rend.material.shader = Shader.Find("Specular");
-                rend.material.SetColor("_SpecColor", Color.red);
+                rend.material.SetColor("_SpecColor", Color.white);
                 break;
         }
-       
     }
 
-    IEnumerator Move(int numSpaces)
-    { 
+    public IEnumerator Move(int numSpaces)
+    {
         for (int x = 0; x < numSpaces; ++x)
         {
             Vector3 nextTile = current_tile.GetNextTilePosition();
@@ -102,11 +97,12 @@ public class Player : MonoBehaviour
         }
         my_die.MakeDieAvailable();
         hasMoved = true;
+        yield return null;
     }
 
 
     //IEnumerator WaitForRoll()
-   // {
+    // {
     //    while (false)
     //        yield return null;
     //}
@@ -117,15 +113,21 @@ public class Player : MonoBehaviour
     //        yield return null;
     //}
 
-    public void TakeTurn()
+    public IEnumerator TakeTurn()
     {
-        while (!hasMoved) { }
+
+        Debug.Log("Entered TakeTurn.");
+        hasMoved = false;
+        while (!hasMoved)
+            yield return null;
+        UpdatePlayerStatus();
         EndTurn();
     }
 
     public void EndTurn()
     {
-        gameObject.SendMessage("ChangePlayer");
+        Debug.Log("Turn has ended!");
+        gameObject.SendMessageUpwards("ChangePlayer");
     }
 
     private void FixedUpdate()

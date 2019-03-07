@@ -7,12 +7,14 @@ public class Manager : MonoBehaviour
     public List<Player> players;
     public bool gameOver;
     public int activePlayer;
+    public int turnCount;
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Entered start.");
         gameOver = false;
+        turnCount = 1;
         activePlayer = 0;
         players[activePlayer].StartCoroutine("TakeTurn");
     }
@@ -23,11 +25,15 @@ public class Manager : MonoBehaviour
 
     }
 
+    void HighlightTiles()
+    {
+
+    }
+
     void ChangePlayer()
     {
-        Debug.Log(activePlayer);
-        Debug.Log(players.Count);
         activePlayer = (activePlayer+1) % (players.Count);
+        if (activePlayer == 0) turnCount++;
         Debug.Log(activePlayer);
         players[activePlayer].StartCoroutine("TakeTurn");
     }
