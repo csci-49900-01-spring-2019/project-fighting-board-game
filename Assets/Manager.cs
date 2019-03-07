@@ -11,23 +11,29 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Entered start.");
         gameOver = false;
         activePlayer = 0;
+        players[activePlayer].StartCoroutine("TakeTurn");
     }
 
     // Update is called once per frame
     void Update()
     {
-        players[activePlayer].TakeTurn();
+
     }
 
     void ChangePlayer()
     {
+        Debug.Log(activePlayer);
+        Debug.Log(players.Count);
         activePlayer = (activePlayer+1) % (players.Count);
+        Debug.Log(activePlayer);
+        players[activePlayer].StartCoroutine("TakeTurn");
     }
 
     void PlayerMove(int numSpaces)
     {
-        players[activePlayer].StartCoroutine("Move");
+        players[activePlayer].StartCoroutine("Move", numSpaces);
     }
 }
