@@ -46,7 +46,7 @@ public class Dice : MonoBehaviour
         {
             int my_num = Random.Range(range_start, range_end);
             Debug.Log("Dice rolled, you got " + my_num);
-            gameObject.SendMessageUpwards("PlayerMove", my_num);
+            gameObject.SendMessageUpwards("PlayerSelectSpace", my_num);
             roll_processed = false;
 
         }

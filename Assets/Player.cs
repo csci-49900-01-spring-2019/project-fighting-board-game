@@ -75,6 +75,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    /*
     public IEnumerator Move(int numSpaces)
     {
         for (int x = 0; x < numSpaces; ++x)
@@ -99,23 +100,43 @@ public class Player : MonoBehaviour
         hasMoved = true;
         yield return null;
     }
+    */
 
+    public IEnumerator Move(Vector3 destination)
+    {
+        float n = 0.0f;
+        Vector3 currentPosition = current_tile.GetTilePosition();
+        while (n < 1f)
+        {  
+            Transform tf = GetComponent<Transform>();
+            float journeyLength = Vector3.Distance(currentPosition, destination);
+            tf.position = Vector3.Lerp(currentPosition, destination, n);
+            n += 0.1f;
+            yield return null;
+        }
+        my_die.MakeDieAvailable();
+        hasMoved = true;
+        yield return null;
+    }
 
-    //IEnumerator WaitForRoll()
-    // {
-    //    while (false)
-    //        yield return null;
-    //}
-
-    //IEnumerator WaitForKeyMove()
-    //{
-    //    while (!hasMoved)
-    //        yield return null;
-    //}
+    /*
+    public void ShowMovementOptions(int numSpaces)
+    {
+        Debug.Log("Entered ShowMove...");
+        GameTile forwardTile = current_tile.next_tile;
+        GameTile backTile = current_tile.prev_tile;
+        for (int x = 1; x < numSpaces; ++x)
+        {
+            forwardTile = forwardTile.next_tile;
+            backTile = backTile.prev_tile;
+        }
+        forwardTile.ActivateOutline();
+        backTile.ActivateOutline();
+    }
+    */
 
     public IEnumerator TakeTurn()
     {
-
         Debug.Log("Entered TakeTurn.");
         hasMoved = false;
         while (!hasMoved)
@@ -141,7 +162,6 @@ public class Player : MonoBehaviour
     {
 
     }
-
 
     void OnGUI()
     {

@@ -25,9 +25,32 @@ public class Manager : MonoBehaviour
 
     }
 
-    void HighlightTiles()
+    public IEnumerator ShowMovementOptions(int numSpaces)
     {
+        Debug.Log("Entered ShowMove...");
+        GameTile forwardTile = players[activePlayer].current_tile.next_tile;
+        GameTile backTile = players[activePlayer].current_tile.prev_tile;
+        for (int x = 1; x < numSpaces; ++x)
+        {
+            forwardTile = forwardTile.next_tile;
+            backTile = backTile.prev_tile;
+        }
+        forwardTile.ActivateOutline();
+        backTile.ActivateOutline();
 
+        while (forwardTile.TileAvailable() && backTile.TileAvailable())
+            yield return null;
+
+        if (forwardTile.TileAvailable())
+        {
+            players[activePlayer].current_tile = backTile;
+        }
+        else
+        {
+            players[activePlayer].current_tile = forwardTile;
+        }
+        forwardTile.DeactivateOutline();
+        backTile.DeactivateOutline();
     }
 
     void ChangePlayer()
@@ -38,8 +61,13 @@ public class Manager : MonoBehaviour
         players[activePlayer].StartCoroutine("TakeTurn");
     }
 
-    void PlayerMove(int numSpaces)
+    void PlayerSelectSpace(int numSpaces)
     {
-        players[activePlayer].StartCoroutine("Move", numSpaces);
+        StartCoroutine("ShowMovementOptions",numSpaces);
+    }
+
+    void PlayerMove(Vector3 position)
+    {
+        players[activePlayer].StartCoroutine("Move", position);
     }
 }
