@@ -7,6 +7,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public enum State { normal, stunned, poisoned, burned, dead };
+    public int index;
     public string playerName;
     public State status;
     public int health;
@@ -18,13 +19,14 @@ public class Player : MonoBehaviour
     public Dice my_die;
     public GameTile current_tile;
 
-
+    // hello!
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("My name is " + playerName);
         hasMoved = false;
         health = 100;
+        weapon = "fists";
 
         Renderer rend = GetComponent<Renderer>();
         rend.material.shader = Shader.Find("_Color");
@@ -100,16 +102,38 @@ public class Player : MonoBehaviour
         hasMoved = true;
         yield return null;
     }
+
+    public IEnumerator Move(GameTile destination) // REVISED
+    {
+        while (current_tile != destination)
+        {
+            float n = 0.0f;
+
+            Vector3 nextPosition = current_tile.GetNextTilePosition();
+            while (n < 1f)
+            {
+                Transform tf = GetComponent<Transform>();
+                float journeyLength = Vector3.Distance(currentPosition, nextPosition);
+                tf.position = Vector3.Lerp(currentPosition, nextPosition, n);
+                n += 0.1f;
+                yield return null;
+            }
+            current_tile = current_tile.next_tile;
+        }
+        my_die.MakeDieAvailable();
+        hasMoved = true;
+        yield return null;
+    }      
     */
 
     public IEnumerator Move(Vector3 destination)
     {
         float n = 0.0f;
         Vector3 currentPosition = current_tile.GetTilePosition();
-        while (n < 1f)
+        while (n < 1.1f)
         {  
             Transform tf = GetComponent<Transform>();
-            float journeyLength = Vector3.Distance(currentPosition, destination);
+            //float journeyLength = Vector3.Distance(currentPosition, destination);
             tf.position = Vector3.Lerp(currentPosition, destination, n);
             n += 0.1f;
             yield return null;
@@ -139,9 +163,10 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Entered TakeTurn.");
         hasMoved = false;
+        UpdatePlayerStatus();
         while (!hasMoved)
             yield return null;
-        UpdatePlayerStatus();
+        //gameObject.SendMessageUpwards("HandleCollision", index);
         EndTurn();
     }
 
@@ -149,6 +174,19 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Turn has ended!");
         gameObject.SendMessageUpwards("ChangePlayer");
+    }
+
+    private void AdjustPosition()
+    {
+        Transform tf = GetComponent<Transform>();
+        if (index < 2)
+            tf.position = tf.position + new Vector3(0.2f, 0.0f, 0.0f);
+        else
+            tf.position = tf.position + new Vector3(-0.2f, 0.0f, 0.0f);
+        if (index % 2 == 0)
+            tf.position = tf.position + new Vector3(0.0f, 0.0f, 0.2f);
+        else
+            tf.position = tf.position + new Vector3(0.0f, 0.0f, -0.2f);
     }
 
     private void FixedUpdate()

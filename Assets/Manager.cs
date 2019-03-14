@@ -66,8 +66,15 @@ public class Manager : MonoBehaviour
         StartCoroutine("ShowMovementOptions",numSpaces);
     }
 
+    //void HandleCollision(int numSpaces)
+    //{
+    //    for ()
+    //}
+
     void PlayerMove(Vector3 position)
     {
         players[activePlayer].StartCoroutine("Move", position);
     }
+
+
 }
