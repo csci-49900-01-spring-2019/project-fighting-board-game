@@ -66,10 +66,18 @@ public class Manager : MonoBehaviour
         StartCoroutine("ShowMovementOptions",numSpaces);
     }
 
-    //void HandleCollision(int numSpaces)
-    //{
-    //    for ()
-    //}
+    void HandleCollision(int index)
+    {
+        for (int n = 0; n < players.Count; n++)
+        {
+            if (n != index && players[n].current_tile == players[index].current_tile)
+            {
+                players[n].AdjustPosition();
+                players[index].AdjustPosition();
+                // fight(players[index], players[n])
+            }
+        }
+    }
 
     void PlayerMove(Vector3 position)
     {

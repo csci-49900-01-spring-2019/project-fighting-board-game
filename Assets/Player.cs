@@ -166,7 +166,7 @@ public class Player : MonoBehaviour
         UpdatePlayerStatus();
         while (!hasMoved)
             yield return null;
-        //gameObject.SendMessageUpwards("HandleCollision", index);
+        gameObject.SendMessageUpwards("HandleCollision", index);
         EndTurn();
     }
 
@@ -176,7 +176,7 @@ public class Player : MonoBehaviour
         gameObject.SendMessageUpwards("ChangePlayer");
     }
 
-    private void AdjustPosition()
+    public void AdjustPosition()
     {
         Transform tf = GetComponent<Transform>();
         if (index < 2)
