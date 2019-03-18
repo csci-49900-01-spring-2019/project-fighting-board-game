@@ -74,7 +74,7 @@ public class Manager : MonoBehaviour
             {
                 players[n].AdjustPosition();
                 players[index].AdjustPosition();
-                // fight(players[index], players[n])
+                //startCombat(players[index], players[n])
             }
         }
     }

@@ -31,7 +31,7 @@ public class BareHands : MonoBehaviour
     public int Hit()
     {
         int damage = Random.Range(dRangeStart, dRangeLimit);
-        Debug.log("You dealt " + damage " with the " + name);
+        Debug.log("You dealt " + damage + " with the " + name);
         return damage;
     }
 

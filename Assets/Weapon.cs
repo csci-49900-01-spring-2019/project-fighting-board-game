@@ -86,7 +86,7 @@ public class Weapon : MonoBehaviour
             case "short":
                 if (range != 0)
                 {
-                    range--
+                    range--;
                 }
                 break;
             case "strong":
