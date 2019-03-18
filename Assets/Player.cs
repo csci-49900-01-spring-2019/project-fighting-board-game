@@ -13,8 +13,8 @@ public class Player : MonoBehaviour
     public State status;
     public int health;
     public int money;
-    public string currentWeapon;
-    public List<string> weapons;
+    public Weapon currentWeapon;
+    public List<Weapon> weapons;
     public string armor;
     public bool hasMoved;
     public Dice my_die;
@@ -26,7 +26,8 @@ public class Player : MonoBehaviour
         Debug.Log("My name is " + playerName);
         hasMoved = false;
         health = 100;
-        currentWeapon = "fists";
+        //Weapon aWeapon;
+        currentWeapon = new Weapon("stick","","");
 
         Renderer rend = GetComponent<Renderer>();
         rend.material.shader = Shader.Find("_Color");

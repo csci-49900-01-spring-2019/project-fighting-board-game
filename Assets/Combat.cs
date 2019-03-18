@@ -75,63 +75,63 @@ public class Combat : MonoBehaviour
 
     public bool inflictStatus(Player P1, Weapon W1) //P1 is target player and W1 is any weapon, preferably the current weapon of attacking player
     {
-        if (P1.status = State.normal)
+        if (P1.status == State.normal)
         {
             State effect = W1.statusEffect;
 
             switch (effect){
                 case State.normal:
-                    Debug.log("Your weapon has not status effect");
+                    Debug.Log("Your weapon has not status effect");
                     return false;
                 case State.burned:
                     int perc = Random.Range(1, 10);
                     if (perc > 3)
                     {
-                        Debug.log("You have failed to burn on the target");
+                        Debug.Log("You have failed to burn on the target");
                         return false;
                     }
                     else
                     {
                         P1.status = effect;
-                        Debug.log("You have burned the target");
+                        Debug.Log("You have burned the target");
                         return true;
                     }
                 case State.poisoned:
-                    int perc = Random.Range(1, 10);
+                    perc = Random.Range(1, 10);
                     if (perc > 4)
                     {
-                        Debug.log("You have failed to poison the target");
+                        Debug.Log("You have failed to poison the target");
                         return false;
                     }
                     else
                     {
                         P1.status = effect;
-                        Debug.log("You have poisoned the target");
+                        Debug.Log("You have poisoned the target");
                         return true;
                     }
                 case State.stunned:
-                    int perc = Random.Range(1, 10);
+                    perc = Random.Range(1, 10);
                     if (perc > 1)
                     {
-                        Debug.log("You have failed to stun the target");
+                        Debug.Log("You have failed to stun the target");
                         return false;
                     }
                     else
                     {
                         P1.status = effect;
-                        Debug.log("You have stunned the target; lucky");
+                        Debug.Log("You have stunned the target; lucky");
                         return true;
                     }
                 case State.dead:
-                    Debug.log("Your target is dead, hasn't he suffered enough?");
+                    Debug.Log("Your target is dead, hasn't he suffered enough?");
                     return false;
             }
         }
-        Debug.log("Target Player already has a status condition");
+        Debug.Log("Target Player already has a status condition");
         return false;
     }
 
-    public int startCombat(Player P1, Player P2)    //this should be called after checking for range from the user to an enemy, hence P1's range is definitely in range
+    public void startCombat(Player P1, Player P2)    //this should be called after checking for range from the user to an enemy, hence P1's range is definitely in range
     {
 
         int damage1 = P1.currentWeapon.Hit() ;
