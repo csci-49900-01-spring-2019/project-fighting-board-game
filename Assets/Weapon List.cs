@@ -31,7 +31,7 @@ public class WeaponList : MonoBehaviour
 
         availableNames[0] = "sword";
         availableNames[1] = "hammer";
-        availableNmaes[2] = "stick";
+        availableNames[2] = "stick";
         for (int i = 0; i < 25; i++)
         {
             int j = Random.Range(0, 2);

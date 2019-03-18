@@ -4,9 +4,10 @@ using UnityEngine;
 
 //PLAYER CLASS SCRIPT
 
+public enum State { normal, stunned, poisoned, burned, dead };
+
 public class Player : MonoBehaviour
-{
-    public enum State { normal, stunned, poisoned, burned, dead };
+{ 
     public int index;
     public string playerName;
     public State status;
@@ -15,19 +16,17 @@ public class Player : MonoBehaviour
     public string currentWeapon;
     public List<string> weapons;
     public string armor;
-    //public bool isActive;
     public bool hasMoved;
     public Dice my_die;
     public GameTile current_tile;
 
-    // hello!
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("My name is " + playerName);
         hasMoved = false;
         health = 100;
-        weapon = "fists";
+        currentWeapon = "fists";
 
         Renderer rend = GetComponent<Renderer>();
         rend.material.shader = Shader.Find("_Color");

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 //    public enum State { normal, burned, poisoned, stunned, dead }; 
 // create more adjective fields to modify weapon damage or range, the one named "adjective" will represent the first adjective
 public class Weapon : MonoBehaviour
