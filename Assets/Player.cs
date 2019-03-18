@@ -6,11 +6,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public enum State { normal, stunned, poisoned, burned, dead };
+    public enum State { normal, burned, poisoned, stunned, dead };
     public string playerName;
     public State status;
     public int health;
     public int money;
+    public string currentWeapon;
     public List<string> weapons;
     public string armor;
     public bool isActive;
