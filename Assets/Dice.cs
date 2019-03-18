@@ -8,7 +8,6 @@ public class Dice : MonoBehaviour
 {
     public int range_start;
     public int range_end;
-    private int last_roll;
     private bool roll_processed;
 
     // Start is called before the first frame update
@@ -17,7 +16,6 @@ public class Dice : MonoBehaviour
         range_start = 1;
         range_end = 6;
         roll_processed = true;
-        last_roll = 0;
     }
 
     // Update is called once per frame
@@ -26,6 +24,7 @@ public class Dice : MonoBehaviour
 
     }
 
+    /*
     public int GetRoll()
     {
         if (!roll_processed)
@@ -39,6 +38,7 @@ public class Dice : MonoBehaviour
             return 0;
         }
     }
+    */
 
     private void OnMouseDown()
     {
@@ -46,12 +46,18 @@ public class Dice : MonoBehaviour
         {
             int my_num = Random.Range(range_start, range_end);
             Debug.Log("Dice rolled, you got " + my_num);
-            last_roll = my_num;
+            gameObject.SendMessageUpwards("PlayerSelectSpace", my_num);
             roll_processed = false;
+
         }
         else
         {
             Debug.Log("Hey, you already rolled!");
         }
+    }
+
+    public void MakeDieAvailable()
+    {
+        roll_processed = true;
     }
 }

@@ -6,83 +6,91 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+<<<<<<< HEAD
     public enum State { normal, burned, poisoned, stunned, dead };
+=======
+    public enum State { normal, stunned, poisoned, burned, dead };
+    public int index;
+>>>>>>> 52182a43149ea1a0edc08a7fb4cb02f24d4f2c45
     public string playerName;
     public State status;
     public int health;
     public int money;
+<<<<<<< HEAD
     public string currentWeapon;
     public List<string> weapons;
+=======
+    public string weapon;
+>>>>>>> 52182a43149ea1a0edc08a7fb4cb02f24d4f2c45
     public string armor;
-    public bool isActive;
+    //public bool isActive;
+    public bool hasMoved;
     public Dice my_die;
     public GameTile current_tile;
 
-
+    // hello!
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("I am alive and my name is " + playerName);
+        Debug.Log("My name is " + playerName);
+        hasMoved = false;
+        health = 100;
+        weapon = "fists";
 
+        Renderer rend = GetComponent<Renderer>();
+        rend.material.shader = Shader.Find("_Color");
+        rend.material.SetColor("_Color", Random.ColorHSV());
+        rend.material.shader = Shader.Find("Specular");
+        rend.material.SetColor("_SpecColor", Color.black);
+    }
+
+    public void PlayerAttacked(int damage, State effect = State.normal)
+    {
+        health -= damage;
+        if (health <= 0)
+            status = State.dead;
+        else
+            status = effect;
+    }
+
+    public void UpdatePlayerStatus()
+    {
         //Fetch the Renderer from the GameObject
         Renderer rend = GetComponent<Renderer>();
 
         switch (status)
         {
             case State.normal:
-                //Set the main Color of the Material to green
-                rend.material.shader = Shader.Find("_Color");
-                rend.material.SetColor("_Color", Color.white);
-
-                //Find the Specular shader and change its Color to red
+                //Find the Specular shader and change its Color to black
                 rend.material.shader = Shader.Find("Specular");
-                rend.material.SetColor("_SpecColor", Color.red);
+                rend.material.SetColor("_SpecColor", Color.black);
                 break;
             case State.stunned:
-                //Set the main Color of the Material to green
-                rend.material.shader = Shader.Find("_Color");
-                rend.material.SetColor("_Color", Color.yellow);
-
-                //Find the Specular shader and change its Color to red
                 rend.material.shader = Shader.Find("Specular");
-                rend.material.SetColor("_SpecColor", Color.red);
+                rend.material.SetColor("_SpecColor", Color.yellow);
                 break;
             case State.poisoned:
-                //Set the main Color of the Material to green
-                rend.material.shader = Shader.Find("_Color");
-                rend.material.SetColor("_Color", Color.green);
-
-                //Find the Specular shader and change its Color to red
                 rend.material.shader = Shader.Find("Specular");
-                rend.material.SetColor("_SpecColor", Color.red);
+                rend.material.SetColor("_SpecColor", Color.green);
+                health -= 1;
                 break;
             case State.burned:
-                //Set the main Color of the Material to green
-                rend.material.shader = Shader.Find("_Color");
-                rend.material.SetColor("_Color", Color.red);
-
-                //Find the Specular shader and change its Color to red
                 rend.material.shader = Shader.Find("Specular");
                 rend.material.SetColor("_SpecColor", Color.red);
+                health -= 1;
                 break;
             default: // status == dead
-                //Set the main Color of the Material to green
-                rend.material.shader = Shader.Find("_Color");
-                rend.material.SetColor("_Color", Color.gray);
-
-                //Find the Specular shader and change its Color to red
                 rend.material.shader = Shader.Find("Specular");
-                rend.material.SetColor("_SpecColor", Color.red);
+                rend.material.SetColor("_SpecColor", Color.white);
                 break;
         }
-       
     }
 
-    IEnumerator Move()
+    /*
+    public IEnumerator Move(int numSpaces)
     {
-        int dieRoll = my_die.GetRoll();
-        for (int x = 0; x < dieRoll; ++x)
-        { 
+        for (int x = 0; x < numSpaces; ++x)
+        {
             Vector3 nextTile = current_tile.GetNextTilePosition();
             float n = 0.0f;
             Vector3 currentPosition = current_tile.GetTilePosition();
@@ -99,6 +107,95 @@ public class Player : MonoBehaviour
             }
             current_tile = current_tile.next_tile;
         }
+        my_die.MakeDieAvailable();
+        hasMoved = true;
+        yield return null;
+    }
+
+    public IEnumerator Move(GameTile destination) // REVISED
+    {
+        while (current_tile != destination)
+        {
+            float n = 0.0f;
+
+            Vector3 nextPosition = current_tile.GetNextTilePosition();
+            while (n < 1f)
+            {
+                Transform tf = GetComponent<Transform>();
+                float journeyLength = Vector3.Distance(currentPosition, nextPosition);
+                tf.position = Vector3.Lerp(currentPosition, nextPosition, n);
+                n += 0.1f;
+                yield return null;
+            }
+            current_tile = current_tile.next_tile;
+        }
+        my_die.MakeDieAvailable();
+        hasMoved = true;
+        yield return null;
+    }      
+    */
+
+    public IEnumerator Move(Vector3 destination)
+    {
+        float n = 0.0f;
+        Vector3 currentPosition = current_tile.GetTilePosition();
+        while (n < 1.1f)
+        {  
+            Transform tf = GetComponent<Transform>();
+            //float journeyLength = Vector3.Distance(currentPosition, destination);
+            tf.position = Vector3.Lerp(currentPosition, destination, n);
+            n += 0.1f;
+            yield return null;
+        }
+        my_die.MakeDieAvailable();
+        hasMoved = true;
+        yield return null;
+    }
+
+    /*
+    public void ShowMovementOptions(int numSpaces)
+    {
+        Debug.Log("Entered ShowMove...");
+        GameTile forwardTile = current_tile.next_tile;
+        GameTile backTile = current_tile.prev_tile;
+        for (int x = 1; x < numSpaces; ++x)
+        {
+            forwardTile = forwardTile.next_tile;
+            backTile = backTile.prev_tile;
+        }
+        forwardTile.ActivateOutline();
+        backTile.ActivateOutline();
+    }
+    */
+
+    public IEnumerator TakeTurn()
+    {
+        Debug.Log("Entered TakeTurn.");
+        hasMoved = false;
+        UpdatePlayerStatus();
+        while (!hasMoved)
+            yield return null;
+        gameObject.SendMessageUpwards("HandleCollision", index);
+        EndTurn();
+    }
+
+    public void EndTurn()
+    {
+        Debug.Log("Turn has ended!");
+        gameObject.SendMessageUpwards("ChangePlayer");
+    }
+
+    public void AdjustPosition()
+    {
+        Transform tf = GetComponent<Transform>();
+        if (index < 2)
+            tf.position = tf.position + new Vector3(0.2f, 0.0f, 0.0f);
+        else
+            tf.position = tf.position + new Vector3(-0.2f, 0.0f, 0.0f);
+        if (index % 2 == 0)
+            tf.position = tf.position + new Vector3(0.0f, 0.0f, 0.2f);
+        else
+            tf.position = tf.position + new Vector3(0.0f, 0.0f, -0.2f);
     }
 
     private void FixedUpdate()
@@ -107,24 +204,18 @@ public class Player : MonoBehaviour
         //rb.MovePosition(transform.position + transform.forward * Time.deltaTime);
     }
 
-    private void OnMouseDown()
-    {
-        StartCoroutine("Move");
-    }
-
     // Update is called once per frame
     void Update()
     {
 
     }
 
-
     void OnGUI()
     {
         if (GUI.Button(new Rect(10, 10, 150, 100), "End Turn"))
         {
             print("Your turn is now over.");
-            isActive = false;
+            //isActive = false;
         }
     }
 }
