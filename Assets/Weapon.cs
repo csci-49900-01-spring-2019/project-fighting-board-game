@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 //    public enum State { normal, burned, poisoned, stunned, dead }; 
 // create more adjective fields to modify weapon damage or range, the one named "adjective" will represent the first adjective
 public class Weapon : MonoBehaviour
@@ -41,9 +42,16 @@ public class Weapon : MonoBehaviour
         rank = 0;
     }
 
-    void SetVarianceName(string name)
+    public int Hit()
     {
-        switch (name)
+        int damage = Random.Range(dRangeStart, dRangeLimit);
+        Debug.Log("You dealt " + damage + " with the " + name);
+        return damage;
+    }
+
+    void SetVarianceName(string nam)
+    {
+        switch (nam)
         {
             case "sword":
                 dRangeStart = 10;

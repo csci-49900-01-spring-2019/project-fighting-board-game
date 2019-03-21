@@ -75,7 +75,7 @@ public class Combat : MonoBehaviour
 
     public bool inflictStatus(Player P1, Weapon W1) //P1 is target player and W1 is any weapon, preferably the current weapon of attacking player
     {
-        if (P1.status = State.normal)
+        if (P1.status == State.normal)
         {
             State effect = W1.statusEffect;
 
@@ -131,7 +131,7 @@ public class Combat : MonoBehaviour
         return false;
     }
 
-    public int startCombat(Player P1, Player P2)    //this should be called after checking for range from the user to an enemy, hence P1's range is definitely in range
+    public void startCombat(Player P1, Player P2)    //this should be called after checking for range from the user to an enemy, hence P1's range is definitely in range
     {
 
         int damage1 = P1.currentWeapon.Hit() ;
