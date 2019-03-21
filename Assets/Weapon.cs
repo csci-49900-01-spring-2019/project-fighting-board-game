@@ -18,7 +18,15 @@ public class Weapon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        name = "Bare Hands";
+        adjective = "";
+        adjective2 = "";
+        finalName = name;
+        dRangeStart = 1;
+        dRangeLimit = 3;
+        range = 0;
+        statusEffect = State.normal;
+        rank = 0;
     }
 
     public Weapon(string nam, string adj1, string adj2) //can be changed to allow for adjectives after prototyping
@@ -122,6 +130,14 @@ public class Weapon : MonoBehaviour
                 dRangeLimit = 100;
                 break;
         }
+    }
+
+
+    public int Hit()
+    {
+        int damage = Random.Range(dRangeStart, dRangeLimit);
+        Debug.log("You dealt " + damage + " with the " + name);
+        return damage;
     }
 
     // Update is called once per frame

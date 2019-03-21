@@ -39,6 +39,8 @@ public class WeaponList : MonoBehaviour
             int l = Random.Range(0, 10);
             wepList.Add(new Weapon(availableNames[j], availableAdj[k], availableAdj2[l]));
         }
+        for (int i = 0; i < wepList.Count; i++)
+            Debug.Log(wepList[i].finalName)
     }
     //return final.OrderBy(s => s.PlayOrder).ThenBy(s => s.Name);       use this to sort the weapon list so that it can be properly tiered i.e. max damage then status effects
     public void rankList()
