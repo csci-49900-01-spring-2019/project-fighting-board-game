@@ -5,6 +5,7 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     public List<Player> players;
+    public List<Camera> playerCams;
     public WeaponList weaponList;
     public bool gameOver;
     public int activePlayer;
@@ -19,6 +20,7 @@ public class Manager : MonoBehaviour
         gameOver = false;
         turnCount = 1;
         activePlayer = 0;
+        playerCams[activePlayer].enabled = true;
         players[activePlayer].StartCoroutine("TakeTurn");
     }
 
@@ -78,9 +80,12 @@ public class Manager : MonoBehaviour
 
     void ChangePlayer()
     {
-        activePlayer = (activePlayer+1) % (players.Count);
-        if (activePlayer == 0) turnCount++;
-        Debug.Log(activePlayer);
+        int newPlayer = (activePlayer+1) % (players.Count);
+        if (newPlayer == 0) newPlayer++;
+        Debug.Log(newPlayer);
+        playerCams[activePlayer].enabled = false;
+        playerCams[newPlayer].enabled = true;
+        activePlayer = newPlayer;
         players[activePlayer].StartCoroutine("TakeTurn");
     }
 
