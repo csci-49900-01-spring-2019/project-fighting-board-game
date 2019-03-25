@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class WeaponList : MonoBehaviour
+public class Weapon_List : MonoBehaviour
 {
     public List<Weapon> wepList = new List<Weapon> { };   //separate weapon tiers by their placement in array, i.e.: tier 1 (0-9) tier 2 (10-19) tier 3 (20-25)
     public string[] availableNames = new string[3];
@@ -45,7 +44,6 @@ public class WeaponList : MonoBehaviour
         for (int i = 0; i < wepList.Count; i++)
             Debug.Log(i);
     }
-
     //return final.OrderBy(s => s.PlayOrder).ThenBy(s => s.Name);       use this to sort the weapon list so that it can be properly tiered i.e. max damage then status effects
     public void rankList()
     {
@@ -53,12 +51,12 @@ public class WeaponList : MonoBehaviour
             wepList[i].rank = i + 1;
     }
 
+
     public Weapon GetWeapon()
     {
         int j = Random.Range(0, 24);
         return wepList[j];
     }
-
     // Update is called once per frame
     void Update()
     {
