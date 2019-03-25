@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponList : MonoBehaviour
+public class Weapon_List : MonoBehaviour
 {
     public List<Weapon> wepList = new List<Weapon> { };   //separate weapon tiers by their placement in array, i.e.: tier 1 (0-9) tier 2 (10-19) tier 3 (20-25)
     public string[] availableNames = new string[3];
@@ -49,12 +49,6 @@ public class WeaponList : MonoBehaviour
     {
         for (int i = 0; i < wepList.Count; i++)
             wepList[i].rank = i + 1;
-    }
-
-    public WeaponList GetWeapon()
-    {
-        int j = Random.Range(0, 24);
-        return (Weapon)wepList[j];
     }
 
     // Update is called once per frame

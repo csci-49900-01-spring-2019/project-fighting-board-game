@@ -5,12 +5,11 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     public List<Player> players;
-    public WeaponList weaponList;
     public bool gameOver;
     public int activePlayer;
     public int turnCount;
     public Combat combatSystem;
-    public WeaponList listOfWeapons;
+    public Weapon_List listOfWeapons;
 
     // Start is called before the first frame update
     void Start()
@@ -62,15 +61,17 @@ public class Manager : MonoBehaviour
     {
         if (players[activePlayer].current_tile.tile_type == "Weapon")
         {
-            int n = Random.Range(0, 3);
+            int n = Random.Range(0, 25);
             Weapon draw = listOfWeapons.wepList[n];
             players[activePlayer].inventory.Add(draw);
-            Debug.Log("You have landed on Weapons tile!" + " You drew a " + draw.name);
+            Debug.Log("You have landed on Weapons tile!" + " You drew a " + draw.finalName);
         }
         else if (players[activePlayer].current_tile.tile_type == "Heal")
         {
             int n = Random.Range(10, 41);
             players[activePlayer].health = players[activePlayer].health + n;
+            if (players[activePlayer].health > 100)
+                players[activePlayer].health = 100;
             Debug.Log("You have landed on a Healing tile!" + " You healed " + n);
         }
     }
