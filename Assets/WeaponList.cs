@@ -53,11 +53,6 @@ public class WeaponList : MonoBehaviour
             wepList[i].rank = i + 1;
     }
 
-    public WeaponList GetWeapon()
-    {
-        int j = Random.Range(0, 24);
-        return (Weapon)wepList[j];
-    }
 
     // Update is called once per frame
     void Update()
