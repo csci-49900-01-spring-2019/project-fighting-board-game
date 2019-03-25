@@ -8,6 +8,7 @@ public class GameTile : MonoBehaviour
     public GameTile next_tile;
     public GameTile prev_tile;
     public bool available;
+    public string tile_type;
 
 
     // Start is called before the first frame update

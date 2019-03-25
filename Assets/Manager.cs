@@ -9,6 +9,7 @@ public class Manager : MonoBehaviour
     public int activePlayer;
     public int turnCount;
     public Combat combatSystem;
+    public WeaponList listOfWeapons;
 
     // Start is called before the first frame update
     void Start()
@@ -42,16 +43,35 @@ public class Manager : MonoBehaviour
         while (forwardTile.TileAvailable() && backTile.TileAvailable())
             yield return null;
 
-        if (forwardTile.TileAvailable())
+        if (forwardTile.TileAvailable()) // if forward tile is till available (player has selected back tile)
         {
             players[activePlayer].current_tile = backTile;
+            TileEffect();
         }
-        else
+        else // if player has selected forward tile
         {
             players[activePlayer].current_tile = forwardTile;
+            TileEffect();
         }
         forwardTile.DeactivateOutline();
         backTile.DeactivateOutline();
+    }
+
+    void TileEffect()
+    {
+        if (players[activePlayer].current_tile.tile_type == "Weapon")
+        {
+            int n = Random.Range(0, 3);
+            Weapon draw = listOfWeapons.wepList[n];
+            players[activePlayer].inventory.Add(draw);
+            Debug.Log("You have landed on Weapons tile!" + " You drew a " + draw.name);
+        }
+        else if (players[activePlayer].current_tile.tile_type == "Heal")
+        {
+            int n = Random.Range(10, 41);
+            players[activePlayer].health = players[activePlayer].health + n;
+            Debug.Log("You have landed on a Healing tile!" + " You healed " + n);
+        }
     }
 
     void ChangePlayer()
