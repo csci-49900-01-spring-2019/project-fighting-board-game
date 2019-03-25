@@ -65,7 +65,7 @@ public class Manager : MonoBehaviour
             int n = Random.Range(0, 3);
             Weapon draw = listOfWeapons.wepList[n];
             players[activePlayer].inventory.Add(draw);
-            Debug.Log("You have landed on Weapons tile!" + " You drew a " + draw.name);
+            Debug.Log("You have landed on Weapons tile!" + " You drew a " + draw.Wname);
         }
         else if (players[activePlayer].current_tile.tile_type == "Heal")
         {
