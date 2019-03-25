@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponList : MonoBehaviour
 {
@@ -44,6 +45,7 @@ public class WeaponList : MonoBehaviour
         for (int i = 0; i < wepList.Count; i++)
             Debug.Log(i);
     }
+
     //return final.OrderBy(s => s.PlayOrder).ThenBy(s => s.Name);       use this to sort the weapon list so that it can be properly tiered i.e. max damage then status effects
     public void rankList()
     {
