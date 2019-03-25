@@ -5,10 +5,11 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     public List<Player> players;
-    public List<Camera> playerCams;
+    public List<Camera> cameras;
     public WeaponList weaponList;
     public bool gameOver;
     public int activePlayer;
+    public int activeCamera;
     public int turnCount;
     public Combat combatSystem;
     public WeaponList listOfWeapons;
@@ -20,14 +21,14 @@ public class Manager : MonoBehaviour
         gameOver = false;
         turnCount = 1;
         activePlayer = 0;
-        playerCams[activePlayer].enabled = true;
+        activeCamera = 0;
         players[activePlayer].StartCoroutine("TakeTurn");
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        //CameraAdjust();
     }
 
     public IEnumerator ShowMovementOptions(int numSpaces)
@@ -83,10 +84,26 @@ public class Manager : MonoBehaviour
         int newPlayer = (activePlayer+1) % (players.Count);
         if (newPlayer == 0) newPlayer++;
         Debug.Log(newPlayer);
-        playerCams[activePlayer].enabled = false;
-        playerCams[newPlayer].enabled = true;
         activePlayer = newPlayer;
+        CameraAdjust();
         players[activePlayer].StartCoroutine("TakeTurn");
+    }
+
+    void CameraAdjust()
+    {
+        float minDist = 100.0f;
+        int bestCam = activeCamera;
+        for (int c = 0; c < cameras.Count; ++c)
+        {
+            if (Vector3.Distance(cameras[c].transform.position, players[activePlayer].transform.position) < minDist)
+            {
+                minDist = Vector3.Distance(cameras[c].transform.position, players[activePlayer].transform.position);
+                bestCam = c;
+            }
+        }
+        cameras[activeCamera].enabled = false;
+        activeCamera = bestCam;
+        cameras[activeCamera].enabled = true;
     }
 
     void PlayerSelectSpace(int numSpaces)

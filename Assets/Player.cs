@@ -18,22 +18,13 @@ public class Player : MonoBehaviour
     public List<Weapon> inventory;
     public string armor;
     public bool hasMoved;
+    //public bool isActive;
     public Dice my_die;
     public GameTile current_tile;
-    //public Canvas name_entry;
-    //public InputField i_field;
-    //public InputField input;
 
     // Start is called before the first frame update
     void Start()
     {
-// var input = gameObject.GetComponent<InputField>();
-// var se = new InputField.SubmitEvent();
-// se.AddListener(delegate {
-// playerName = input.text;
-// Debug.Log(playerName);
-//});
-// input.onEndEdit = se;
 
         //GUI.Box(new Rect(10, 10, 150, 100),GUI
         Debug.Log("My name is " + playerName);
@@ -182,11 +173,14 @@ public class Player : MonoBehaviour
     public IEnumerator TakeTurn()
     {
         Debug.Log("Entered TakeTurn.");
+        //isActive = true;
         hasMoved = false;
         UpdatePlayerStatus();
         while (!hasMoved)
             yield return null;
         gameObject.SendMessageUpwards("HandleCollision", index);
+        //while (!isActive)
+        //    yield return null;
         EndTurn();
     }
 
