@@ -9,6 +9,7 @@ public class GameTile : MonoBehaviour
     public GameTile prev_tile;
     public bool available;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,11 @@ public class GameTile : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void OnArrivial(Player p)
+    {
+        //do nothing
     }
 
     public void ActivateOutline()

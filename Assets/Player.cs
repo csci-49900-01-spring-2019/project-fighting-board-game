@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //PLAYER CLASS SCRIPT
 
@@ -19,10 +20,22 @@ public class Player : MonoBehaviour
     public bool hasMoved;
     public Dice my_die;
     public GameTile current_tile;
+    //public Canvas name_entry;
+    //public InputField i_field;
+    //public InputField input;
 
     // Start is called before the first frame update
     void Start()
     {
+// var input = gameObject.GetComponent<InputField>();
+// var se = new InputField.SubmitEvent();
+// se.AddListener(delegate {
+// playerName = input.text;
+// Debug.Log(playerName);
+//});
+// input.onEndEdit = se;
+
+        //GUI.Box(new Rect(10, 10, 150, 100),GUI
         Debug.Log("My name is " + playerName);
         hasMoved = false;
         health = 100;
@@ -34,6 +47,12 @@ public class Player : MonoBehaviour
         rend.material.SetColor("_Color", Random.ColorHSV());
         rend.material.shader = Shader.Find("Specular");
         rend.material.SetColor("_SpecColor", Color.black);
+    }
+
+    private void SetName(string n)
+    {
+        Debug.Log(n);
+        playerName = n;
     }
 
     public void PlayerAttacked(int damage, State effect = State.normal)
