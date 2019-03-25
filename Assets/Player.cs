@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public int health;
     public int money;
     public Weapon currentWeapon;
-    public List<Weapon> weapons;
+    public List<Weapon> inventory;
     public string armor;
     public bool hasMoved;
     public Dice my_die;
