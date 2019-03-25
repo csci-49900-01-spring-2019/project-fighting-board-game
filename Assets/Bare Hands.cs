@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BareHands : MonoBehaviour
+public class BareHands
 {
     // Start is called before the first frame update
-    public string name;
+    public string Wname;
     public string adjective;
     public string adjective2;
     public string finalName;
@@ -17,10 +17,10 @@ public class BareHands : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        name = "Bare Hands";
+        Wname = "Bare Hands";
         adjective = "";
         adjective2 = "";
-        finalName = name;
+        finalName = Wname;
         dRangeStart = 1;
         dRangeLimit = 3;
         range = 0;
@@ -31,7 +31,7 @@ public class BareHands : MonoBehaviour
     public int Hit()
     {
         int damage = Random.Range(dRangeStart, dRangeLimit);
-        Debug.Log("You dealt " + damage + " with the " + name);
+        Debug.Log("You dealt " + damage + " with the " + finalName);
         return damage;
     }
 

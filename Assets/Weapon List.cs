@@ -12,6 +12,7 @@ public class WeaponList : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Weapon Start is called");
         availableAdj2[0] = "";
         availableAdj2[1] = "long";
         availableAdj2[2] = "short";
@@ -38,7 +39,10 @@ public class WeaponList : MonoBehaviour
             int k = Random.Range(0, 3);
             int l = Random.Range(0, 10);
             wepList.Add(new Weapon(availableNames[j], availableAdj[k], availableAdj2[l]));
+            Debug.Log(i + "has been added");
         }
+        for (int i = 0; i < wepList.Count; i++)
+            Debug.Log(i);
     }
     //return final.OrderBy(s => s.PlayOrder).ThenBy(s => s.Name);       use this to sort the weapon list so that it can be properly tiered i.e. max damage then status effects
     public void rankList()
