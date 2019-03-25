@@ -5,6 +5,7 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     public List<Player> players;
+    public WeaponList weaponList;
     public bool gameOver;
     public int activePlayer;
     public int turnCount;

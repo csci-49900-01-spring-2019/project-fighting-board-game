@@ -4,9 +4,9 @@ using UnityEngine;
 
 //    public enum State { normal, burned, poisoned, stunned, dead }; 
 // create more adjective fields to modify weapon damage or range, the one named "adjective" will represent the first adjective
-public class Weapon : MonoBehaviour
+public class Weapon
 {
-    public string name;
+    public string Wname;
     public string adjective;
     public string adjective2;
     public string finalName;
@@ -19,10 +19,10 @@ public class Weapon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        name = "Bare Hands";
+        Wname = "Bare Hands";
         adjective = "";
         adjective2 = "";
-        finalName = name;
+        finalName = Wname;
         dRangeStart = 1;
         dRangeLimit = 3;
         range = 0;
@@ -32,21 +32,14 @@ public class Weapon : MonoBehaviour
 
     public Weapon(string nam, string adj1, string adj2) //can be changed to allow for adjectives after prototyping
     {
-        name = nam;
+        Wname = nam;
         adjective = adj1;
         adjective2 = adj2;
         SetVarianceName(nam);
         SetVarianceAdj1(adj1);
         SetVarianceAdj2(adj2);
-        finalName = adjective + " " + adjective2 + " " + name;
+        finalName = adjective + " " + adjective2 + " " + Wname;
         rank = 0;
-    }
-
-    public int Hit()
-    {
-        int damage = Random.Range(dRangeStart, dRangeLimit);
-        Debug.Log("You dealt " + damage + " with the " + name);
-        return damage;
     }
 
     void SetVarianceName(string nam)
@@ -144,7 +137,7 @@ public class Weapon : MonoBehaviour
     public int Hit()
     {
         int damage = Random.Range(dRangeStart, dRangeLimit);
-        Debug.log("You dealt " + damage + " with the " + name);
+        Debug.Log("You dealt " + damage + " with the " + finalName);
         return damage;
     }
 
