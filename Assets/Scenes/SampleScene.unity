@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -220,6 +220,7 @@ MonoBehaviour:
   next_tile: {fileID: 546087033}
   prev_tile: {fileID: 2067862663}
   available: 0
+  tile_type: 
 --- !u!114 &70913470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -346,6 +347,7 @@ MonoBehaviour:
   next_tile: {fileID: 261123278}
   prev_tile: {fileID: 1706666230}
   available: 0
+  tile_type: 
 --- !u!114 &111814317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,8 +628,6 @@ MonoBehaviour:
   status: 1
   health: 0
   money: 0
-  currentWeapon: {fileID: 0}
-  weapons: []
   armor: 
   hasMoved: 0
   my_die: {fileID: 981214178}
@@ -700,7 +700,9 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 4.5, y: 0.44, z: -4.39}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: [{fileID: 1989601257}, {fileID: 953038584}]
+  m_Children:
+  - {fileID: 1989601257}
+  - {fileID: 953038584}
   m_Father: {fileID: 720660952}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -812,6 +814,7 @@ MonoBehaviour:
   next_tile: {fileID: 869911112}
   prev_tile: {fileID: 111814316}
   available: 0
+  tile_type: 
 --- !u!114 &261123279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -938,6 +941,7 @@ MonoBehaviour:
   next_tile: {fileID: 1706666230}
   prev_tile: {fileID: 691855285}
   available: 0
+  tile_type: 
 --- !u!114 &275534398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -956,37 +960,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!1 &419185384
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 419185385}
-  m_Layer: 0
-  m_Name: Weapon Deck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &419185385
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 419185384}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1389213043}
-  m_Father: {fileID: 720660952}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &397869070
 GameObject:
   m_ObjectHideFlags: 0
@@ -1066,6 +1039,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 397869070}
   m_CullTransparentMesh: 0
+--- !u!1 &419185384
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 419185385}
+  m_Layer: 0
+  m_Name: Weapon Deck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &419185385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419185384}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1389213043}
+  m_Father: {fileID: 720660952}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &419243430
 GameObject:
   m_ObjectHideFlags: 0
@@ -1174,6 +1178,7 @@ MonoBehaviour:
   next_tile: {fileID: 1215123312}
   prev_tile: {fileID: 791393411}
   available: 0
+  tile_type: 
 --- !u!114 &419243436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1538,6 +1543,7 @@ MonoBehaviour:
   next_tile: {fileID: 1840334275}
   prev_tile: {fileID: 70913469}
   available: 0
+  tile_type: 
 --- !u!114 &546087034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1883,6 +1889,7 @@ MonoBehaviour:
   next_tile: {fileID: 791393411}
   prev_tile: {fileID: 716700826}
   available: 0
+  tile_type: 
 --- !u!114 &628473736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2009,6 +2016,7 @@ MonoBehaviour:
   next_tile: {fileID: 937456294}
   prev_tile: {fileID: 2022456342}
   available: 0
+  tile_type: 
 --- !u!114 &632869814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2135,6 +2143,7 @@ MonoBehaviour:
   next_tile: {fileID: 275534397}
   prev_tile: {fileID: 1840334275}
   available: 0
+  tile_type: 
 --- !u!114 &691855286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2261,6 +2270,7 @@ MonoBehaviour:
   next_tile: {fileID: 628473735}
   prev_tile: {fileID: 2120057920}
   available: 0
+  tile_type: 
 --- !u!114 &716700827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2367,6 +2377,7 @@ MonoBehaviour:
   activePlayer: 0
   turnCount: 0
   combatSystem: {fileID: 0}
+  listOfWeapons: {fileID: 0}
 --- !u!1 &791393406
 GameObject:
   m_ObjectHideFlags: 0
@@ -2475,6 +2486,7 @@ MonoBehaviour:
   next_tile: {fileID: 419243435}
   prev_tile: {fileID: 628473735}
   available: 0
+  tile_type: 
 --- !u!114 &791393412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2511,7 +2523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &822033876
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2854,6 +2866,7 @@ MonoBehaviour:
   next_tile: {fileID: 2120057920}
   prev_tile: {fileID: 261123278}
   available: 0
+  tile_type: 
 --- !u!114 &869911113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2980,6 +2993,7 @@ MonoBehaviour:
   next_tile: {fileID: 1883958294}
   prev_tile: {fileID: 632869813}
   available: 0
+  tile_type: 
 --- !u!114 &937456295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3016,7 +3030,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &953038584
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3031,7 +3045,7 @@ RectTransform:
   - {fileID: 1375122156}
   - {fileID: 1576205916}
   m_Father: {fileID: 258740723}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3550,8 +3564,6 @@ MonoBehaviour:
   status: 4
   health: 0
   money: 0
-  currentWeapon: {fileID: 0}
-  weapons: []
   armor: 
   hasMoved: 0
   my_die: {fileID: 981214178}
@@ -3978,6 +3990,7 @@ MonoBehaviour:
   next_tile: {fileID: 1384805436}
   prev_tile: {fileID: 419243435}
   available: 0
+  tile_type: 
 --- !u!114 &1215123313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4104,6 +4117,7 @@ MonoBehaviour:
   next_tile: {fileID: 1965520672}
   prev_tile: {fileID: 1884402418}
   available: 0
+  tile_type: 
 --- !u!114 &1314525444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4386,6 +4400,7 @@ MonoBehaviour:
   next_tile: {fileID: 2022456342}
   prev_tile: {fileID: 1215123312}
   available: 0
+  tile_type: 
 --- !u!114 &1384805437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4604,6 +4619,7 @@ MonoBehaviour:
   next_tile: {fileID: 2007679063}
   prev_tile: {fileID: 1965520672}
   available: 0
+  tile_type: 
 --- !u!114 &1390228165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4659,8 +4675,6 @@ MonoBehaviour:
   status: 2
   health: 0
   money: 0
-  currentWeapon: {fileID: 0}
-  weapons: []
   armor: 
   hasMoved: 0
   my_die: {fileID: 981214178}
@@ -4757,7 +4771,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1436645773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5337,6 +5351,7 @@ MonoBehaviour:
   next_tile: {fileID: 2045886513}
   prev_tile: {fileID: 2007679063}
   available: 0
+  tile_type: 
 --- !u!114 &1637721747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5373,7 +5388,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1648277380
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5563,6 +5578,7 @@ MonoBehaviour:
   next_tile: {fileID: 111814316}
   prev_tile: {fileID: 275534397}
   available: 0
+  tile_type: 
 --- !u!114 &1706666231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5784,8 +5800,6 @@ MonoBehaviour:
   status: 0
   health: 100
   money: 0
-  currentWeapon: {fileID: 0}
-  weapons: []
   armor: 
   hasMoved: 0
   my_die: {fileID: 981214178}
@@ -5994,6 +6008,7 @@ MonoBehaviour:
   next_tile: {fileID: 691855285}
   prev_tile: {fileID: 546087033}
   available: 0
+  tile_type: 
 --- !u!114 &1840334276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6120,6 +6135,7 @@ MonoBehaviour:
   next_tile: {fileID: 1884402418}
   prev_tile: {fileID: 937456294}
   available: 0
+  tile_type: 
 --- !u!114 &1883958295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6246,6 +6262,7 @@ MonoBehaviour:
   next_tile: {fileID: 1314525443}
   prev_tile: {fileID: 1883958294}
   available: 0
+  tile_type: 
 --- !u!114 &1884402419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6372,6 +6389,7 @@ MonoBehaviour:
   next_tile: {fileID: 1390228164}
   prev_tile: {fileID: 1314525443}
   available: 0
+  tile_type: 
 --- !u!114 &1965520673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6415,13 +6433,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1989601256}
-  m_LocalRotation: {x: -0.1820134, y: 0.53954476, z: -0.120773666, w: -0.8131275}
-  m_LocalPosition: {x: 4.12, y: 2.66, z: -0.65999985}
+  m_LocalRotation: {x: -0.4192781, y: 0.495546, z: -0.48178267, w: -0.5886642}
+  m_LocalPosition: {x: -0.21999979, y: 22.78, z: 0.11000013}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 258740723}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 25.235, y: 292.86798, z: 0}
+  m_LocalEulerAnglesHint: {x: 76.19601, y: 311.238, z: 39.471}
 --- !u!81 &1989601258
 AudioListener:
   m_ObjectHideFlags: 0
@@ -6580,6 +6598,7 @@ MonoBehaviour:
   next_tile: {fileID: 1637721746}
   prev_tile: {fileID: 1390228164}
   available: 0
+  tile_type: 
 --- !u!114 &2007679064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6706,6 +6725,7 @@ MonoBehaviour:
   next_tile: {fileID: 632869813}
   prev_tile: {fileID: 1384805436}
   available: 0
+  tile_type: 
 --- !u!114 &2022456343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6911,6 +6931,7 @@ MonoBehaviour:
   next_tile: {fileID: 2067862663}
   prev_tile: {fileID: 1637721746}
   available: 0
+  tile_type: 
 --- !u!114 &2045886514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7037,6 +7058,7 @@ MonoBehaviour:
   next_tile: {fileID: 70913469}
   prev_tile: {fileID: 2045886513}
   available: 0
+  tile_type: 
 --- !u!114 &2067862664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7163,6 +7185,7 @@ MonoBehaviour:
   next_tile: {fileID: 716700826}
   prev_tile: {fileID: 869911112}
   available: 0
+  tile_type: 
 --- !u!114 &2120057921
 MonoBehaviour:
   m_ObjectHideFlags: 0
