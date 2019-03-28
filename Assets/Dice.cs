@@ -8,7 +8,8 @@ public class Dice : MonoBehaviour
 {
     public int range_start;
     public int range_end;
-    private bool roll_processed;
+    public bool roll_processed;
+    public int roll;
 
     // Start is called before the first frame update
     void Start()
@@ -44,9 +45,9 @@ public class Dice : MonoBehaviour
     {
         if (roll_processed)
         {
-            int my_num = Random.Range(range_start, range_end);
-            Debug.Log("Dice rolled, you got " + my_num);
-            gameObject.SendMessageUpwards("PlayerSelectSpace", my_num);
+            roll = Random.Range(range_start, range_end);
+            Debug.Log("Dice rolled, you got " + roll);
+            gameObject.SendMessageUpwards("PlayerSelectSpace", roll);
             roll_processed = false;
 
         }
