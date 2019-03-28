@@ -62,7 +62,7 @@ public class Manager : MonoBehaviour
 
     void TileEffect()
     {
-        if (players[activePlayer].current_tile.tile_type == "Weapon")
+        if (players[activePlayer].current_tile.tile_type == TileType.weapon)
         {
             int n = Random.Range(0, 25);
             Weapon draw = listOfWeapons.wepList[n];
@@ -72,13 +72,19 @@ public class Manager : MonoBehaviour
             Debug.Log("You have landed on Weapons tile!" + " You drew a " + draw.finalName);
 
         }
-        else if (players[activePlayer].current_tile.tile_type == "Heal")
+        else if (players[activePlayer].current_tile.tile_type == TileType.heal)
         {
             int n = Random.Range(10, 41);
             players[activePlayer].health = players[activePlayer].health + n;
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
             Debug.Log("You have landed on a Healing tile!" + " You have been healed up to " + (players[activePlayer].health + n) +" health!");
+        }
+        else if (players[activePlayer].current_tile.tile_type == TileType.ruby)
+        {
+            int n = Random.Range(10, 41);
+            players[activePlayer].money = players[activePlayer].money + n;
+            Debug.Log("You have landed on a ruby mine!" + " You have mined " + n + " rubies!");
         }
     }
 
@@ -301,19 +307,19 @@ public class Manager : MonoBehaviour
         }
 
         //modify damage1 and damage2 based on current tiles or otherwise
-        if (P1.current_tile.tile_type == "attack")
+        if (P1.current_tile.tile_type == TileType.attack)
         {
             damage1 += (int)(damage1 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
         }
-        else if (P1.current_tile.tile_type == "defense")
+        else if (P1.current_tile.tile_type == TileType.defense)
         {
             damage2 -= (int)(damage2 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
         }
-        if (P2.current_tile.tile_type == "attack")
+        if (P2.current_tile.tile_type == TileType.attack)
         {
             damage2 += (int)(damage2 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
         }
-        else if (P2.current_tile.tile_type == "defense")
+        else if (P2.current_tile.tile_type == TileType.defense)
         {
             damage1 -= (int)(damage1 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
         }
