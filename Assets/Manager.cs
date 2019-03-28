@@ -5,11 +5,14 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     public List<Player> players;
+    public List<Camera> cameras;
+    public Weapon_List listOfWeapons;
     public bool gameOver;
     public int activePlayer;
+    public int activeCamera;
     public int turnCount;
     public Combat combatSystem;
-    public Weapon_List listOfWeapons;
+
 
     // Start is called before the first frame update
     void Start()
@@ -18,18 +21,18 @@ public class Manager : MonoBehaviour
         gameOver = false;
         turnCount = 1;
         activePlayer = 0;
+        activeCamera = 0;
         players[activePlayer].StartCoroutine("TakeTurn");
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        //CameraAdjust();
     }
 
     public IEnumerator ShowMovementOptions(int numSpaces)
     {
-        Debug.Log("Entered ShowMove...");
         GameTile forwardTile = players[activePlayer].current_tile.next_tile;
         GameTile backTile = players[activePlayer].current_tile.prev_tile;
         for (int x = 1; x < numSpaces; ++x)
@@ -81,10 +84,70 @@ public class Manager : MonoBehaviour
 
     void ChangePlayer()
     {
-        activePlayer = (activePlayer+1) % (players.Count);
-        if (activePlayer == 0) turnCount++;
-        Debug.Log(activePlayer);
-        players[activePlayer].StartCoroutine("TakeTurn");
+        CheckGameStatus();
+        if (!gameOver)
+        { 
+            int newPlayer = (activePlayer + 1) % (players.Count);
+            Debug.Log(newPlayer);
+            activePlayer = newPlayer;
+            CameraAdjust();
+            players[activePlayer].StartCoroutine("TakeTurn");
+        }
+    }
+
+    void CheckGameStatus()
+    {
+        int livePlayerCount = 0;
+        Player livePlayer = players[activePlayer];
+        for (int n = 0; n<players.Count; n++)
+        {
+            if (players[n].status != State.dead)
+            {
+                ++livePlayerCount;
+                livePlayer = players[n];
+            }
+        }
+        if (livePlayerCount == 0)
+        {
+            gameOver = true;
+            EndGameTie();
+        }
+        else if (livePlayerCount == 1)
+        {
+            gameOver = true;
+            EndGameWin(livePlayer);
+        }
+    }
+
+    void EndGameTie()
+    {
+        Debug.Log("The game is over!");
+        Debug.Log("Everyone's dead, nobody wins! :(");
+        Debug.Log("Total number of turns taken: " + turnCount);
+    }
+
+    void EndGameWin(Player winner)
+    {
+        Debug.Log("The game is over!");
+        Debug.Log(winner.playerName + " has won!");
+        Debug.Log("Total number of turns taken: " + turnCount);
+    }
+
+    void CameraAdjust()
+    {
+        float minDist = 100.0f;
+        int bestCam = activeCamera;
+        for (int c = 0; c < cameras.Count; ++c)
+        {
+            if (Vector3.Distance(cameras[c].transform.position, players[activePlayer].transform.position) < minDist)
+            {
+                minDist = Vector3.Distance(cameras[c].transform.position, players[activePlayer].transform.position);
+                bestCam = c;
+            }
+        }
+        cameras[activeCamera].enabled = false;
+        activeCamera = bestCam;
+        cameras[activeCamera].enabled = true;
     }
 
     void PlayerSelectSpace(int numSpaces)
