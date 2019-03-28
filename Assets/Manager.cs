@@ -88,7 +88,6 @@ public class Manager : MonoBehaviour
         if (!gameOver)
         { 
             int newPlayer = (activePlayer + 1) % (players.Count);
-            if (newPlayer == 0) newPlayer++;
             Debug.Log(newPlayer);
             activePlayer = newPlayer;
             CameraAdjust();
