@@ -25,10 +25,11 @@ public class GameTile : MonoBehaviour
 
     }
 
-    public void OnArrivial(Player p)
-    {
-        //do nothing
-    }
+    //public void OnArrivial(Player p)
+    //{
+        //if (tile_type == "attack")
+         //   p
+    //}
 
     public void ActivateOutline()
     {

@@ -155,15 +155,15 @@ public class Manager : MonoBehaviour
         StartCoroutine("ShowMovementOptions",numSpaces);
     }
 
-    void HandleCollision(int index)
+    void HandleCollision(int current_player)
     {
         for (int n = 0; n < players.Count; n++)
         {
-            if (n != index && players[n].current_tile == players[index].current_tile)
+            if (n != current_player && players[n].current_tile == players[current_player].current_tile)
             {
                 players[n].AdjustPosition();
-                players[index].AdjustPosition();
-                startCombat(players[index], players[n]);
+                players[current_player].AdjustPosition();
+                startCombat(players[current_player], players[n]);
             }
         }
     }
@@ -287,6 +287,7 @@ public class Manager : MonoBehaviour
     }
 
     public void startCombat(Player P1, Player P2)    //this should be called after checking for range from the user to an enemy, hence P1's range is definitely in range
+    // P1 is the player who INITIATES the attack.
     {
 
         int damage1 = P1.currentWeapon.Hit();
@@ -298,7 +299,25 @@ public class Manager : MonoBehaviour
             damage2 = P2.currentWeapon.Hit();
             inflictStatus(P1, P2.currentWeapon);
         }
-        //can modify damage1 and damage2 based on current tiles or otherwise
+
+        //modify damage1 and damage2 based on current tiles or otherwise
+        if (P1.current_tile.tile_type == "attack")
+        {
+            damage1 += (int)(damage1 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
+        }
+        else if (P1.current_tile.tile_type == "defense")
+        {
+            damage2 -= (int)(damage2 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
+        }
+        if (P2.current_tile.tile_type == "attack")
+        {
+            damage2 += (int)(damage2 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
+        }
+        else if (P2.current_tile.tile_type == "defense")
+        {
+            damage1 -= (int)(damage1 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
+        }
+
         P2.health = P2.health - damage1;
         if (P2.health > 100)
             P2.health = 100;
