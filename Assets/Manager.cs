@@ -33,7 +33,6 @@ public class Manager : MonoBehaviour
 
     public IEnumerator ShowMovementOptions(int numSpaces)
     {
-        Debug.Log("Entered ShowMove...");
         GameTile forwardTile = players[activePlayer].current_tile.next_tile;
         GameTile backTile = players[activePlayer].current_tile.prev_tile;
         for (int x = 1; x < numSpaces; ++x)
@@ -85,12 +84,54 @@ public class Manager : MonoBehaviour
 
     void ChangePlayer()
     {
-        int newPlayer = (activePlayer+1) % (players.Count);
-        if (newPlayer == 0) newPlayer++;
-        Debug.Log(newPlayer);
-        activePlayer = newPlayer;
-        CameraAdjust();
-        players[activePlayer].StartCoroutine("TakeTurn");
+        CheckGameStatus();
+        if (!gameOver)
+        { 
+            int newPlayer = (activePlayer + 1) % (players.Count);
+            if (newPlayer == 0) newPlayer++;
+            Debug.Log(newPlayer);
+            activePlayer = newPlayer;
+            CameraAdjust();
+            players[activePlayer].StartCoroutine("TakeTurn");
+        }
+    }
+
+    void CheckGameStatus()
+    {
+        int livePlayerCount = 0;
+        Player livePlayer = players[activePlayer];
+        for (int n = 0; n<players.Count; n++)
+        {
+            if (players[n].status != State.dead)
+            {
+                ++livePlayerCount;
+                livePlayer = players[n];
+            }
+        }
+        if (livePlayerCount == 0)
+        {
+            gameOver = true;
+            EndGameTie();
+        }
+        else if (livePlayerCount == 1)
+        {
+            gameOver = true;
+            EndGameWin(livePlayer);
+        }
+    }
+
+    void EndGameTie()
+    {
+        Debug.Log("The game is over!");
+        Debug.Log("Everyone's dead, nobody wins! :(");
+        Debug.Log("Total number of turns taken: " + turnCount);
+    }
+
+    void EndGameWin(Player winner)
+    {
+        Debug.Log("The game is over!");
+        Debug.Log(winner.playerName + " has won!");
+        Debug.Log("Total number of turns taken: " + turnCount);
     }
 
     void CameraAdjust()

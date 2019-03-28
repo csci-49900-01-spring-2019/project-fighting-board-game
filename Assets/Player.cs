@@ -175,11 +175,13 @@ public class Player : MonoBehaviour
         Debug.Log("Entered TakeTurn.");
         //isActive = true;
         hasMoved = false;
-        UpdatePlayerStatus();
         while (!hasMoved)
             yield return null;
         gameObject.SendMessageUpwards("HandleCollision", index);
-        //while (!isActive)
+        if (health <= 0)
+            status = State.dead;
+        UpdatePlayerStatus();
+        //while (isActive)
         //    yield return null;
         EndTurn();
     }
