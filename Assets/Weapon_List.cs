@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 public class Weapon_List : MonoBehaviour
 {
     public List<Weapon> wepList = new List<Weapon> { };   //separate weapon tiers by their placement in array, i.e.: tier 1 (0-9) tier 2 (10-19) tier 3 (20-25)
@@ -42,8 +42,14 @@ public class Weapon_List : MonoBehaviour
             Debug.Log(i + "has been added");
         }
         for (int i = 0; i < wepList.Count; i++)
-            Debug.Log(i);
+            Debug.Log(wepList[i].finalName);
+
+        wepList = wepList.OrderBy(x => x.dRangeLimit).ToList();
+        Debug.Log("Weapon List has been ordered by max Damage");
+        for (int i = 0; i < wepList.Count; i++)
+            Debug.Log(wepList[i].finalName);
     }
+
     //return final.OrderBy(s => s.PlayOrder).ThenBy(s => s.Name);       use this to sort the weapon list so that it can be properly tiered i.e. max damage then status effects
     public void rankList()
     {
