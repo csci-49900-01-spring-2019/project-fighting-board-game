@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     public string playerName;
     public State status;
     public int health;
-    public int money;
+    public decimal rubies = 0.00m;
     public Weapon currentWeapon;
     public List<Weapon> inventory;
     public string armor;

@@ -122,7 +122,7 @@ public class Manager : MonoBehaviour
     void EndGameTie()
     {
         Debug.Log("The game is over!");
-        Debug.Log("Everyone's dead, nobody wins! :(");
+        Debug.Log("Everyone's dead, nobody wins! :");
         Debug.Log("Total number of turns taken: " + turnCount);
     }
 
