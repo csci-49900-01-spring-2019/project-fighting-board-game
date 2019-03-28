@@ -15,19 +15,12 @@ public class Weapon
     public int range;
     public State statusEffect;
     public int rank;
+    public decimal rubies = 0.00m;
 
     // Start is called before the first frame update
     void Start()
     {
-        Wname = "Bare Hands";
-        adjective = "";
-        adjective2 = "";
-        finalName = Wname;
-        dRangeStart = 1;
-        dRangeLimit = 3;
-        range = 0;
-        statusEffect = State.normal;
-        rank = 0;
+
     }
 
     public Weapon(string nam, string adj1, string adj2) //can be changed to allow for adjectives after prototyping
@@ -36,8 +29,8 @@ public class Weapon
         adjective = adj1;
         adjective2 = adj2;
         SetVarianceName(nam);
-        SetVarianceAdj1(adj1);
         SetVarianceAdj2(adj2);
+        SetVarianceAdj1(adj1);
         finalName = adjective + " " + adjective2 + " " + Wname;
         rank = 0;
     }
@@ -50,18 +43,80 @@ public class Weapon
                 dRangeStart = 10;
                 dRangeLimit = 16;
                 range = 0;
+                rubies = 18;
                 break;
             case "hammer":
                 dRangeStart = 8;
                 dRangeLimit = 18;
                 range = 0;
+                rubies = 13;
                 break;
             case "stick":
                 dRangeStart = 1;
                 dRangeLimit = 6;
                 range = 0;
+                rubies = 5;
                 break;
         } 
+
+    void SetVarianceAdj2(string adj)
+    {
+        switch (adj)
+        {
+            case "":
+                break;
+            case "long":
+                range++;
+                rubies = rubies * 1.75;
+                break;
+            case "short":
+                if (range != 0)
+                {
+                    range--;
+                    rubies = rubies - (rubies * .25);
+                }
+                break;
+            case "strong":
+                dRangeStart = dRangeStart + 3;
+                dRangeLimit = dRangeLimit + 5;
+                rubies = rubies * 1.5;
+                break;
+            case "weak":
+                if (dRangeStart > 4)
+                    dRangeStart = dRangeStart - 4;
+                dRangeLimit = dRangeLimit - 6;
+                rubies = rubies - (rubies * .5);
+                break;
+            case "quick":
+                dRangeStart = dRangeStart + 2;
+                rubies = rubies * 1.2;
+                break;
+            case "grand":
+                if (dRangeStart > 5)
+                    dRangeStart = dRangeStart - 5;
+                dRangeLimit = dRangeLimit + 10;
+                rubies = rubies * 1.4;
+                break;
+            case "critical":
+                dRangeLimit = dRangeLimit + dRangeLimit;
+                rubies = rubies * 2;
+                break;
+            case "broken":
+                dRangeStart = 1;
+                dRangeLimit = 2;
+                rubies = rubies - (rubies * .9);
+                break;
+            case "game breaker":
+                dRangeLimit = 50;
+                dRangeStart = dRangeLimit;
+                rubies = rubies * 2.5;
+                break;
+            case "chance":
+                dRangeStart = -25;
+                dRangeLimit = 100;
+                rubies = rubies * 3;
+                break;
+        }
     }
 
     void SetVarianceAdj1(string adj)
@@ -73,62 +128,15 @@ public class Weapon
                 break;
             case "burning":
                 statusEffect = State.burned;
+                    rubies = rubies + (rubies * .5);
                 break;
             case "poisoning":
                 statusEffect = State.poisoned;
+                    rubies = rubies + (rubies * .7);
                 break;
             case "stunning":
                 statusEffect = State.stunned;
-                break;
-        }
-    }
-
-    void SetVarianceAdj2(string adj)
-    {
-        switch (adj)
-        {
-            case "":
-                break;
-            case "long":
-                range++;
-                break;
-            case "short":
-                if (range != 0)
-                {
-                    range--;
-                }
-                break;
-            case "strong":
-                dRangeStart = dRangeStart + 3;
-                dRangeLimit = dRangeLimit + 5;
-                break;
-            case "weak":
-                if (dRangeStart > 4)
-                    dRangeStart = dRangeStart - 4;
-                dRangeLimit = dRangeLimit - 6;
-                break;
-            case "quick":
-                dRangeStart = dRangeStart + 2;
-                break;
-            case "grand":
-                if (dRangeStart > 5)
-                    dRangeStart = dRangeStart - 5;
-                dRangeLimit = dRangeLimit + 10;
-                break;
-            case "critical":
-                dRangeLimit = dRangeLimit + dRangeLimit;
-                break;
-            case "broken":
-                dRangeStart = 1;
-                dRangeLimit = 2;
-                break;
-            case "game breaker":
-                dRangeLimit = 50;
-                dRangeStart = dRangeLimit;
-                break;
-            case "chance":
-                dRangeStart = -25;
-                dRangeLimit = 100;
+                    rubies = rubies + (rubies * .9);
                 break;
         }
     }
