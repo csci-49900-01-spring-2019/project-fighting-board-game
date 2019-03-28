@@ -625,8 +625,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 1
   playerName: Spherin
-  status: 1
-  health: 0
+  status: 0
+  health: 100
   money: 0
   armor: 
   hasMoved: 0
@@ -1079,7 +1079,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 419185384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad5b68287cff3174daec364a396948ee, type: 3}
+  m_Script: {fileID: 11500000, guid: 235d906b0cbef3f4fad26630a5982bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   availableNames:
@@ -2496,13 +2496,12 @@ MonoBehaviour:
   - {fileID: 1483654420}
   - {fileID: 1691287862}
   - {fileID: 462785635}
-  weaponList: {fileID: 0}
+  listOfWeapons: {fileID: 419185386}
   gameOver: 0
   activePlayer: 0
   activeCamera: 0
   turnCount: 0
   combatSystem: {fileID: 0}
-  listOfWeapons: {fileID: 419185386}
 --- !u!1 &791393406
 GameObject:
   m_ObjectHideFlags: 0
@@ -3768,8 +3767,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 2
   playerName: Spherak
-  status: 4
-  health: 0
+  status: 0
+  health: 100
   money: 0
   armor: 
   hasMoved: 0
@@ -4796,8 +4795,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 3
   playerName: Spherot
-  status: 2
-  health: 0
+  status: 0
+  health: 100
   money: 0
   armor: 
   hasMoved: 0
