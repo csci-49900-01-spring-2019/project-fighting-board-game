@@ -75,7 +75,7 @@ public class Manager : MonoBehaviour
             players[activePlayer].health = players[activePlayer].health + n;
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
-            Debug.Log("You have landed on a Healing tile!" + " You healed " + n);
+            Debug.Log("You have landed on a Healing tile!" + " You have been healed up to " + (players[activePlayer].health + n) +" health!");
         }
     }
 
