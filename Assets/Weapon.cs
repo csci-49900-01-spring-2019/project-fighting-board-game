@@ -57,7 +57,8 @@ public class Weapon
                 range = 0;
                 rubies = 5;
                 break;
-        } 
+        }
+    }
 
     void SetVarianceAdj2(string adj)
     {
@@ -128,15 +129,15 @@ public class Weapon
                 break;
             case "burning":
                 statusEffect = State.burned;
-                    rubies = rubies + (rubies * .5);
+                rubies = rubies + (rubies * .5);
                 break;
             case "poisoning":
                 statusEffect = State.poisoned;
-                    rubies = rubies + (rubies * .7);
+                rubies = rubies + (rubies * .7);
                 break;
             case "stunning":
                 statusEffect = State.stunned;
-                    rubies = rubies + (rubies * .9);
+                rubies = rubies + (rubies * .9);
                 break;
         }
     }
@@ -152,6 +153,6 @@ public class Weapon
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
