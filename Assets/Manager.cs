@@ -21,7 +21,8 @@ public class Manager : MonoBehaviour
         gameOver = false;
         turnCount = 1;
         activePlayer = 0;
-        activeCamera = 0;
+        activeCamera = 7;
+        cameras[activeCamera].enabled = true;
         players[activePlayer].StartCoroutine("TakeTurn");
     }
 
@@ -83,7 +84,7 @@ public class Manager : MonoBehaviour
         else if (players[activePlayer].current_tile.tile_type == TileType.ruby)
         {
             int n = Random.Range(10, 41);
-            players[activePlayer].money = players[activePlayer].money + n;
+            players[activePlayer].rubies = players[activePlayer].rubies + n;
             Debug.Log("You have landed on a ruby mine!" + " You have mined " + n + " rubies!");
         }
     }

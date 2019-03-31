@@ -903,7 +903,6 @@ MonoBehaviour:
   playerName: Spherin
   status: 0
   health: 100
-  money: 0
   armor: 
   hasMoved: 0
   my_die: {fileID: 981214178}
@@ -1954,7 +1953,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &534669903
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3232,7 +3231,15 @@ MonoBehaviour:
   - {fileID: 258740719}
   - {fileID: 1032092101}
   - {fileID: 1403906605}
-  cameras: []
+  cameras:
+  - {fileID: 1989601259}
+  - {fileID: 2093150596}
+  - {fileID: 1919875177}
+  - {fileID: 1183120502}
+  - {fileID: 888765552}
+  - {fileID: 1483654420}
+  - {fileID: 1691287862}
+  - {fileID: 462785635}
   listOfWeapons: {fileID: 419185386}
   gameOver: 0
   activePlayer: 0
@@ -4609,7 +4616,6 @@ MonoBehaviour:
   playerName: Spherak
   status: 0
   health: 100
-  money: 0
   armor: 
   hasMoved: 0
   my_die: {fileID: 981214178}
@@ -5821,7 +5827,6 @@ MonoBehaviour:
   playerName: Spherot
   status: 0
   health: 100
-  money: 0
   armor: 
   hasMoved: 0
   my_die: {fileID: 981214178}
@@ -7026,7 +7031,6 @@ MonoBehaviour:
   playerName: Sphery
   status: 0
   health: 100
-  money: 0
   armor: 
   hasMoved: 0
   my_die: {fileID: 981214178}
@@ -7049,7 +7053,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &1822009589
 AudioListener:
   m_ObjectHideFlags: 0

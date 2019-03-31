@@ -52,30 +52,44 @@ public class GameTile : MonoBehaviour
                 //Find the Specular shader and change its Color to black
                 rend.material.shader = Shader.Find("_Color");
                 rend.material.SetColor("_Color", Color.red);
+                rend.material.shader = Shader.Find("Specular");
+                rend.material.SetColor("_SpecColor", Color.black);
                 break;
             case TileType.defense:
                 rend.material.shader = Shader.Find("_Color");
-                rend.material.SetColor("_Color", Color.green);
+                rend.material.SetColor("_Color", Color.gray);
+                rend.material.shader = Shader.Find("Specular");
+                rend.material.SetColor("_SpecColor", Color.black);
                 break;
             case TileType.weapon:
                 rend.material.shader = Shader.Find("_Color");
                 rend.material.SetColor("_Color", Color.yellow);
+                rend.material.shader = Shader.Find("Specular");
+                rend.material.SetColor("_SpecColor", Color.black);
                 break;
             case TileType.ruby:
                 rend.material.shader = Shader.Find("_Color");
                 rend.material.SetColor("_Color", Color.magenta);
+                rend.material.shader = Shader.Find("Specular");
+                rend.material.SetColor("_SpecColor", Color.black);
                 break;
             case TileType.heal:
                 rend.material.shader = Shader.Find("_Color");
                 rend.material.SetColor("_Color", Color.blue);
+                rend.material.shader = Shader.Find("Specular");
+                rend.material.SetColor("_SpecColor", Color.black);
                 break;
             case TileType.trap:
                 rend.material.shader = Shader.Find("_Color");
-                rend.material.SetColor("_Color", Color.gray);
+                rend.material.SetColor("_Color", Color.green);
+                rend.material.shader = Shader.Find("Specular");
+                rend.material.SetColor("_SpecColor", Color.black);
                 break;
             default:
                 rend.material.shader = Shader.Find("_Color");
                 rend.material.SetColor("_Color", Color.white);
+                rend.material.shader = Shader.Find("Specular");
+                rend.material.SetColor("_SpecColor", Color.black);
                 break;
         }
     }
