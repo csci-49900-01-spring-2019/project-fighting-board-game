@@ -219,7 +219,7 @@ public class Player : MonoBehaviour
 
     void OnGUI()
     {
-        if (GUI.Button(new Rect(10, 10, 150, 100), "End Turn"))
+        if (GUI.Button(new Rect(700, 25, 100, 75), "End Turn"))
         {
             print("Your turn is now over.");
             //isActive = false;
