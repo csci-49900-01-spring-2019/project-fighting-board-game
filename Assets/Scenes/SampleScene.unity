@@ -905,6 +905,7 @@ MonoBehaviour:
   health: 100
   armor: 
   hasMoved: 0
+  isActive: 0
   my_die: {fileID: 981214178}
   current_tile: {fileID: 937456294}
 --- !u!135 &258740720
@@ -1107,6 +1108,98 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!1 &275385918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 275385919}
+  - component: {fileID: 275385922}
+  - component: {fileID: 275385921}
+  - component: {fileID: 275385920}
+  m_Layer: 5
+  m_Name: EventsUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &275385919
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275385918}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 757515676}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -250, y: 30}
+  m_SizeDelta: {x: 500, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &275385920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275385918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0ba93944b1e84eb09fd8a13ea10dd3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &275385921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275385918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 12
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 
+--- !u!222 &275385922
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275385918}
+  m_CullTransparentMesh: 0
 --- !u!1 &275534392
 GameObject:
   m_ObjectHideFlags: 0
@@ -3246,6 +3339,8 @@ MonoBehaviour:
   activePlayer: 0
   activeCamera: 0
   turnCount: 0
+  lastEvent: 
+  eventFlag: 0
   combatSystem: {fileID: 0}
   statText: 
   damText1: 
@@ -3343,6 +3438,7 @@ RectTransform:
   - {fileID: 1366952073}
   - {fileID: 2133125768}
   - {fileID: 224129392}
+  - {fileID: 275385919}
   - {fileID: 2046943613}
   m_Father: {fileID: 0}
   m_RootOrder: 13
@@ -4623,6 +4719,7 @@ MonoBehaviour:
   health: 100
   armor: 
   hasMoved: 0
+  isActive: 0
   my_die: {fileID: 981214178}
   current_tile: {fileID: 1637721746}
 --- !u!135 &1032092102
@@ -5319,8 +5416,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -15}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 80, y: -30}
+  m_SizeDelta: {x: 160, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1366952074
 MonoBehaviour:
@@ -5834,6 +5931,7 @@ MonoBehaviour:
   health: 100
   armor: 
   hasMoved: 0
+  isActive: 0
   my_die: {fileID: 981214178}
   current_tile: {fileID: 275534397}
 --- !u!135 &1403906606
@@ -7038,6 +7136,7 @@ MonoBehaviour:
   health: 100
   armor: 
   hasMoved: 0
+  isActive: 0
   my_die: {fileID: 981214178}
   current_tile: {fileID: 628473735}
 --- !u!1 &1822009588
