@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     public List<Weapon> inventory;
     public string armor;
     public bool hasMoved;
-    //public bool isActive;
+    public bool isActive;
     public Dice my_die;
     public GameTile current_tile;
 
@@ -142,15 +142,13 @@ public class Player : MonoBehaviour
         float n = 0.0f;
         Vector3 currentPosition = current_tile.GetTilePosition();
         while (n < 1.1f)
-        {  
+        {
             Transform tf = GetComponent<Transform>();
             //float journeyLength = Vector3.Distance(currentPosition, destination);
             tf.position = Vector3.Lerp(currentPosition, destination, n);
             n += 0.1f;
             yield return null;
         }
-        my_die.MakeDieAvailable();
-        hasMoved = true;
         yield return null;
     }
 
@@ -173,21 +171,20 @@ public class Player : MonoBehaviour
     public IEnumerator TakeTurn()
     {
         Debug.Log("Entered TakeTurn.");
-        //isActive = true;
-        hasMoved = false;
+        isActive = true;
         while (!hasMoved)
             yield return null;
         gameObject.SendMessageUpwards("HandleCollision", index);
         if (health <= 0)
             status = State.dead;
         UpdatePlayerStatus();
-        //while (isActive)
-        //    yield return null;
-        EndTurn();
+        while (isActive) 
+            yield return null;  
     }
 
     public void EndTurn()
     {
+        my_die.MakeDieAvailable();
         Debug.Log("Turn has ended!");
         gameObject.SendMessageUpwards("ChangePlayer");
     }
@@ -219,10 +216,14 @@ public class Player : MonoBehaviour
 
     void OnGUI()
     {
-        if (GUI.Button(new Rect(700, 25, 100, 75), "End Turn"))
+        if (hasMoved == true && isActive == true)
         {
-            print("Your turn is now over.");
-            //isActive = false;
+            if (GUI.Button(new Rect(15, 30, 100, 75), "End Turn"))
+            {
+                print("Your turn is now over.");
+                isActive = false;
+                EndTurn();
+            }
         }
     }
 }

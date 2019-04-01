@@ -98,6 +98,7 @@ public class Manager : MonoBehaviour
             Debug.Log(newPlayer);
             activePlayer = newPlayer;
             CameraAdjust();
+            players[activePlayer].hasMoved = false;
             players[activePlayer].StartCoroutine("TakeTurn");
         }
     }
@@ -178,6 +179,7 @@ public class Manager : MonoBehaviour
     void PlayerMove(Vector3 position)
     {
         players[activePlayer].StartCoroutine("Move", position);
+        players[activePlayer].hasMoved = true;
     }
 
     public bool checkRangeSelf(Player P1, Player P2)    //checks range from user to enemy based off weapon range
