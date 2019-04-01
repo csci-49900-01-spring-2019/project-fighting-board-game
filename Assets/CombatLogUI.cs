@@ -14,9 +14,7 @@ public class CombatLog : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (combatLog.combatSystem.called)
-        {
-
-        }
+        if (combatLog.showLog)
+            GetComponent<text>().text = 
     }
 }

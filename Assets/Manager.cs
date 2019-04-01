@@ -8,10 +8,14 @@ public class Manager : MonoBehaviour
     public List<Camera> cameras;
     public Weapon_List listOfWeapons;
     public bool gameOver;
+    public bool showLog;
     public int activePlayer;
     public int activeCamera;
     public int turnCount;
     public Combat combatSystem;
+    public string statText;
+    public string damText1;
+    public string damText2;
 
 
     // Start is called before the first frame update
@@ -234,77 +238,67 @@ public class Manager : MonoBehaviour
         return false;
     }
 
-    public bool inflictStatus(Player P1, Weapon W1) //P1 is target player and W1 is any weapon, preferably the current weapon of attacking player
+    public bool inflictStatus(Player P1, Player P2) //P1 is target player and P2 is attacking player
     {
         if (P1.status == State.normal)
         {
-            State effect = W1.statusEffect;
+            State effect = P2.currentWeapon.statusEffect;
 
             switch (effect)
             {
                 case State.normal:
-                    Debug.Log("Your weapon has not status effect");
                     return false;
                 case State.burned:
                     int perc = Random.Range(1, 10);
                     if (perc > 3)
-                    {
-                        Debug.Log("You have failed to burn on the target");
                         return false;
-                    }
                     else
                     {
                         P1.status = effect;
-                        Debug.Log("You have burned the target");
+                        statText = P2.playerName + " has burned " + P1.playerName;
                         return true;
                     }
                 case State.poisoned:
                     perc = Random.Range(1, 10);
                     if (perc > 4)
-                    {
-                        Debug.Log("You have failed to poison the target");
                         return false;
-                    }
                     else
                     {
                         P1.status = effect;
-                        Debug.Log("You have poisoned the target");
+                        statText = P2.playerName + " has poisoned " + P1.playerName;
                         return true;
                     }
                 case State.stunned:
                     perc = Random.Range(1, 10);
                     if (perc > 1)
-                    {
-                        Debug.Log("You have failed to stun the target");
                         return false;
-                    }
                     else
                     {
                         P1.status = effect;
-                        Debug.Log("You have stunned the target; lucky");
+                        statText = P2.playerName + " has stunned " + P1.playerName + "; lucky";
                         return true;
                     }
                 case State.dead:
-                    Debug.Log("Your target is dead, hasn't he suffered enough?");
+                    statText = P2.playerName + "'s target is dead, hasn't " + P1.playerName + " suffered enough?";
                     return false;
             }
         }
-        Debug.Log("Target Player already has a status condition");
+        statText = P1.playerName + " already has a status condition";
         return false;
     }
 
-    public void startCombat(Player P1, Player P2)    //this should be called after checking for range from the user to an enemy, hence P1's range is definitely in range
+        public void startCombat(Player P1, Player P2)    //this should be called after checking for range from the user to an enemy, hence P1's range is definitely in range
     // P1 is the player who INITIATES the attack.
     {
 
         int damage1 = P1.currentWeapon.Hit();
         int damage2 = 0;
 
-        inflictStatus(P2, P1.currentWeapon);
+        inflictStatus(P2, P1);
         if (checkRangeForEnemy(P2, P1))
         {
             damage2 = P2.currentWeapon.Hit();
-            inflictStatus(P1, P2.currentWeapon);
+            inflictStatus(P1, P2);
         }
 
         //modify damage1 and damage2 based on current tiles or otherwise
@@ -324,10 +318,11 @@ public class Manager : MonoBehaviour
         {
             damage1 -= (int)(damage1 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
         }
-
+        damText1 = P1.playerName + " dealt " + damage1 + " to " + P2.playerName;
         P2.health = P2.health - damage1;
         if (P2.health > 100)
             P2.health = 100;
+        damText2 = P2.playerName + " dealt " + damage2 + " to " + P2.playerName;
         P1.health = P1.health - damage2;
         if (P1.health > 100)
             P1.health = 100;
