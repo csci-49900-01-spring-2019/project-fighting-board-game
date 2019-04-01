@@ -14,6 +14,8 @@ public class HealthUI : MonoBehaviour
     void Update()
     {
         int currentPlayer = theManager.activePlayer;
-        GetComponent<Text>().text = "Current health = " + theManager.players[currentPlayer].health;
+        string health_string = "Current health = " + theManager.players[currentPlayer].health;
+        string status_string = "\nCurrent status = " + theManager.players[currentPlayer].status;
+        GetComponent<Text>().text = health_string + status_string;
     }
 }

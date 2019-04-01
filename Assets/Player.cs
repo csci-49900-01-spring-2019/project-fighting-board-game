@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     {
 
         //GUI.Box(new Rect(10, 10, 150, 100),GUI
-        Debug.Log("My name is " + playerName);
+        //Debug.Log("My name is " + playerName);
         hasMoved = false;
         health = 100;
         //Weapon aWeapon;
@@ -42,7 +42,7 @@ public class Player : MonoBehaviour
 
     private void SetName(string n)
     {
-        Debug.Log(n);
+        //Debug.Log(n);
         playerName = n;
     }
 
@@ -170,7 +170,6 @@ public class Player : MonoBehaviour
 
     public IEnumerator TakeTurn()
     {
-        Debug.Log("Entered TakeTurn.");
         isActive = true;
         while (!hasMoved)
             yield return null;
@@ -185,7 +184,7 @@ public class Player : MonoBehaviour
     public void EndTurn()
     {
         my_die.MakeDieAvailable();
-        Debug.Log("Turn has ended!");
+        gameObject.SendMessageUpwards("ReceiveEvent", playerName + "'s turn has ended!");
         gameObject.SendMessageUpwards("ChangePlayer");
     }
 
@@ -220,7 +219,6 @@ public class Player : MonoBehaviour
         {
             if (GUI.Button(new Rect(15, 30, 100, 75), "End Turn"))
             {
-                print("Your turn is now over.");
                 isActive = false;
                 EndTurn();
             }

@@ -13,7 +13,7 @@ public class PlayerTurnUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int currentPlayer = theManager.activePlayer + 1;
-        GetComponent<Text>().text = "Current Player's Move: " + currentPlayer;
+        string currentPlayer = theManager.players[theManager.activePlayer].playerName;
+        GetComponent<Text>().text = "Current Player: " + currentPlayer;
     }
 }

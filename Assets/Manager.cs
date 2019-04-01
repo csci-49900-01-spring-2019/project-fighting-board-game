@@ -11,13 +11,14 @@ public class Manager : MonoBehaviour
     public int activePlayer;
     public int activeCamera;
     public int turnCount;
+    public string lastEvent;
+    public bool eventFlag;
     public Combat combatSystem;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Entered start.");
         gameOver = false;
         turnCount = 1;
         activePlayer = 0;
@@ -30,6 +31,12 @@ public class Manager : MonoBehaviour
     void Update()
     {
         //CameraAdjust();
+    }
+
+    void ReceiveEvent(string eventString)
+    {
+        lastEvent = eventString;
+        eventFlag = true;
     }
 
     public IEnumerator ShowMovementOptions(int numSpaces)
@@ -70,8 +77,7 @@ public class Manager : MonoBehaviour
 
             //players[activePlayer].inventory.Add(draw);
             players[activePlayer].currentWeapon = draw;
-            Debug.Log("You have landed on Weapons tile!" + " You drew a " + draw.finalName);
-
+            ReceiveEvent(players[activePlayer].playerName + "landed on a weapons tile and drew a " + draw.finalName);
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.heal)
         {
@@ -79,13 +85,13 @@ public class Manager : MonoBehaviour
             players[activePlayer].health = players[activePlayer].health + n;
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
-            Debug.Log("You have landed on a Healing tile!" + " You have been healed up to " + (players[activePlayer].health + n) +" health!");
+            ReceiveEvent(players[activePlayer].playerName + "landed on a Healing tile and has been healed up to " + (players[activePlayer].health + n) +" health!");
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.ruby)
         {
             int n = Random.Range(10, 41);
             players[activePlayer].rubies = players[activePlayer].rubies + n;
-            Debug.Log("You have landed on a ruby mine!" + " You have mined " + n + " rubies!");
+            ReceiveEvent(players[activePlayer].playerName + "landed on a ruby mine  mined " + n + " rubies!");
         }
     }
 
@@ -95,7 +101,7 @@ public class Manager : MonoBehaviour
         if (!gameOver)
         { 
             int newPlayer = (activePlayer + 1) % (players.Count);
-            Debug.Log(newPlayer);
+            ReceiveEvent(players[newPlayer].playerName + "'s turn has started.");
             activePlayer = newPlayer;
             CameraAdjust();
             players[activePlayer].hasMoved = false;
@@ -129,16 +135,12 @@ public class Manager : MonoBehaviour
 
     void EndGameTie()
     {
-        Debug.Log("The game is over!");
-        Debug.Log("Everyone's dead, nobody wins! :");
-        Debug.Log("Total number of turns taken: " + turnCount);
+        ReceiveEvent("The game is over! Everyone's dead, nobody wins! Total number of turns taken: " + turnCount);
     }
 
     void EndGameWin(Player winner)
     {
-        Debug.Log("The game is over!");
-        Debug.Log(winner.playerName + " has won!");
-        Debug.Log("Total number of turns taken: " + turnCount);
+        ReceiveEvent("The game is over!" + winner.playerName + " has won! Total number of turns taken: " + turnCount);
     }
 
     void CameraAdjust()
