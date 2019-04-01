@@ -6,6 +6,9 @@ public class Combat : MonoBehaviour
 {
     public Player P1;
     public Player P2;
+    public bool called = false;
+    public int damageTo1;
+    public int damageTo2;
 
     // Start is called before the first frame update
     void Start()
