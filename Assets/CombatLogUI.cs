@@ -14,11 +14,10 @@ public class CombatLogUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (combatLog.showLog == true)
-        {
+
             string player1_CLog = combatLog.statText1 + "\n" + combatLog.damText1 + "\n";
             string player2_CLog = combatLog.statText2 + "\n" + combatLog.damText2 + "\n";
             GetComponent<Text>().text = player1_CLog + player2_CLog;
-        }
+        
     }
 }
