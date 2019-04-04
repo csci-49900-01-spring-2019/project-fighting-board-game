@@ -77,7 +77,7 @@ public class Manager : MonoBehaviour
 
             //players[activePlayer].inventory.Add(draw);
             players[activePlayer].currentWeapon = draw;
-            ReceiveEvent(players[activePlayer].playerName + "landed on a weapons tile and drew a " + draw.finalName);
+            ReceiveEvent(players[activePlayer].playerName + " landed on a weapons tile and drew a " + draw.finalName);
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.heal)
         {
@@ -85,13 +85,13 @@ public class Manager : MonoBehaviour
             players[activePlayer].health = players[activePlayer].health + n;
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
-            ReceiveEvent(players[activePlayer].playerName + "landed on a Healing tile and has been healed up to " + (players[activePlayer].health + n) +" health!");
+            ReceiveEvent(players[activePlayer].playerName + " landed on a Healing tile and has healed " + n +" health points!");
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.ruby)
         {
             int n = Random.Range(10, 41);
             players[activePlayer].rubies = players[activePlayer].rubies + n;
-            ReceiveEvent(players[activePlayer].playerName + "landed on a ruby mine  mined " + n + " rubies!");
+            ReceiveEvent(players[activePlayer].playerName + " landed on a ruby mine and mined " + n + " rubies!");
         }
     }
 
@@ -238,63 +238,63 @@ public class Manager : MonoBehaviour
         return false;
     }
 
-    public bool inflictStatus(Player P1, Weapon W1) //P1 is target player and W1 is any weapon, preferably the current weapon of attacking player
+    public string inflictStatus(Player P1, Weapon W1) //P1 is target player and W1 is any weapon, preferably the current weapon of attacking player
     {
+        string effectString;
         if (P1.status == State.normal)
         {
             State effect = W1.statusEffect;
-
             switch (effect)
             {
                 case State.normal:
-                    Debug.Log("Your weapon has not status effect");
-                    return false;
+                    effectString = "";
+                    return effectString;
                 case State.burned:
                     int perc = Random.Range(1, 10);
                     if (perc > 3)
                     {
-                        Debug.Log("You have failed to burn on the target");
-                        return false;
+                        effectString = "";
+                        return effectString;
                     }
                     else
                     {
                         P1.status = effect;
-                        Debug.Log("You have burned the target");
-                        return true;
+                        effectString = P1 + " has been burned!";
+                        return effectString;
                     }
                 case State.poisoned:
                     perc = Random.Range(1, 10);
                     if (perc > 4)
                     {
-                        Debug.Log("You have failed to poison the target");
-                        return false;
+                        effectString = "";
+                        return effectString;
                     }
                     else
                     {
                         P1.status = effect;
-                        Debug.Log("You have poisoned the target");
-                        return true;
+                        effectString = P1 + " has been poisoned!";
+                        return effectString;
                     }
                 case State.stunned:
                     perc = Random.Range(1, 10);
                     if (perc > 1)
                     {
-                        Debug.Log("You have failed to stun the target");
-                        return false;
+                        effectString = "";
+                        return effectString;
                     }
                     else
                     {
                         P1.status = effect;
-                        Debug.Log("You have stunned the target; lucky");
-                        return true;
+                        effectString = P1 + " has been stunned!";
+                        return effectString;
                     }
                 case State.dead:
-                    Debug.Log("Your target is dead, hasn't he suffered enough?");
-                    return false;
+                    effectString = "The weapon is broken, too bad.";
+                    return effectString;
             }
         }
-        Debug.Log("Target Player already has a status condition");
-        return false;
+        effectString = P1 + "already has a status condition.";
+        return effectString;
     }
 
     public void startCombat(Player P1, Player P2)    //this should be called after checking for range from the user to an enemy, hence P1's range is definitely in range
@@ -303,12 +303,13 @@ public class Manager : MonoBehaviour
 
         int damage1 = P1.currentWeapon.Hit();
         int damage2 = 0;
+        string b1 = " " + inflictStatus(P2, P1.currentWeapon) + "\n"; // inflict status, store event string
+        string b2 = "";
 
-        inflictStatus(P2, P1.currentWeapon);
         if (checkRangeForEnemy(P2, P1))
         {
             damage2 = P2.currentWeapon.Hit();
-            inflictStatus(P1, P2.currentWeapon);
+            b2 = " " + inflictStatus(P1, P2.currentWeapon);
         }
 
         //modify damage1 and damage2 based on current tiles or otherwise
@@ -335,6 +336,15 @@ public class Manager : MonoBehaviour
         P1.health = P1.health - damage2;
         if (P1.health > 100)
             P1.health = 100;
+
+        string a1 = P1.playerName + " dealt " + damage1 + " damage to " + P2.playerName + " with the " + P1.currentWeapon.Wname + ".";
+        string a2 = "";
+        if (damage2 > 0)
+        {
+            a2 = P2.playerName + " dealt " + damage2 + " damage to " + P1.playerName + " with the " + P2.currentWeapon.Wname + ".";
+        }
+        ReceiveEvent(a1 + b1 + a2 + b2);
+           
     }
 
 

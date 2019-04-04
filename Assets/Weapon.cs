@@ -146,7 +146,7 @@ public class Weapon
     public int Hit()
     {
         int damage = Random.Range(dRangeStart, dRangeLimit);
-        Debug.Log("You dealt " + damage + " with the " + finalName);
+        //Debug.Log("You dealt " + damage + " with the " + finalName);
         return damage;
     }
 
