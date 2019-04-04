@@ -11,6 +11,7 @@ public class StartScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        inputScreen.SetActive(true);
         var input = gameObject.GetComponent<InputField>();
         var se = new InputField.SubmitEvent();
         se.AddListener(delegate {
