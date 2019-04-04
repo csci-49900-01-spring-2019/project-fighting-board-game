@@ -8,12 +8,17 @@ public class Manager : MonoBehaviour
     public List<Camera> cameras;
     public Weapon_List listOfWeapons;
     public bool gameOver;
+    public bool showLog = true;
     public int activePlayer;
     public int activeCamera;
     public int turnCount;
     public string lastEvent;
     public bool eventFlag;
     public Combat combatSystem;
+    public string statText1;
+    public string statText2;
+    public string damText1;
+    public string damText2;
 
 
     // Start is called before the first frame update
@@ -238,6 +243,48 @@ public class Manager : MonoBehaviour
         return false;
     }
 
+    /*
+    public bool inflictStatus(Player P1, Player P2, string text) //P1 is target player and P2 is attacking player
+    {
+        text = "";
+        if (P1.status == State.normal)
+        {
+            State effect = P2.currentWeapon.statusEffect;
+
+            switch (effect)
+            {
+                case State.normal:
+                    return false;
+                case State.burned:
+                    int perc = Random.Range(1, 10);
+                    if (perc > 3)
+                        return false;
+                    else
+                    {
+                        P1.status = effect;
+                        text = P2.playerName + " has burned " + P1.playerName;
+                        return true;
+                        return false;
+                    else
+                    {
+                        P1.status = effect;
+                        text = P2.playerName + " has poisoned " + P1.playerName;
+                        return true;
+                    else
+                    {
+                         P1.status = effect;
+                         text = P2.playerName + " has stunned " + P1.playerName + "; lucky";
+                         return true;
+                    }
+                        case State.dead:
+                            text = P2.playerName + "'s target is dead, hasn't " + P1.playerName + " suffered enough?";
+                            return false;
+                    }
+                }
+                text = P1.playerName + " already has a status condition";
+                return false;
+*/
+
     public string inflictStatus(Player P1, Weapon W1) //P1 is target player and W1 is any weapon, preferably the current weapon of attacking player
     {
         string effectString;
@@ -261,6 +308,7 @@ public class Manager : MonoBehaviour
                         P1.status = effect;
                         effectString = P1 + " has been burned!";
                         return effectString;
+
                     }
                 case State.poisoned:
                     perc = Random.Range(1, 10);
@@ -306,6 +354,14 @@ public class Manager : MonoBehaviour
         string b1 = " " + inflictStatus(P2, P1.currentWeapon) + "\n"; // inflict status, store event string
         string b2 = "";
 
+        /*
+        inflictStatus(P2, P1, statText1);
+        if (checkRangeForEnemy(P2, P1))
+        {
+            damage2 = P2.currentWeapon.Hit();
+            inflictStatus(P1, P2, statText2);
+        */
+
         if (checkRangeForEnemy(P2, P1))
         {
             damage2 = P2.currentWeapon.Hit();
@@ -329,10 +385,11 @@ public class Manager : MonoBehaviour
         {
             damage1 -= (int)(damage1 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
         }
-
+        damText1 = P1.playerName + " dealt " + damage1 + " to " + P2.playerName;
         P2.health = P2.health - damage1;
         if (P2.health > 100)
             P2.health = 100;
+        damText2 = P2.playerName + " dealt " + damage2 + " to " + P2.playerName;
         P1.health = P1.health - damage2;
         if (P1.health > 100)
             P1.health = 100;

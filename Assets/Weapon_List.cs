@@ -22,7 +22,7 @@ public class Weapon_List : MonoBehaviour
         availableAdj2[6] = "grand";
         availableAdj2[7] = "critical";
         availableAdj2[8] = "broken";
-        availableAdj2[9] = "gamer breaker";
+        availableAdj2[9] = "game breaker";
         availableAdj2[10] = "chance";
 
         availableAdj[0] = "";
