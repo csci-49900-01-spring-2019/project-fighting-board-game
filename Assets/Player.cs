@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public decimal rubies = 0.00m;
     public Weapon currentWeapon;
     public List<Weapon> inventory;
-    public string armor;
+    //public string armor;
     public bool hasMoved;
     public bool isActive;
     public Dice my_die;

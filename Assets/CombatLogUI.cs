@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CombatLog : MonoBehaviour
+public class CombatLogUI : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,7 +14,11 @@ public class CombatLog : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (combatLog.showLog)
-            GetComponent<text>().text = 
+        if (combatLog.showLog == true)
+        {
+            string player1_CLog = combatLog.statText1 + "\n" + combatLog.damText1 + "\n";
+            string player2_CLog = combatLog.statText2 + "\n" + combatLog.damText2 + "\n";
+            GetComponent<Text>().text = player1_CLog + player2_CLog;
+        }
     }
 }

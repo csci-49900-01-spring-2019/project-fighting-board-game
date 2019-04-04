@@ -8,14 +8,15 @@ public class Manager : MonoBehaviour
     public List<Camera> cameras;
     public Weapon_List listOfWeapons;
     public bool gameOver;
-    public bool showLog;
+    public bool showLog = true;
     public int activePlayer;
     public int activeCamera;
     public int turnCount;
     public string lastEvent;
     public bool eventFlag;
     public Combat combatSystem;
-    public string statText;
+    public string statText1;
+    public string statText2;
     public string damText1;
     public string damText2;
 
@@ -242,8 +243,9 @@ public class Manager : MonoBehaviour
         return false;
     }
 
-    public bool inflictStatus(Player P1, Player P2) //P1 is target player and P2 is attacking player
+    public bool inflictStatus(Player P1, Player P2, string text) //P1 is target player and P2 is attacking player
     {
+        text = "";
         if (P1.status == State.normal)
         {
             State effect = P2.currentWeapon.statusEffect;
@@ -259,7 +261,7 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
-                        statText = P2.playerName + " has burned " + P1.playerName;
+                        text = P2.playerName + " has burned " + P1.playerName;
                         return true;
                     }
                 case State.poisoned:
@@ -269,7 +271,7 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
-                        statText = P2.playerName + " has poisoned " + P1.playerName;
+                        text = P2.playerName + " has poisoned " + P1.playerName;
                         return true;
                     }
                 case State.stunned:
@@ -279,15 +281,15 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
-                        statText = P2.playerName + " has stunned " + P1.playerName + "; lucky";
+                        text = P2.playerName + " has stunned " + P1.playerName + "; lucky";
                         return true;
                     }
                 case State.dead:
-                    statText = P2.playerName + "'s target is dead, hasn't " + P1.playerName + " suffered enough?";
+                    text = P2.playerName + "'s target is dead, hasn't " + P1.playerName + " suffered enough?";
                     return false;
             }
         }
-        statText = P1.playerName + " already has a status condition";
+        text = P1.playerName + " already has a status condition";
         return false;
     }
 
@@ -298,11 +300,11 @@ public class Manager : MonoBehaviour
         int damage1 = P1.currentWeapon.Hit();
         int damage2 = 0;
 
-        inflictStatus(P2, P1);
+        inflictStatus(P2, P1, statText1);
         if (checkRangeForEnemy(P2, P1))
         {
             damage2 = P2.currentWeapon.Hit();
-            inflictStatus(P1, P2);
+            inflictStatus(P1, P2, statText2);
         }
 
         //modify damage1 and damage2 based on current tiles or otherwise
