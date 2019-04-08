@@ -8,13 +8,11 @@ public class Manager : MonoBehaviour
     public List<Camera> cameras;
     public Weapon_List listOfWeapons;
     public bool gameOver;
-<<<<<<< HEAD
-=======
-    public bool showLog = true;
->>>>>>> 473a43c60391112f5aa852e2d427ea34468529ce
     public int activePlayer;
     public int activeCamera;
     public int turnCount;
+    public int wepDrawStart = 0;
+    public int wepDrawEnd = 4;
     public string lastEvent;
     public bool eventFlag;
     public Combat combatSystem;
@@ -80,7 +78,7 @@ public class Manager : MonoBehaviour
     {
         if (players[activePlayer].current_tile.tile_type == TileType.weapon)
         {
-            int n = Random.Range(0, 25);
+            int n = Random.Range(wepDrawStart, wepDrawEnd);
             Weapon draw = listOfWeapons.wepList[n];
 
             //players[activePlayer].inventory.Add(draw);
@@ -109,6 +107,17 @@ public class Manager : MonoBehaviour
         if (!gameOver)
         { 
             int newPlayer = (activePlayer + 1) % (players.Count);
+            if (newPlayer == 0)
+            {
+                turnCount += 1;
+                if (turnCount % 5 == 0) { 
+                    if (wepDrawEnd != 24)
+                    {
+                        wepDrawStart += 5;
+                        wepDrawEnd += 5;
+                    }
+                }
+            }
             ReceiveEvent(players[newPlayer].playerName + "'s turn has started.");
             activePlayer = newPlayer;
             CameraAdjust();
