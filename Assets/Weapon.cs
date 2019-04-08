@@ -103,8 +103,8 @@ public class Weapon
                 rubies = rubies * 2;
                 break;
             case "broken":
-                dRangeStart = 1;
-                dRangeLimit = 2;
+                dRangeStart = 6;
+                dRangeLimit = 8;
                 rubies = rubies - (rubies * .9m);
                 break;
             case "game breaker":
