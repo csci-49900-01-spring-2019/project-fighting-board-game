@@ -8,6 +8,10 @@ public class Manager : MonoBehaviour
     public List<Camera> cameras;
     public Weapon_List listOfWeapons;
     public bool gameOver;
+<<<<<<< HEAD
+=======
+    public bool showLog = true;
+>>>>>>> 473a43c60391112f5aa852e2d427ea34468529ce
     public int activePlayer;
     public int activeCamera;
     public int turnCount;
