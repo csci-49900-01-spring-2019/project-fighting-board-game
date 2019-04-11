@@ -94,6 +94,14 @@ public class Manager : MonoBehaviour
                 players[activePlayer].health = 100;
             ReceiveEvent(players[activePlayer].playerName + " landed on a Healing tile and has healed " + n +" health points!");
         }
+        else if (players[activePlayer].current_tile.tile_type == TileType.trap)
+        {
+            int n = Random.Range(10, 41);
+            players[activePlayer].health = players[activePlayer].health - n;
+            if (players[activePlayer].health > 100)
+                players[activePlayer].health = 100;
+            ReceiveEvent(players[activePlayer].playerName + " landed on a Trap tile and lost " + n + " health points!");
+        }
         else if (players[activePlayer].current_tile.tile_type == TileType.ruby)
         {
             int n = Random.Range(10, 41);
