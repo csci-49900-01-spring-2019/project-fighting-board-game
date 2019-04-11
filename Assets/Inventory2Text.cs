@@ -24,3 +24,4 @@ public class Inventory2Text : MonoBehaviour
             }
         }
     }
+}
