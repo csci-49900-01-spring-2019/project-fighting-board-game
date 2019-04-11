@@ -9,16 +9,23 @@ public class CombatLogUI : MonoBehaviour
     void Start()
     {
         combatLog = GameObject.FindObjectOfType<Manager>();
-        text = GetComponent<Text>();
     }
+    string player1_CLog;
+    string player2_CLog;
     Manager combatLog;
-    Text text;
+    void update_string()
+    {
+        player1_CLog = combatLog.statText1 + "\n" + combatLog.damText1 + "\n";
+        player2_CLog = combatLog.statText2 + "\n" + combatLog.damText2 + "\n";
+    }
     // Update is called once per frame
     void Update()
     {
-        string player1_CLog = combatLog.statText1 + "\n" + combatLog.damText1 + "\n";
-        string player2_CLog = combatLog.statText2 + "\n" + combatLog.damText2 + "\n";
-        text.text = text.text + player1_CLog + player2_CLog;
-        
+        if (combatLog.combatFlag == true)
+        {
+            update_string();
+            GetComponent<Text>().text = GetComponent<Text>().text + player1_CLog + player2_CLog;
+            combatLog.combatFlag = false;
+        }
     }
 }

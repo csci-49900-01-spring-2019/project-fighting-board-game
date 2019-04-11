@@ -15,6 +15,7 @@ public class Manager : MonoBehaviour
     public int wepDrawEnd = 4;
     public string lastEvent;
     public bool eventFlag;
+    public bool combatFlag;
     public Combat combatSystem;
     public string statText1 = "s1";
     public string statText2 = "s2";
@@ -365,6 +366,7 @@ public class Manager : MonoBehaviour
             damText2 = a2;
         }
         ReceiveEvent(a1 + b1 + a2 + b2);
+        combatFlag = true;
            
     }
 

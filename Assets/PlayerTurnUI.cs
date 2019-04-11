@@ -15,6 +15,5 @@ public class PlayerTurnUI : MonoBehaviour
     {
         string currentPlayer = theManager.players[theManager.activePlayer].playerName;
         GetComponent<Text>().text = "Current Player: " + currentPlayer;
-        GetComponent<Text>().text = "Current Turn: " + theManager.turnCount;
     }
 }
