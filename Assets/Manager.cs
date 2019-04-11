@@ -328,7 +328,8 @@ public class Manager : MonoBehaviour
     public void startCombat(Player P1, Player P2)    //this should be called after checking for range from the user to an enemy, hence P1's range is definitely in range
     // P1 is the player who INITIATES the attack.
     {
-
+        if (P2.status == State.dead)
+            return;
         int damage1 = P1.currentWeapon.Hit();
         int damage2 = 0;
         string b1 = " " + inflictStatus(P2, P1.currentWeapon) + "\n"; // inflict status, store event string
@@ -364,6 +365,11 @@ public class Manager : MonoBehaviour
         P1.health = P1.health - damage2;
         if (P1.health > 100)
             P1.health = 100;
+
+        if (P2.health <= 0)
+            P2.status = State.dead;
+        if (P1.health <= 0)
+            P1.status = State.dead;
 
         string a1 = P1.playerName + " dealt " + damage1 + " damage to " + P2.playerName + " with the " + P1.currentWeapon.finalName + ".";
         damText1 = a1;

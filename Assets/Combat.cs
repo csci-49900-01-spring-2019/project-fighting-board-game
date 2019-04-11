@@ -130,7 +130,8 @@ public class Combat : MonoBehaviour
 
     public void startCombat(Player P1, Player P2)    //this should be called after checking for range from the user to an enemy, hence P1's range is definitely in range
     {
-
+        if (P2.status == State.dead)
+            return;
         int damage1 = P1.currentWeapon.Hit() ;
         int damage2 = 0;
 
