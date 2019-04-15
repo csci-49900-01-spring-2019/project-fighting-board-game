@@ -96,7 +96,7 @@ public class Manager : MonoBehaviour
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.trap)
         {
-            int n = Random.Range(10, 41);
+            int n = Random.Range(10, 25);
             players[activePlayer].health = players[activePlayer].health - n;
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
