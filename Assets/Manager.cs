@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-    public List<Player> players;
+    public List<Player> players; // We should instantiate this on runtime instead of hardcoding the list. 
     public List<Camera> cameras;
     public Weapon_List listOfWeapons;
+    public Light dayTime; // disable to make night-time. 
     public bool gameOver;
     public int activePlayer;
     public int activeCamera;
@@ -119,6 +120,17 @@ public class Manager : MonoBehaviour
             if (newPlayer == 0)
             {
                 turnCount += 1;
+                if (turnCount % players.Count*3 == 0 && dayTime != null)
+                {
+                    if (dayTime.enabled)
+                    {
+                        dayTime.enabled = false;
+                    } else
+                    {
+                        dayTime.enabled = true;
+                    }
+                    // TURN TO NIGHT-TIME!
+                }
                 if (turnCount % 5 == 0) { 
                     if (wepDrawEnd != 24)
                     {

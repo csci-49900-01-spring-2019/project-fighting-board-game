@@ -141,11 +141,16 @@ public class Player : MonoBehaviour
     {
         float n = 0.0f;
         Vector3 currentPosition = current_tile.GetTilePosition();
+
         while (n < 1.1f)
         {
             Transform tf = GetComponent<Transform>();
+            Vector3 newPosition = destination;
+            newPosition.y = tf.position.y;
+            currentPosition.y = tf.position.y;
+            
             //float journeyLength = Vector3.Distance(currentPosition, destination);
-            tf.position = Vector3.Lerp(currentPosition, destination, n);
+            tf.position = Vector3.Lerp(currentPosition, newPosition, n);
             n += 0.1f;
             yield return null;
         }
