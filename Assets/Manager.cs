@@ -21,6 +21,7 @@ public class Manager : MonoBehaviour
     public string statText2 = "s2";
     public string damText1 = "d1";
     public string damText2 = "d2";
+    public decimal loot;
 
 
     // Start is called before the first frame update
@@ -105,7 +106,7 @@ public class Manager : MonoBehaviour
         else if (players[activePlayer].current_tile.tile_type == TileType.ruby)
         {
             int n = Random.Range(10, 41);
-            players[activePlayer].rubies = players[activePlayer].rubies + n;
+            players[activePlayer].rubies = players[activePlayer].rubies + (decimal)n;
             ReceiveEvent(players[activePlayer].playerName + " landed on a ruby mine and mined " + n + " rubies!");
         }
     }
@@ -378,6 +379,18 @@ public class Manager : MonoBehaviour
         {
             a2 = P2.playerName + " dealt " + damage2 + " damage to " + P1.playerName + " with the " + P2.currentWeapon.finalName + ".";
             damText2 = a2;
+        }
+       if (damage2 > damage1)
+        {
+            loot = P1.rubies * (decimal).45;
+            P1.rubies = P1.rubies - loot;
+            P2.rubies = P2.rubies + loot;
+        }
+       if (damage1 > damage2)
+        {
+            loot = P2.rubies * (decimal).45;
+            P2.rubies = P2.rubies - loot;
+            P1.rubies = P1.rubies + loot;
         }
         ReceiveEvent(a1 + b1 + a2 + b2);
         combatFlag = true;
