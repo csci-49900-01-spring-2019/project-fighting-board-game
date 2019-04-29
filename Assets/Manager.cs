@@ -119,7 +119,11 @@ public class Manager : MonoBehaviour
         if (!gameOver)
         { 
             int newPlayer = (activePlayer + 1) % (players.Count);
-            if (newPlayer == 0)
+            while (players[newPlayer].status == State.dead)
+            {
+                newPlayer = (newPlayer + 1) % (players.Count);
+            }
+            if (newPlayer < activePlayer) // we are back to beginning of player list, turn has passed
             {
                 turnCount += 1;
                 if (turnCount % players.Count == 0 && dayTime != null)
