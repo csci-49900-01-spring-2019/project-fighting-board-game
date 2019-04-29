@@ -9,6 +9,7 @@ public class Manager : MonoBehaviour
     public Weapon_List listOfWeapons;
     public Light dayTime; // disable to make night-time. 
     public bool gameOver;
+    public bool storeOpen;
     public int activePlayer;
     public int activeCamera;
     public int turnCount;
@@ -17,12 +18,12 @@ public class Manager : MonoBehaviour
     public string lastEvent;
     public bool eventFlag;
     public bool combatFlag;
-    public Combat combatSystem;
+    //public Combat combatSystem;
     public string statText1 = "s1";
     public string statText2 = "s2";
     public string damText1 = "d1";
     public string damText2 = "d2";
-    public decimal loot;
+    public int loot;
 
 
     // Start is called before the first frame update
@@ -107,7 +108,7 @@ public class Manager : MonoBehaviour
         else if (players[activePlayer].current_tile.tile_type == TileType.ruby)
         {
             int n = Random.Range(10, 41);
-            players[activePlayer].rubies = players[activePlayer].rubies + (decimal)n;
+            players[activePlayer].rubies = players[activePlayer].rubies + n;
             ReceiveEvent(players[activePlayer].playerName + " landed on a ruby mine and mined " + n + " rubies!");
         }
     }
@@ -121,7 +122,7 @@ public class Manager : MonoBehaviour
             if (newPlayer == 0)
             {
                 turnCount += 1;
-                if (turnCount % players.Count*3 == 0 && dayTime != null)
+                if (turnCount % players.Count == 0 && dayTime != null)
                 {
                     if (dayTime.enabled)
                     {
@@ -394,13 +395,13 @@ public class Manager : MonoBehaviour
         }
        if (damage2 > damage1)
         {
-            loot = P1.rubies * (decimal).45;
+            loot = (int)(P1.rubies * .45);
             P1.rubies = P1.rubies - loot;
             P2.rubies = P2.rubies + loot;
         }
        if (damage1 > damage2)
         {
-            loot = P2.rubies * (decimal).45;
+            loot = (int)(P2.rubies * .45);
             P2.rubies = P2.rubies - loot;
             P1.rubies = P1.rubies + loot;
         }

@@ -1193,6 +1193,7 @@ MonoBehaviour:
   playerName: Spherin
   status: 0
   health: 100
+  rubies: 0
   hasMoved: 0
   isActive: 0
   my_die: {fileID: 981214178}
@@ -3659,7 +3660,9 @@ MonoBehaviour:
   - {fileID: 1691287862}
   - {fileID: 462785635}
   listOfWeapons: {fileID: 419185386}
+  dayTime: {fileID: 0}
   gameOver: 0
+  storeOpen: 0
   activePlayer: 0
   activeCamera: 0
   turnCount: 0
@@ -3668,11 +3671,11 @@ MonoBehaviour:
   lastEvent: 
   eventFlag: 0
   combatFlag: 0
-  combatSystem: {fileID: 0}
   statText1: 
   statText2: 
   damText1: 
   damText2: 
+  loot: 0
 --- !u!1 &757515672
 GameObject:
   m_ObjectHideFlags: 0
@@ -4404,7 +4407,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -399.1, y: 22.09999}
+  m_AnchoredPosition: {x: -399.1, y: -83.4}
   m_SizeDelta: {x: -800, y: -327.00003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &913107334
@@ -5169,6 +5172,7 @@ MonoBehaviour:
   playerName: Spherak
   status: 0
   health: 100
+  rubies: 0
   hasMoved: 0
   isActive: 0
   my_die: {fileID: 981214178}
@@ -5718,7 +5722,7 @@ GameObject:
   - component: {fileID: 1307716996}
   - component: {fileID: 1307716995}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: GameOverCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5770,7 +5774,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1307716994}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -5967,8 +5971,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80, y: -45}
-  m_SizeDelta: {x: 160, y: 90}
+  m_AnchoredPosition: {x: 115, y: -45}
+  m_SizeDelta: {x: 230, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1366952074
 MonoBehaviour:
@@ -6480,6 +6484,7 @@ MonoBehaviour:
   playerName: Spherot
   status: 0
   health: 100
+  rubies: 0
   hasMoved: 0
   isActive: 0
   my_die: {fileID: 981214178}
@@ -7758,6 +7763,7 @@ MonoBehaviour:
   playerName: Sphery
   status: 0
   health: 100
+  rubies: 0
   hasMoved: 0
   isActive: 0
   my_die: {fileID: 981214178}
@@ -9445,7 +9451,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 100}
+  m_SizeDelta: {x: 500, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2075050495
 MonoBehaviour:
