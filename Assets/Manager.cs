@@ -302,6 +302,7 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
+                        P1.statusTimer = 3;
                         effectString = P1 + " has been burned!";
                         return effectString;
 
@@ -316,6 +317,7 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
+                        P1.statusTimer = 3;
                         effectString = P1 + " has been poisoned!";
                         return effectString;
                     }
@@ -329,6 +331,7 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
+                        P1.statusTimer = 1;
                         effectString = P1 + " has been stunned!";
                         return effectString;
                     }
