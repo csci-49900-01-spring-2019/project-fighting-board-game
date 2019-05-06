@@ -23,12 +23,11 @@ public class Manager : MonoBehaviour
     public string statText2 = "s2";
     public string damText1 = "d1";
     public string damText2 = "d2";
-<<<<<<< HEAD
+
     public int loot;
 
-=======
     public GameObject fightParticle;
->>>>>>> 59d1b547c0cac9d7b58d3fc7db007842afa5d87b
+
 
     // Start is called before the first frame update
     void Start()
