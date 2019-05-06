@@ -22,7 +22,7 @@ public class Manager : MonoBehaviour
     public string statText2 = "s2";
     public string damText1 = "d1";
     public string damText2 = "d2";
-
+    public GameObject fightParticle;
 
     // Start is called before the first frame update
     void Start()
@@ -354,6 +354,8 @@ public class Manager : MonoBehaviour
         string b1 = " " + inflictStatus(P2, P1.currentWeapon) + "\n"; // inflict status, store event string
         string b2 = "";
 
+        // Spawn particle on fight!
+        Instantiate(fightParticle, P1.transform);
 
         if (checkRangeForEnemy(P2, P1))
         {
