@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public int index;
     public string playerName;
     public State status;
+    public int statusTimer;
     public int health;
     public decimal rubies = 0.00m;
     public Weapon currentWeapon;
@@ -74,7 +75,7 @@ public class Player : MonoBehaviour
             case State.poisoned:
                 rend.material.shader = Shader.Find("Specular");
                 rend.material.SetColor("_SpecColor", Color.green);
-                health -= 1;
+                health -= 2;
                 break;
             case State.burned:
                 rend.material.shader = Shader.Find("Specular");
@@ -85,6 +86,11 @@ public class Player : MonoBehaviour
                 rend.material.shader = Shader.Find("Specular");
                 rend.material.SetColor("_SpecColor", Color.white);
                 break;
+        }
+        --statusTimer;
+        if(statusTimer < 1)
+        {
+            status = State.normal;
         }
     }
 

@@ -117,7 +117,11 @@ public class Manager : MonoBehaviour
         if (!gameOver)
         { 
             int newPlayer = (activePlayer + 1) % (players.Count);
-            if (newPlayer == 0)
+            while (players[newPlayer].status == State.dead)
+            {
+                newPlayer = (newPlayer + 1) % (players.Count);
+            }
+            if (newPlayer < activePlayer) // we are back to beginning of player list, turn has passed
             {
                 turnCount += 1;
                 if (turnCount % players.Count*3 == 0 && dayTime != null)
@@ -298,6 +302,7 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
+                        P1.statusTimer = 3;
                         effectString = P1 + " has been burned!";
                         return effectString;
 
@@ -312,6 +317,7 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
+                        P1.statusTimer = 3;
                         effectString = P1 + " has been poisoned!";
                         return effectString;
                     }
@@ -325,6 +331,7 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
+                        P1.statusTimer = 1;
                         effectString = P1 + " has been stunned!";
                         return effectString;
                     }
