@@ -101,6 +101,8 @@ public class Manager : MonoBehaviour
         {
             int n = Random.Range(10, 25);
             players[activePlayer].health = players[activePlayer].health - n;
+            if (players[activePlayer].health <= 0)
+                players[activePlayer].status = State.dead;
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
             ReceiveEvent(players[activePlayer].playerName + " landed on a Trap tile and lost " + n + " health points!");
