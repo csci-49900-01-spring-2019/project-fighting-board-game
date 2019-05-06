@@ -2766,6 +2766,7 @@ MonoBehaviour:
   listOfWeapons: {fileID: 753363382}
   dayTime: {fileID: 0}
   gameOver: 0
+  storeOpen: 0
   activePlayer: 0
   activeCamera: 0
   turnCount: 0
@@ -2774,11 +2775,13 @@ MonoBehaviour:
   lastEvent: 
   eventFlag: 0
   combatFlag: 0
-  combatSystem: {fileID: 0}
   statText1: 
   statText2: 
   damText1: 
   damText2: 
+  loot: 0
+  fightParticle: {fileID: 1339241070378346, guid: 71269bcb55a643f4996ddca238ddedc5,
+    type: 3}
 --- !u!4 &458606944
 Transform:
   m_ObjectHideFlags: 0
@@ -4026,7 +4029,9 @@ MonoBehaviour:
   index: 0
   playerName: Peasant
   status: 0
+  statusTimer: 0
   health: 100
+  rubies: 0
   hasMoved: 0
   isActive: 0
   my_die: {fileID: 220205490}
@@ -4952,7 +4957,9 @@ MonoBehaviour:
   index: 1
   playerName: Spherin
   status: 0
+  statusTimer: 0
   health: 100
+  rubies: 0
   hasMoved: 0
   isActive: 0
   my_die: {fileID: 220205490}
@@ -7838,7 +7845,9 @@ MonoBehaviour:
   index: 0
   playerName: Sphery
   status: 0
+  statusTimer: 0
   health: 100
+  rubies: 0
   hasMoved: 0
   isActive: 0
   my_die: {fileID: 220205490}
@@ -8399,7 +8408,9 @@ MonoBehaviour:
   index: 3
   playerName: Spherot
   status: 0
+  statusTimer: 0
   health: 100
+  rubies: 0
   hasMoved: 0
   isActive: 0
   my_die: {fileID: 220205490}
@@ -9342,7 +9353,9 @@ MonoBehaviour:
   index: 2
   playerName: Spherak
   status: 0
+  statusTimer: 0
   health: 100
+  rubies: 0
   hasMoved: 0
   isActive: 0
   my_die: {fileID: 220205490}
