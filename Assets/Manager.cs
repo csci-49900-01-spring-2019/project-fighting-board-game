@@ -23,8 +23,12 @@ public class Manager : MonoBehaviour
     public string statText2 = "s2";
     public string damText1 = "d1";
     public string damText2 = "d2";
+<<<<<<< HEAD
     public int loot;
 
+=======
+    public GameObject fightParticle;
+>>>>>>> 59d1b547c0cac9d7b58d3fc7db007842afa5d87b
 
     // Start is called before the first frame update
     void Start()
@@ -306,6 +310,7 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
+                        P1.statusTimer = 3;
                         effectString = P1 + " has been burned!";
                         return effectString;
 
@@ -320,6 +325,7 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
+                        P1.statusTimer = 3;
                         effectString = P1 + " has been poisoned!";
                         return effectString;
                     }
@@ -333,6 +339,7 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
+                        P1.statusTimer = 1;
                         effectString = P1 + " has been stunned!";
                         return effectString;
                     }
@@ -355,6 +362,8 @@ public class Manager : MonoBehaviour
         string b1 = " " + inflictStatus(P2, P1.currentWeapon) + "\n"; // inflict status, store event string
         string b2 = "";
 
+        // Spawn particle on fight!
+        Instantiate(fightParticle, P1.transform);
 
         if (checkRangeForEnemy(P2, P1))
         {

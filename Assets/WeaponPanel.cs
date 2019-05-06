@@ -8,9 +8,9 @@ public class WeaponPanel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StoreCanvas = GameObject.Find("StoreCanvas");
-        //parentScript = GameObject.Find("StoreCanvas").GetComponent<Store>();
-        parentScript = StoreCanvas.GetComponent<Store>();
+        //StoreCanvas = GameObject.Find("StoreCanvas");
+        parentScript = GameObject.Find("StoreCanvas").GetComponent<Store>();
+        //parentScript = StoreCanvas.GetComponent<Store>();
         theManager = GameObject.FindObjectOfType<Manager>();
         text = this.transform.Find("Information").GetComponent<Text>();
         butt = this.transform.Find("Button").GetComponent<Button>();
