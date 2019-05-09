@@ -8,7 +8,7 @@ public class Weapon_List : MonoBehaviour
     public string[] availableNames = new string[3];
     public string[] availableAdj = new string[4];
     public string[] availableAdj2 = new string[11];
-    Store storeScreen;
+    //Store storeScreen;
 
     // Start is called before the first frame update
     void Start()
@@ -54,8 +54,8 @@ public class Weapon_List : MonoBehaviour
         //    Debug.Log(wepList[i].rank);
         //    Debug.Log(wepList[i].rubies);
         //}
-        storeScreen = GameObject.Find("StoreCanvas").GetComponent<Store>();
-        storeScreen.SetupStore();
+        //storeScreen = GameObject.Find("StoreCanvas").GetComponent<Store>();
+        //storeScreen.SetupStore();
     }
 
     //return final.OrderBy(s => s.PlayOrder).ThenBy(s => s.Name);       use this to sort the weapon list so that it can be properly tiered i.e. max damage then status effects
