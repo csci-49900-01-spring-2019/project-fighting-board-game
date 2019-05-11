@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon;
 using UnityEngine.UI;
+using Photon.Realtime;
+using Photon.Pun;
+using ExitGames.Client.Photon;
 
 //PLAYER CLASS SCRIPT
 
 public enum State { normal, stunned, poisoned, burned, dead };
 
-public class Player : MonoBehaviour
+public class Player : Photon.Pun.MonoBehaviourPun
 { 
     public int index;
     public string playerName;
@@ -54,6 +58,18 @@ public class Player : MonoBehaviour
             status = State.dead;
         else
             status = effect;
+
+    }
+
+    public void PlayerAttackedNetworking(int damage)
+    {
+        byte evCode = (byte)PhotonEventCodes.takeDamage;
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        SendOptions sendOptions = new SendOptions { Reliability = true };
+        object[] data = new object[] { base.photonView.ViewID, damage };
+
+        PhotonNetwork.RaiseEvent(evCode, data, raiseEventOptions, sendOptions);
+        Debug.Log("Sent event!");
     }
 
     public void UpdatePlayerStatus()

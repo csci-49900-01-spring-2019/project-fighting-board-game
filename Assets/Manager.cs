@@ -380,10 +380,10 @@ public class Manager : MonoBehaviour
         {
             damage1 -= (int)(damage1 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
         }
-        P2.health = P2.health - damage1;
+        P2.PlayerAttackedNetworking(damage1);
         if (P2.health > 100)
             P2.health = 100;
-        P1.health = P1.health - damage2;
+        P1.PlayerAttackedNetworking(damage2);
         if (P1.health > 100)
             P1.health = 100;
 
