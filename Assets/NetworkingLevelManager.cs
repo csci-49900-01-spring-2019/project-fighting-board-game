@@ -8,7 +8,7 @@ using Photon.Pun;
 public enum PhotonEventCodes
 {
     takeDamage = 0,
-    updatePosition = 1,
+    updateCamera = 1,
 
 }
 
@@ -16,6 +16,7 @@ public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
 {
     // players!
     public List<GameObject> players;
+    public Manager manager;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,14 @@ public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
             Player playerScript = players[(int)data[0]-1].GetComponent<Player>();
             // Call the damage script.
             playerScript.PlayerAttacked((int)data[1]);
+        }
+
+        if (eventCode == (byte)PhotonEventCodes.updateCamera)
+        {
+            Debug.Log("Changing camera!");
+            object[] data = (object[])photonEvent.CustomData;
+            manager.activePlayer = (int)data[0];
+            manager.CameraAdjust();
         }
     }
 

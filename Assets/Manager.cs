@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +35,13 @@ public class Manager : MonoBehaviour
         activePlayer = 0;
         activeCamera = 7;
         cameras[activeCamera].enabled = true;
+        initPlayerPrefabsNetworking();
         players[activePlayer].StartCoroutine("TakeTurn");
+    }
+
+    void initPlayerPrefabsNetworking()
+    {
+
     }
 
     // Update is called once per frame
@@ -145,7 +154,7 @@ public class Manager : MonoBehaviour
             }
             ReceiveEvent(players[newPlayer].playerName + "'s turn has started.");
             activePlayer = newPlayer;
-            CameraAdjust();
+            CameraAdjustNetworking(newPlayer);
             players[activePlayer].hasMoved = false;
             players[activePlayer].StartCoroutine("TakeTurn");
         }
@@ -185,7 +194,18 @@ public class Manager : MonoBehaviour
         ReceiveEvent("The game is over!" + winner.playerName + " has won! Total number of turns taken: " + turnCount);
     }
 
-    void CameraAdjust()
+    void CameraAdjustNetworking(int activeCamera)
+    {
+        byte evCode = (byte)PhotonEventCodes.updateCamera;
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+        SendOptions sendOptions = new SendOptions { Reliability = true };
+        object[] data = new object[] { activeCamera };
+
+        PhotonNetwork.RaiseEvent(evCode, data, raiseEventOptions, sendOptions);
+        Debug.Log("Sent event camera!");
+    }
+
+    public void CameraAdjust()
     {
         float minDist = 100.0f;
         int bestCam = activeCamera;
