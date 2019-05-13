@@ -10568,6 +10568,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2043502978}
+  - component: {fileID: 2043502979}
   m_Layer: 0
   m_Name: StoreManagerPrefab
   m_TagString: Untagged
@@ -10589,6 +10590,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2043502979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043502977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 971642906c264c743b7102bc167c218d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab1: {fileID: 100000, guid: 515d5ee6ed53daa45974b3b9e180c1c6, type: 3}
+  prefab2: {fileID: 100000, guid: 515d5ee6ed53daa45974b3b9e180c1c6, type: 3}
+  current_tile1: {fileID: 1215123312}
+  current_tile2: {fileID: 70913469}
 --- !u!1 &2045886508
 GameObject:
   m_ObjectHideFlags: 0
