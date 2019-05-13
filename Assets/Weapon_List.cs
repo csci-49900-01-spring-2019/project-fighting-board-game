@@ -8,11 +8,12 @@ public class Weapon_List : MonoBehaviour
     public string[] availableNames = new string[3];
     public string[] availableAdj = new string[4];
     public string[] availableAdj2 = new string[11];
+    Store storeScreen;
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Weapon Start is called");
+        //Debug.Log("Weapon Start is called");
         availableAdj2[0] = "";
         availableAdj2[1] = "long";
         availableAdj2[2] = "short";
@@ -39,20 +40,22 @@ public class Weapon_List : MonoBehaviour
             int k = Random.Range(0, 3);
             int l = Random.Range(0, 10);
             wepList.Add(new Weapon(availableNames[j], availableAdj[k], availableAdj2[l]));
-            Debug.Log(i + " has been added");
+            //Debug.Log(i + " has been added");
         }
-        for (int i = 0; i < wepList.Count; i++)
-            Debug.Log(wepList[i].finalName);
+        //for (int i = 0; i < wepList.Count; i++)
+            //Debug.Log(wepList[i].finalName);
 
         wepList = wepList.OrderBy(x => x.dRangeLimit).ToList();
         rankList();
-        Debug.Log("Weapon List has been ordered by max Damage");
-        for (int i = 0; i < wepList.Count; i++)
-        {
-            Debug.Log(wepList[i].finalName);
-            Debug.Log(wepList[i].rank);
-            Debug.Log(wepList[i].rubies);
-        }
+        //Debug.Log("Weapon List has been ordered by max Damage");
+        //for (int i = 0; i < wepList.Count; i++)
+        //{
+        //    Debug.Log(wepList[i].finalName);
+        //    Debug.Log(wepList[i].rank);
+        //    Debug.Log(wepList[i].rubies);
+        //}
+        storeScreen = GameObject.Find("StoreCanvas").GetComponent<Store>();
+        storeScreen.SetupStore();
     }
 
     //return final.OrderBy(s => s.PlayOrder).ThenBy(s => s.Name);       use this to sort the weapon list so that it can be properly tiered i.e. max damage then status effects

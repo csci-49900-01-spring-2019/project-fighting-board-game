@@ -9,6 +9,7 @@ public class Manager : MonoBehaviour
     public Weapon_List listOfWeapons;
     public Light dayTime; // disable to make night-time. 
     public bool gameOver;
+    public bool storeOpen;
     public int activePlayer;
     public int activeCamera;
     public int turnCount;
@@ -17,11 +18,15 @@ public class Manager : MonoBehaviour
     public string lastEvent;
     public bool eventFlag;
     public bool combatFlag;
-    public Combat combatSystem;
+    //public Combat combatSystem;
     public string statText1 = "s1";
     public string statText2 = "s2";
     public string damText1 = "d1";
     public string damText2 = "d2";
+
+    public int loot;
+
+    public GameObject fightParticle;
 
 
     // Start is called before the first frame update
@@ -99,6 +104,8 @@ public class Manager : MonoBehaviour
         {
             int n = Random.Range(10, 25);
             players[activePlayer].health = players[activePlayer].health - n;
+            if (players[activePlayer].health <= 0)
+                players[activePlayer].status = State.dead;
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
             ReceiveEvent(players[activePlayer].playerName + " landed on a Trap tile and lost " + n + " health points!");
@@ -124,7 +131,7 @@ public class Manager : MonoBehaviour
             if (newPlayer < activePlayer) // we are back to beginning of player list, turn has passed
             {
                 turnCount += 1;
-                if (turnCount % players.Count*3 == 0 && dayTime != null)
+                if (turnCount % players.Count == 0 && dayTime != null)
                 {
                     if (dayTime.enabled)
                     {
@@ -354,6 +361,8 @@ public class Manager : MonoBehaviour
         string b1 = " " + inflictStatus(P2, P1.currentWeapon) + "\n"; // inflict status, store event string
         string b2 = "";
 
+        // Spawn particle on fight!
+        Instantiate(fightParticle, P1.transform);
 
         if (checkRangeForEnemy(P2, P1))
         {
@@ -397,6 +406,18 @@ public class Manager : MonoBehaviour
         {
             a2 = P2.playerName + " dealt " + damage2 + " damage to " + P1.playerName + " with the " + P2.currentWeapon.finalName + ".";
             damText2 = a2;
+        }
+       if (damage2 > damage1)
+        {
+            loot = (int)(P1.rubies * .45);
+            P1.rubies = P1.rubies - loot;
+            P2.rubies = P2.rubies + loot;
+        }
+       if (damage1 > damage2)
+        {
+            loot = (int)(P2.rubies * .45);
+            P2.rubies = P2.rubies - loot;
+            P1.rubies = P1.rubies + loot;
         }
         ReceiveEvent(a1 + b1 + a2 + b2);
         combatFlag = true;

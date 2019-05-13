@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public State status;
     public int statusTimer;
     public int health;
-    public decimal rubies = 0.00m;
+    public int rubies;
     public Weapon currentWeapon;
     public List<Weapon> inventory;
     //public string armor;

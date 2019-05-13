@@ -9,9 +9,11 @@ public class GameOverUI : MonoBehaviour
     void Start()
     {
         EndGame = GameObject.FindObjectOfType<Manager>();
+        GameOver = GameObject.Find("GameOverCanvas");
     }
     Player EndPlayer;
     Manager EndGame;
+    GameObject GameOver;
     // Update is called once per frame
     void Update()
     {
@@ -31,6 +33,8 @@ public class GameOverUI : MonoBehaviour
                 GetComponent<Text>().text = "The game is over! Everyone's dead, nobody wins! Total number of turns taken: " + EndGame.turnCount;
             else 
                 GetComponent<Text>().text = "Hail the conquering hero~! " + EndPlayer.playerName + " has won! Total number of turns taken: " + EndGame.turnCount;
+
+            GameOver.GetComponent<Canvas>().enabled = true;
         }
     }
 }

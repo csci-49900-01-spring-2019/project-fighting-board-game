@@ -16,6 +16,7 @@ public class HealthUI : MonoBehaviour
         int currentPlayer = theManager.activePlayer;
         string health_string = "Current health = " + theManager.players[currentPlayer].health;
         string status_string = "\nCurrent status = " + theManager.players[currentPlayer].status;
-        GetComponent<Text>().text = health_string + status_string;
+        string currency_string = "\nCurrency: " + theManager.players[currentPlayer].rubies;
+        GetComponent<Text>().text = health_string + status_string + currency_string;
     }
 }
