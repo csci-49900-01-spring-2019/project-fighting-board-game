@@ -15,6 +15,7 @@ public class Manager : MonoBehaviour
     public int turnCount;
     public int wepDrawStart = 0;
     public int wepDrawEnd = 4;
+    public int currentRank = 4;
     public string lastEvent;
     public bool eventFlag;
     public bool combatFlag;
@@ -70,11 +71,13 @@ public class Manager : MonoBehaviour
         if (forwardTile.TileAvailable()) // if forward tile is till available (player has selected back tile)
         {
             players[activePlayer].current_tile = backTile;
+            players[activePlayer].totalMoves += 1;
             TileEffect();
         }
         else // if player has selected forward tile
         {
             players[activePlayer].current_tile = forwardTile;
+            players[activePlayer].totalMoves += 1;
             TileEffect();
         }
         forwardTile.DeactivateOutline();
@@ -88,7 +91,7 @@ public class Manager : MonoBehaviour
             int n = Random.Range(wepDrawStart, wepDrawEnd);
             Weapon draw = listOfWeapons.wepList[n];
 
-            //players[activePlayer].inventory.Add(draw);
+            players[activePlayer].inventory.Add(draw);
             players[activePlayer].currentWeapon = draw;
             ReceiveEvent(players[activePlayer].playerName + " landed on a weapons tile and drew a " + draw.finalName);
         }
@@ -96,6 +99,7 @@ public class Manager : MonoBehaviour
         {
             int n = Random.Range(10, 41);
             players[activePlayer].health = players[activePlayer].health + n;
+            players[activePlayer].totalHealing += n;
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
             ReceiveEvent(players[activePlayer].playerName + " landed on a Healing tile and has healed " + n +" health points!");
@@ -104,8 +108,14 @@ public class Manager : MonoBehaviour
         {
             int n = Random.Range(10, 25);
             players[activePlayer].health = players[activePlayer].health - n;
+            players[activePlayer].totalTraps += 1;
+            players[activePlayer].totalDamageTaken += n;
             if (players[activePlayer].health <= 0)
+            {
                 players[activePlayer].status = State.dead;
+                players[activePlayer].finalRank = currentRank;
+                currentRank--;
+            }
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
             ReceiveEvent(players[activePlayer].playerName + " landed on a Trap tile and lost " + n + " health points!");
@@ -114,6 +124,7 @@ public class Manager : MonoBehaviour
         {
             int n = Random.Range(10, 41);
             players[activePlayer].rubies = players[activePlayer].rubies + n;
+            players[activePlayer].totalRubies += n;
             ReceiveEvent(players[activePlayer].playerName + " landed on a ruby mine and mined " + n + " rubies!");
         }
     }
@@ -288,7 +299,7 @@ public class Manager : MonoBehaviour
     }
 
 
-    public string inflictStatus(Player P1, Weapon W1) //P1 is target player and W1 is any weapon, preferably the current weapon of attacking player
+    public string inflictStatus(Player P1, Weapon W1, Player P2) //P1 is target player and W1 is any weapon, preferably the current weapon of attacking player
     {
         string effectString;
         if (P1.status == State.normal)
@@ -310,6 +321,7 @@ public class Manager : MonoBehaviour
                     {
                         P1.status = effect;
                         P1.statusTimer = 3;
+                        P2.totalBurns += 1;
                         effectString = P1 + " has been burned!";
                         return effectString;
 
@@ -325,6 +337,7 @@ public class Manager : MonoBehaviour
                     {
                         P1.status = effect;
                         P1.statusTimer = 3;
+                        P2.totalPoisons += 1;
                         effectString = P1 + " has been poisoned!";
                         return effectString;
                     }
@@ -338,6 +351,7 @@ public class Manager : MonoBehaviour
                     else
                     {
                         P1.status = effect;
+                        P2.totalStuns += 1;
                         P1.statusTimer = 1;
                         effectString = P1 + " has been stunned!";
                         return effectString;
@@ -358,7 +372,7 @@ public class Manager : MonoBehaviour
             return;
         int damage1 = P1.currentWeapon.Hit();
         int damage2 = 0;
-        string b1 = " " + inflictStatus(P2, P1.currentWeapon) + "\n"; // inflict status, store event string
+        string b1 = " " + inflictStatus(P2, P1.currentWeapon, P1) + "\n"; // inflict status, store event string
         string b2 = "";
 
         // Spawn particle on fight!
@@ -367,7 +381,7 @@ public class Manager : MonoBehaviour
         if (checkRangeForEnemy(P2, P1))
         {
             damage2 = P2.currentWeapon.Hit();
-            b2 = " " + inflictStatus(P1, P2.currentWeapon);
+            b2 = " " + inflictStatus(P1, P2.currentWeapon, P2);
         }
 
         //modify damage1 and damage2 based on current tiles or otherwise
@@ -388,17 +402,42 @@ public class Manager : MonoBehaviour
             damage1 -= (int)(damage1 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
         }
         P2.health = P2.health - damage1;
+        P1.totalDamageDealt += damage1;
+        P2.totalDamageTaken += damage1;
         if (P2.health > 100)
             P2.health = 100;
         P1.health = P1.health - damage2;
+        P2.totalDamageDealt += damage2;
+        P1.totalDamageTaken += damage2;
         if (P1.health > 100)
             P1.health = 100;
 
         if (P2.health <= 0)
+        {
             P2.status = State.dead;
+            P1.totalKills += 1;
+        }
         if (P1.health <= 0)
+        {
             P1.status = State.dead;
-
+            P2.totalKills += 1;
+        }
+        if (P1.status == State.dead && P2.status != State.dead)
+        {
+            P1.finalRank = currentRank;
+            currentRank--;
+        }
+        else if (P2.status == State.dead && P1.status != State.dead)
+        {
+            P2.finalRank = currentRank;
+            currentRank--;
+        }
+        else if (P1.status == State.dead && P2.status == State.dead)
+        {
+            P1.finalRank = currentRank;
+            P2.finalRank = currentRank;
+            currentRank -= 2;
+        }
         string a1 = P1.playerName + " dealt " + damage1 + " damage to " + P2.playerName + " with the " + P1.currentWeapon.finalName + ".";
         damText1 = a1;
         string a2 = "";
@@ -412,12 +451,23 @@ public class Manager : MonoBehaviour
             loot = (int)(P1.rubies * .45);
             P1.rubies = P1.rubies - loot;
             P2.rubies = P2.rubies + loot;
+            P2.totalRubies += loot;
+            P2.totalFightsWon += 1;
+            P1.totalFightsLost += 1;
         }
-       if (damage1 > damage2)
+        else if (damage1 > damage2)
         {
             loot = (int)(P2.rubies * .45);
             P2.rubies = P2.rubies - loot;
             P1.rubies = P1.rubies + loot;
+            P1.totalRubies += loot;
+            P1.totalFightsWon += 1;
+            P2.totalFightsLost += 1;
+        }
+        else if (damage1 == damage2)
+        {
+            P1.totalFightsTied += 1;
+            P2.totalFightsTied += 1;
         }
         ReceiveEvent(a1 + b1 + a2 + b2);
         combatFlag = true;
