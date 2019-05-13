@@ -23,6 +23,23 @@ public class Player : MonoBehaviour
     public Dice my_die;
     public GameTile current_tile;
 
+
+    public int totalRubies = 0;
+    public int totalDamageDealt = 0;
+    public int totalDamageTaken = 0;
+    public int totalFightsWon = 0;
+    public int totalFightsLost = 0;
+    public int totalFightsTied = 0;
+    public int totalTraps = 0;
+    public int totalKills = 0;
+    public int totalPoisons = 0;
+    public int totalBurns = 0;
+    public int totalStuns = 0;
+    public int finalRank;
+    public int totalMoves = 0;
+    public int totalHealing = 0;
+      
+
     // Start is called before the first frame update
     void Start()
     {

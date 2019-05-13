@@ -27,6 +27,7 @@ public class GameOverUI : MonoBehaviour
                 {
                     ++livePlayerCount;
                     EndPlayer = EndGame.players[n];
+                    EndPlayer.finalRank = 1;
                 }
             }
             if (livePlayerCount == 0)
