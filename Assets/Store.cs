@@ -22,12 +22,12 @@ public class Store : MonoBehaviour
         
     }
 
-    public int wepStart;
+    public int wepStart = 5;
     int wepEnd;
 
     public void SetupStore()
     {
-        childScript = GameObject.Find("Weapon1").GetComponent<WeaponPanel>();
+        childScript = GameObject.Find("Weapon1").GetComponent<WeaponPanel>();;
         childScript.assignSale();
         childScript.updateText();
         childScript.updateButton();

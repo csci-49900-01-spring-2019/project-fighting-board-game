@@ -10,6 +10,7 @@ public class WeaponPanel : MonoBehaviour
     {
         //StoreCanvas = GameObject.Find("StoreCanvas");
         parentScript = GameObject.Find("StoreCanvas").GetComponent<Store>();
+        //Debug.Log(parentScript);
         //parentScript = StoreCanvas.GetComponent<Store>();
         theManager = GameObject.FindObjectOfType<Manager>();
         text = this.transform.Find("Information").GetComponent<Text>();
@@ -22,8 +23,8 @@ public class WeaponPanel : MonoBehaviour
     Text text; 
     int n;
     Manager theManager;
-    Store parentScript;
-    public GameObject StoreCanvas;
+    public Store parentScript;
+    //public GameObject StoreCanvas;
     public Weapon For_Sale;
     int check;
     // Update is called once per frame
@@ -71,7 +72,6 @@ public class WeaponPanel : MonoBehaviour
         check = parentScript.wepStart;
         n = Random.Range(check, check + 4);
         For_Sale = theManager.listOfWeapons.wepList[n];
-        //Debug.Log(For_Sale.finalName);
     }
 
     public void updateSale()
@@ -79,6 +79,5 @@ public class WeaponPanel : MonoBehaviour
         check = parentScript.wepStart;
         n = Random.Range(check, check + 4);
         For_Sale = theManager.listOfWeapons.wepList[n];
-        //Debug.Log(For_Sale.finalName);
     }
 }
