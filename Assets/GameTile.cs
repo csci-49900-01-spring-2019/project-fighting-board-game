@@ -11,6 +11,7 @@ public class GameTile : MonoBehaviour
     public GameTile prev_tile;
     public bool available;
     public TileType tile_type;
+    public bool has_store = false;
 
 
     // Start is called before the first frame update

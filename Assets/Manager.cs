@@ -27,6 +27,7 @@ public class Manager : MonoBehaviour
     public int loot;
 
     public GameObject fightParticle;
+    Store StoreScreen;
 
 
     // Start is called before the first frame update
@@ -38,6 +39,7 @@ public class Manager : MonoBehaviour
         activeCamera = 7;
         cameras[activeCamera].enabled = true;
         players[activePlayer].StartCoroutine("TakeTurn");
+        StoreScreen = GameObject.Find("StoreCanvas").GetComponent<Store>();
     }
 
     // Update is called once per frame
@@ -83,6 +85,8 @@ public class Manager : MonoBehaviour
 
     void TileEffect()
     {
+        if (players[activePlayer].current_tile.has_store == true)
+            StoreScreen.OpenStore();
         if (players[activePlayer].current_tile.tile_type == TileType.weapon)
         {
             int n = Random.Range(wepDrawStart, wepDrawEnd);
@@ -290,6 +294,7 @@ public class Manager : MonoBehaviour
 
     public string inflictStatus(Player P1, Weapon W1) //P1 is target player and W1 is any weapon, preferably the current weapon of attacking player
     {
+
         string effectString;
         if (P1.status == State.normal)
         {

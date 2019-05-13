@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
         rend.material.SetColor("_Color", Random.ColorHSV());
         rend.material.shader = Shader.Find("Specular");
         rend.material.SetColor("_SpecColor", Color.black);
+        rubies = 100;
     }
 
     private void SetName(string n)

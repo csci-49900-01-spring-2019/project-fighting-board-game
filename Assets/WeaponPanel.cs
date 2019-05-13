@@ -23,7 +23,7 @@ public class WeaponPanel : MonoBehaviour
     Text text; 
     int n;
     Manager theManager;
-    public Store parentScript;
+    Store parentScript;
     //public GameObject StoreCanvas;
     public Weapon For_Sale;
     int check;
@@ -38,28 +38,29 @@ public class WeaponPanel : MonoBehaviour
         int index;
         int currentPlayer = theManager.activePlayer;
         Weapon temp = theManager.players[currentPlayer].currentWeapon;
-        int tempLen = theManager.players[currentPlayer].inventory.Count;
-        for (int i = 0; i < tempLen; i++)
-        {
-            if (temp == theManager.players[currentPlayer].inventory[i])
-            {
-                theManager.players[currentPlayer].inventory[i] = For_Sale;
+        //int tempLen = theManager.players[currentPlayer].inventory.Count;
+        //for (int i = 0; i < tempLen; i++)
+        //{
+        //    if (temp == theManager.players[currentPlayer].inventory[i])
+        //    {
+        //        theManager.players[currentPlayer].inventory[i] = For_Sale;
                 theManager.players[currentPlayer].currentWeapon = For_Sale;
-            }
-        }
-
+        //    }
+        //}
+        theManager.players[currentPlayer].rubies = theManager.players[currentPlayer].rubies - For_Sale.rubies;
+        parentScript.CloseStore();
     }
 
     public void updateButton()
     {
         int currentPlayer = theManager.activePlayer;
         int availableRubies = theManager.players[currentPlayer].rubies;
-        if (availableRubies <= For_Sale.rubies)
+        if (availableRubies >= For_Sale.rubies)
        {
-            butt.enabled = true;
+            butt.interactable = true;
         }
         else
-            butt.enabled = false;
+            butt.interactable = false;
     }
 
     public void updateText()
