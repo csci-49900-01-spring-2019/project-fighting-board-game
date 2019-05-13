@@ -26,22 +26,60 @@ public class Manager : MonoBehaviour
     public string damText1 = "d1";
     public string damText2 = "d2";
     public GameObject fightParticle;
+    public GameObject playerPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
+        addPlayer();
+        if (PhotonNetwork.LocalPlayer.ActorNumber == -1)
+        {
+            addPlayer();
+        }
         gameOver = false;
         turnCount = 1;
         activePlayer = 0;
         activeCamera = 7;
         cameras[activeCamera].enabled = true;
-        initPlayerPrefabsNetworking();
         players[activePlayer].StartCoroutine("TakeTurn");
     }
 
-    void initPlayerPrefabsNetworking()
+    void addPlayer()
     {
+        if (players.Count >= 4)
+        {
+            Debug.Log("Maximum Players Allowed");
+            return;
+        }
+        GameObject newPlayer = Instantiate(playerPrefab);
+        Player newPlayerScript = newPlayer.GetComponent<Player>();
+        if (players.Count == 0)
+        {
+            GameObject spawnTile = GameObject.Find("Player1Start");
+            newPlayer.transform.position = spawnTile.transform.position;
+            newPlayerScript.current_tile = spawnTile.GetComponent<GameTile>();
+        } else if (players.Count == 1)
+        {
+            GameObject spawnTile = GameObject.Find("Player2Start");
+            newPlayer.transform.position = spawnTile.transform.position;
+            newPlayerScript.current_tile = spawnTile.GetComponent<GameTile>();
+        } else if (players.Count == 2)
+        {
+            GameObject spawnTile = GameObject.Find("Player3Start");
+            newPlayer.transform.position = spawnTile.transform.position;
+            newPlayerScript.current_tile = spawnTile.GetComponent<GameTile>();
+        } else if (players.Count == 3)
+        {
+            GameObject spawnTile = GameObject.Find("Player4Start");
+            newPlayer.transform.position = spawnTile.transform.position;
+            newPlayerScript.current_tile = spawnTile.GetComponent<GameTile>();
+        }
+        //GameObject newPlayer = Instantiate(playerPrefab);
+        newPlayerScript.my_die = GameObject.Find("Die").GetComponent<Dice>();
 
+        newPlayer.transform.parent = base.transform;
+
+        players.Add(newPlayerScript);
     }
 
     // Update is called once per frame
@@ -154,7 +192,14 @@ public class Manager : MonoBehaviour
             }
             ReceiveEvent(players[newPlayer].playerName + "'s turn has started.");
             activePlayer = newPlayer;
-            CameraAdjustNetworking(newPlayer);
+
+            // Fix for local too!
+            if (PhotonNetwork.LocalPlayer.ActorNumber != -1) {
+                CameraAdjustNetworking(newPlayer);
+            } else
+            {
+                CameraAdjust();
+            }
             players[activePlayer].hasMoved = false;
             players[activePlayer].StartCoroutine("TakeTurn");
         }
@@ -400,10 +445,24 @@ public class Manager : MonoBehaviour
         {
             damage1 -= (int)(damage1 * 0.05 + 0.5); // adding 0.5 ensures number is rounded up, if necesarry
         }
-        P2.PlayerAttackedNetworking(damage1);
+        if (PhotonNetwork.LocalPlayer.ActorNumber != -1)
+        {
+            P2.PlayerAttackedNetworking(damage1);
+        } else
+        {
+            P2.PlayerAttacked(damage1);
+        }
+        
         if (P2.health > 100)
             P2.health = 100;
-        P1.PlayerAttackedNetworking(damage2);
+        if (PhotonNetwork.LocalPlayer.ActorNumber != -1)
+        {
+            P1.PlayerAttackedNetworking(damage2);
+        }
+        else
+        {
+            P1.PlayerAttacked(damage2);
+        }
         if (P1.health > 100)
             P1.health = 100;
 

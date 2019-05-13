@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class Dice : MonoBehaviour
     public int range_end;
     public bool roll_processed;
     public int roll;
+    public Manager manager;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +45,18 @@ public class Dice : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Debug.Log("Active Player: " + manager.activePlayer);
+        if (PhotonNetwork.LocalPlayer.ActorNumber != -1)
+        {
+            if (PhotonNetwork.LocalPlayer.ActorNumber != manager.activePlayer + 1)
+            {
+                Debug.Log("Not your turn to move!");
+                Debug.Log("Local Actor #: " + PhotonNetwork.LocalPlayer.ActorNumber + " ActiveP = " + (manager.activePlayer + 1));
+                return;
+            }
+        }
+       
+
         if (roll_processed)
         {
             roll = Random.Range(range_start, range_end);

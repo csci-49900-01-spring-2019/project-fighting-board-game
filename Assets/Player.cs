@@ -43,6 +43,12 @@ public class Player : Photon.Pun.MonoBehaviourPun
         rend.material.SetColor("_Color", Random.ColorHSV());
         rend.material.shader = Shader.Find("Specular");
         rend.material.SetColor("_SpecColor", Color.black);
+
+        // Set name = to nickname.
+        if (PhotonNetwork.LocalPlayer.ActorNumber != -1 && PhotonNetwork.LocalPlayer.ActorNumber == base.photonView.ViewID)
+        {
+            playerName = PhotonNetwork.LocalPlayer.NickName;
+        }
     }
 
     private void SetName(string n)

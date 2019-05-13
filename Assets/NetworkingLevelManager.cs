@@ -21,7 +21,11 @@ public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
     // Start is called before the first frame update
     void Start()
     {
-        
+        Photon.Realtime.Player[] playerList = PhotonNetwork.PlayerList;
+        for (int i = 0; i < playerList.Length; i++)
+        {
+            Debug.Log(playerList[i].ActorNumber);
+        }
     }
 
     public void OnEvent(EventData photonEvent)
