@@ -54,6 +54,7 @@ public class Dice : MonoBehaviour
                 Debug.Log("Local Actor #: " + PhotonNetwork.LocalPlayer.ActorNumber + " ActiveP = " + (manager.activePlayer + 1));
                 return;
             }
+            manager.players[manager.activePlayer].isActive = true;
         }
        
 

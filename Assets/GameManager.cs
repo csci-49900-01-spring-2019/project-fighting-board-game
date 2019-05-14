@@ -8,14 +8,14 @@ using UnityEngine.SceneManagement;
 
 using Photon.Pun;
 using Photon.Realtime;
-
+using ExitGames.Client.Photon;
 
 namespace Com.MyCompany.MyGame
 {
     public class GameManager : MonoBehaviourPunCallbacks
     {
 
-
+        public Manager manager;
         #region Photon Callbacks
 
 
@@ -35,6 +35,10 @@ namespace Com.MyCompany.MyGame
         {
             Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName); // not seen if you're the player connecting
 
+            if (!other.IsMasterClient)
+            {
+                manager.addPlayer(other.NickName);
+            }
 
             if (PhotonNetwork.IsMasterClient)
             {

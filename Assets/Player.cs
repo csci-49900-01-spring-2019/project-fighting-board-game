@@ -45,10 +45,10 @@ public class Player : Photon.Pun.MonoBehaviourPun
         rend.material.SetColor("_SpecColor", Color.black);
 
         // Set name = to nickname.
-        if (PhotonNetwork.LocalPlayer.ActorNumber != -1 && PhotonNetwork.LocalPlayer.ActorNumber == base.photonView.ViewID)
-        {
-            playerName = PhotonNetwork.LocalPlayer.NickName;
-        }
+       // if (PhotonNetwork.LocalPlayer.ActorNumber != -1 && PhotonNetwork.LocalPlayer.ActorNumber == base.photonView.ViewID)
+       // {
+        //    playerName = PhotonNetwork.LocalPlayer.NickName;
+       // }
     }
 
     private void SetName(string n)
@@ -210,8 +210,10 @@ public class Player : Photon.Pun.MonoBehaviourPun
         if (health <= 0)
             status = State.dead;
         UpdatePlayerStatus();
-        while (isActive) 
-            yield return null;  
+        while (isActive)
+        {
+            yield return null;
+        }
     }
 
     public void EndTurn()

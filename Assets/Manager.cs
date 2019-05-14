@@ -11,6 +11,7 @@ public class Manager : MonoBehaviour
     public List<Camera> cameras;
     public Weapon_List listOfWeapons;
     public Light dayTime; // disable to make night-time. 
+    public float timeUntilGameStart = 30f;
     public bool gameOver;
     public int activePlayer;
     public int activeCamera;
@@ -20,6 +21,7 @@ public class Manager : MonoBehaviour
     public string lastEvent;
     public bool eventFlag;
     public bool combatFlag;
+    public bool isGameStarted = false;
     public Combat combatSystem;
     public string statText1 = "s1";
     public string statText2 = "s2";
@@ -27,31 +29,55 @@ public class Manager : MonoBehaviour
     public string damText2 = "d2";
     public GameObject fightParticle;
     public GameObject playerPrefab;
+    private object photonEvent;
 
     // Start is called before the first frame update
     void Start()
     {
-        addPlayer();
+        // Adds player to master client, then calls event on all other receivers to add player. Only used this so we can cache the function call
+        
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("I AM THE MASTER CLIENT!!" + PhotonNetwork.LocalPlayer.ActorNumber);
+        }
+
         if (PhotonNetwork.LocalPlayer.ActorNumber == -1)
         {
-            addPlayer();
+            Debug.Log("LOCAL BUILD");
+            addPlayer("tobob");
+            addPlayer("bob");
+        } else
+        {
+            Debug.Log("ONLINE BUILD");
+            Photon.Realtime.Player[] players = PhotonNetwork.PlayerList;
+            for (int i = 0; i < players.Length; i++)
+            {
+                addPlayer(players[i].NickName);
+            }
+           
         }
         gameOver = false;
         turnCount = 1;
         activePlayer = 0;
         activeCamera = 7;
         cameras[activeCamera].enabled = true;
+        Debug.Log("active player = " + activePlayer);
         players[activePlayer].StartCoroutine("TakeTurn");
     }
 
-    void addPlayer()
+
+
+    public void addPlayer(string username)
     {
         if (players.Count >= 4)
         {
             Debug.Log("Maximum Players Allowed");
             return;
         }
+
+        
         GameObject newPlayer = Instantiate(playerPrefab);
+
         Player newPlayerScript = newPlayer.GetComponent<Player>();
         if (players.Count == 0)
         {
@@ -76,9 +102,9 @@ public class Manager : MonoBehaviour
         }
         //GameObject newPlayer = Instantiate(playerPrefab);
         newPlayerScript.my_die = GameObject.Find("Die").GetComponent<Dice>();
-
+        newPlayerScript.name = username;
         newPlayer.transform.parent = base.transform;
-
+    
         players.Add(newPlayerScript);
     }
 
@@ -111,16 +137,31 @@ public class Manager : MonoBehaviour
 
         if (forwardTile.TileAvailable()) // if forward tile is till available (player has selected back tile)
         {
+            sendMovementEvent(activePlayer, backTile.transform.position);
             players[activePlayer].current_tile = backTile;
             TileEffect();
         }
         else // if player has selected forward tile
         {
+            sendMovementEvent(activePlayer, forwardTile.transform.position);
             players[activePlayer].current_tile = forwardTile;
             TileEffect();
         }
         forwardTile.DeactivateOutline();
         backTile.DeactivateOutline();
+    }
+
+    public void sendMovementEvent(int player, Vector3 target)
+    {
+        Debug.Log("Raising movement event!");
+
+        byte evCode = (byte)PhotonEventCodes.movement;
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
+        SendOptions sendOptions = new SendOptions { Reliability = true };
+        object[] data = new object[] { player, target };
+
+        PhotonNetwork.RaiseEvent(evCode, data, raiseEventOptions, sendOptions);
+
     }
 
     void TileEffect()
