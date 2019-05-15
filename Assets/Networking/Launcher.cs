@@ -86,7 +86,10 @@ namespace Com.MyCompany.MyGame
             }
         }
 
-
+        public void loadSinglePlayer()
+        {
+            SceneManager.LoadScene(1);
+        }
 
         #endregion
 

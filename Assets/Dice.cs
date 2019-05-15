@@ -12,6 +12,7 @@ public class Dice : MonoBehaviour
     public bool roll_processed;
     public int roll;
     public Manager manager;
+    public GameObject notReadyUI;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +44,11 @@ public class Dice : MonoBehaviour
     }
     */
 
+    public void disableReadyUI()
+    {
+        notReadyUI.SetActive(false);
+    }
+
     private void OnMouseDown()
     {
         Debug.Log("Active Player: " + manager.activePlayer);
@@ -52,6 +58,7 @@ public class Dice : MonoBehaviour
             {
                 Debug.Log("Not your turn to move!");
                 Debug.Log("Local Actor #: " + PhotonNetwork.LocalPlayer.ActorNumber + " ActiveP = " + (manager.activePlayer + 1));
+                notReadyUI.SetActive(true);
                 return;
             }
             manager.players[manager.activePlayer].isActive = true;

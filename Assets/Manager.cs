@@ -46,6 +46,8 @@ public class Manager : MonoBehaviour
             Debug.Log("LOCAL BUILD");
             addPlayer("tobob",0);
             addPlayer("bob",1);
+            addPlayer("tofu", 2);
+            addPlayer("kimbap", 3);
         } else
         {
             Debug.Log("ONLINE BUILD");
@@ -153,12 +155,14 @@ public class Manager : MonoBehaviour
 
         if (forwardTile.TileAvailable()) // if forward tile is till available (player has selected back tile)
         {
+            if (PhotonNetwork.LocalPlayer.ActorNumber != -1)
             sendMovementEvent(activePlayer, backTile.transform.position,backTile.name);
             players[activePlayer].current_tile = backTile;
             TileEffect();
         }
         else // if player has selected forward tile
         {
+            if (PhotonNetwork.LocalPlayer.ActorNumber != -1)
             sendMovementEvent(activePlayer, forwardTile.transform.position,forwardTile.name);
             players[activePlayer].current_tile = forwardTile;
             TileEffect();
