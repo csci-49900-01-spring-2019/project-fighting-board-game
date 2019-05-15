@@ -105,6 +105,7 @@ public class Manager : MonoBehaviour
         //GameObject newPlayer = Instantiate(playerPrefab);
         newPlayerScript.my_die = GameObject.Find("Die").GetComponent<Dice>();
         newPlayerScript.playerName = username;
+        newPlayerScript.name = username;
         newPlayer.transform.parent = base.transform;
         newPlayerScript.networkIndex = networkingIndex;
         players.Add(newPlayerScript);
@@ -481,6 +482,7 @@ public class Manager : MonoBehaviour
         string b2 = "";
 
         // Spawn particle on fight!
+        Debug.Log("POTAOTOTOO");
         Instantiate(fightParticle, P1.transform);
 
         if (checkRangeForEnemy(P2, P1))
