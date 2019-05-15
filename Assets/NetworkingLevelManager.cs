@@ -46,8 +46,8 @@ public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
              
             object[] data = (object[])photonEvent.CustomData;
             // Get corresponding player!
-            Player playerScript = players[(int)data[0]-1].GetComponent<Player>();
-            Debug.Log("Dealing damage to " + (int)data[1]);
+            Player playerScript = manager.players[(int)data[0]].GetComponent<Player>();
+            Debug.Log("Dealing damage to " + (int)data[0]);
             // Call the damage script.
             playerScript.PlayerAttacked((int)data[1]);
 
@@ -62,11 +62,14 @@ public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
             manager.players[manager.activePlayer].StartCoroutine("TakeTurn");
         } else if (eventCode == (byte)PhotonEventCodes.addPlayer)
         {
+            /*
             Debug.Log("Adding player!");
             object[] data = (object[])photonEvent.CustomData;
             manager.addPlayer((string)data[0]);
+            */
         } else if (eventCode == (byte)PhotonEventCodes.addPlayerMaster)
         {
+            /*
             Debug.Log("Calling add player master!");
             object[] data = (object[])photonEvent.CustomData;
             string username = (string)data[0];
@@ -79,7 +82,7 @@ public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
             PhotonNetwork.RaiseEvent(evCode, dataSend, raiseEventOptions, sendOptions);
 
             manager.addPlayer(username);
-
+            */
             Debug.Log("Raising add player event!");
         } else if (eventCode == (byte)PhotonEventCodes.movement) {
             Debug.Log("Received movement event!");
@@ -92,13 +95,13 @@ public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
         } else if (eventCode == (byte)PhotonEventCodes.recieveEvent)
         {
             Debug.Log("Received Event Change");
-            // 0 is player, 1 is position
             object[] data = (object[])photonEvent.CustomData;
+
+            manager.ReceiveEvent((string)data[0],false);
             if ((bool)data[1])
             {
                 manager.combatFlag = true;
             }
-            manager.ReceiveEvent((string)data[0]); 
 
         } else {
             Debug.Log("Event received, but does not match any event code. Code = " + eventCode);

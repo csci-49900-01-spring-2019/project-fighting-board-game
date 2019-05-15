@@ -37,7 +37,7 @@ namespace Com.MyCompany.MyGame
 
             if (!other.IsMasterClient)
             {
-                manager.addPlayer(other.NickName);
+              //  manager.addPlayer(other.NickName);
             }
 
             if (PhotonNetwork.IsMasterClient)

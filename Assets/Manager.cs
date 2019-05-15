@@ -44,15 +44,15 @@ public class Manager : MonoBehaviour
         if (PhotonNetwork.LocalPlayer.ActorNumber == -1)
         {
             Debug.Log("LOCAL BUILD");
-            addPlayer("tobob");
-            addPlayer("bob");
+            addPlayer("tobob",0);
+            addPlayer("bob",1);
         } else
         {
             Debug.Log("ONLINE BUILD");
             Photon.Realtime.Player[] players = PhotonNetwork.PlayerList;
             for (int i = 0; i < players.Length; i++)
             {
-                addPlayer(players[i].NickName);
+                addPlayer(players[i].NickName,i);
             }
            
         }
@@ -67,7 +67,7 @@ public class Manager : MonoBehaviour
 
 
 
-    public void addPlayer(string username)
+    public void addPlayer(string username,int networkingIndex)
     {
         if (players.Count >= 4)
         {
@@ -104,7 +104,7 @@ public class Manager : MonoBehaviour
         newPlayerScript.my_die = GameObject.Find("Die").GetComponent<Dice>();
         newPlayerScript.playerName = username;
         newPlayer.transform.parent = base.transform;
-    
+        newPlayerScript.networkIndex = networkingIndex;
         players.Add(newPlayerScript);
     }
 
@@ -114,23 +114,26 @@ public class Manager : MonoBehaviour
         //CameraAdjust();
     }
 
-    void receiveEventNetworking(bool isFight, string eventString)
+    void receiveEventNetworking(bool isFight, string eventString, bool firstMessage)
     {
         Debug.Log("Raising movement event!");
 
         byte evCode = (byte)PhotonEventCodes.recieveEvent;
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
         SendOptions sendOptions = new SendOptions { Reliability = true };
-        object[] data = new object[] {eventString,isFight};
+        object[] data = new object[] {eventString,isFight,firstMessage};
         
         PhotonNetwork.RaiseEvent(evCode, data, raiseEventOptions, sendOptions);
     }
 
-    public void ReceiveEvent(string eventString)
+    public void ReceiveEvent(string eventString, bool sendEvent = true)
     {
         lastEvent = eventString;
         eventFlag = true;
-        receiveEventNetworking(combatFlag, eventString);
+        if (sendEvent && PhotonNetwork.LocalPlayer.ActorNumber != -1)
+        {
+            receiveEventNetworking(combatFlag, eventString,true);
+        }
     }
 
     public IEnumerator ShowMovementOptions(int numSpaces)
@@ -186,7 +189,7 @@ public class Manager : MonoBehaviour
 
             //players[activePlayer].inventory.Add(draw);
             players[activePlayer].currentWeapon = draw;
-            ReceiveEvent(players[activePlayer].playerName + " landed on a weapons tile and drew a " + draw.finalName);
+            ReceiveEvent(players[activePlayer].playerName + " landed on a weapons tile and drew a " + draw.finalName,true);
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.heal)
         {
@@ -194,7 +197,7 @@ public class Manager : MonoBehaviour
             players[activePlayer].health = players[activePlayer].health + n;
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
-            ReceiveEvent(players[activePlayer].playerName + " landed on a Healing tile and has healed " + n +" health points!");
+            ReceiveEvent(players[activePlayer].playerName + " landed on a Healing tile and has healed " + n +" health points!",true);
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.trap)
         {
@@ -202,13 +205,13 @@ public class Manager : MonoBehaviour
             players[activePlayer].health = players[activePlayer].health - n;
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
-            ReceiveEvent(players[activePlayer].playerName + " landed on a Trap tile and lost " + n + " health points!");
+            ReceiveEvent(players[activePlayer].playerName + " landed on a Trap tile and lost " + n + " health points!",true);
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.ruby)
         {
             int n = Random.Range(10, 41);
             players[activePlayer].rubies = players[activePlayer].rubies + n;
-            ReceiveEvent(players[activePlayer].playerName + " landed on a ruby mine and mined " + n + " rubies!");
+            ReceiveEvent(players[activePlayer].playerName + " landed on a ruby mine and mined " + n + " rubies!",true);
         }
     }
 
@@ -244,7 +247,7 @@ public class Manager : MonoBehaviour
                     }
                 }
             }
-            ReceiveEvent(players[newPlayer].playerName + "'s turn has started.");
+            ReceiveEvent(players[newPlayer].playerName + "'s turn has started.",true);
             activePlayer = newPlayer;
 
             // Fix for local too!
@@ -285,12 +288,12 @@ public class Manager : MonoBehaviour
 
     void EndGameTie()
     {
-        ReceiveEvent("The game is over! Everyone's dead, nobody wins! Total number of turns taken: " + turnCount);
+        ReceiveEvent("The game is over! Everyone's dead, nobody wins! Total number of turns taken: " + turnCount,true);
     }
 
     void EndGameWin(Player winner)
     {
-        ReceiveEvent("The game is over!" + winner.playerName + " has won! Total number of turns taken: " + turnCount);
+        ReceiveEvent("The game is over!" + winner.playerName + " has won! Total number of turns taken: " + turnCount,true);
     }
 
     void CameraAdjustNetworking(int activeCamera)
@@ -501,7 +504,8 @@ public class Manager : MonoBehaviour
         }
         if (PhotonNetwork.LocalPlayer.ActorNumber != -1)
         {
-            P2.PlayerAttackedNetworking(PhotonNetwork.LocalPlayer.ActorNumber, damage1);
+            Debug.Log("Network index =" + P2.networkIndex);
+            P2.PlayerAttackedNetworking(P2.networkIndex, damage1);
         } else
         {
             P2.PlayerAttacked(damage1);
@@ -511,7 +515,8 @@ public class Manager : MonoBehaviour
             P2.health = 100;
         if (PhotonNetwork.LocalPlayer.ActorNumber != -1)
         {
-            P1.PlayerAttackedNetworking(PhotonNetwork.LocalPlayer.ActorNumber, damage2);
+            Debug.Log("Network index =" + P1.networkIndex);
+            P1.PlayerAttackedNetworking(P1.networkIndex, damage2);
         }
         else
         {
@@ -533,7 +538,7 @@ public class Manager : MonoBehaviour
             a2 = P2.playerName + " dealt " + damage2 + " damage to " + P1.playerName + " with the " + P2.currentWeapon.finalName + ".";
             damText2 = a2;
         }
-        ReceiveEvent(a1 + b1 + a2 + b2);
+        ReceiveEvent(a1 + b1 + a2 + b2,true);
         combatFlag = true;
            
     }

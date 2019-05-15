@@ -14,6 +14,7 @@ public enum State { normal, stunned, poisoned, burned, dead };
 public class Player : Photon.Pun.MonoBehaviourPun
 { 
     public int index;
+    public int networkIndex;
     public string playerName;
     public State status;
     public int statusTimer;
@@ -219,7 +220,7 @@ public class Player : Photon.Pun.MonoBehaviourPun
     public void EndTurn()
     {
         my_die.MakeDieAvailable();
-        gameObject.SendMessageUpwards("ReceiveEvent", playerName + "'s turn has ended!");
+       // gameObject.SendMessageUpwards("ReceiveEvent", playerName + "'s turn has ended!");
         gameObject.SendMessageUpwards("ChangePlayer");
     }
 
