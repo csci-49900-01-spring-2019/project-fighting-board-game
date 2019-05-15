@@ -102,7 +102,7 @@ public class Manager : MonoBehaviour
         }
         //GameObject newPlayer = Instantiate(playerPrefab);
         newPlayerScript.my_die = GameObject.Find("Die").GetComponent<Dice>();
-        newPlayerScript.name = username;
+        newPlayerScript.playerName = username;
         newPlayer.transform.parent = base.transform;
     
         players.Add(newPlayerScript);
@@ -114,10 +114,23 @@ public class Manager : MonoBehaviour
         //CameraAdjust();
     }
 
-    void ReceiveEvent(string eventString)
+    void receiveEventNetworking(bool isFight, string eventString)
+    {
+        Debug.Log("Raising movement event!");
+
+        byte evCode = (byte)PhotonEventCodes.recieveEvent;
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
+        SendOptions sendOptions = new SendOptions { Reliability = true };
+        object[] data = new object[] {eventString,isFight};
+        
+        PhotonNetwork.RaiseEvent(evCode, data, raiseEventOptions, sendOptions);
+    }
+
+    public void ReceiveEvent(string eventString)
     {
         lastEvent = eventString;
         eventFlag = true;
+        receiveEventNetworking(combatFlag, eventString);
     }
 
     public IEnumerator ShowMovementOptions(int numSpaces)
@@ -137,13 +150,13 @@ public class Manager : MonoBehaviour
 
         if (forwardTile.TileAvailable()) // if forward tile is till available (player has selected back tile)
         {
-            sendMovementEvent(activePlayer, backTile.transform.position);
+            sendMovementEvent(activePlayer, backTile.transform.position,backTile.name);
             players[activePlayer].current_tile = backTile;
             TileEffect();
         }
         else // if player has selected forward tile
         {
-            sendMovementEvent(activePlayer, forwardTile.transform.position);
+            sendMovementEvent(activePlayer, forwardTile.transform.position,forwardTile.name);
             players[activePlayer].current_tile = forwardTile;
             TileEffect();
         }
@@ -151,14 +164,14 @@ public class Manager : MonoBehaviour
         backTile.DeactivateOutline();
     }
 
-    public void sendMovementEvent(int player, Vector3 target)
+    public void sendMovementEvent(int player, Vector3 target, string newTileName)
     {
         Debug.Log("Raising movement event!");
 
         byte evCode = (byte)PhotonEventCodes.movement;
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
         SendOptions sendOptions = new SendOptions { Reliability = true };
-        object[] data = new object[] { player, target };
+        object[] data = new object[] { player, target, newTileName };
 
         PhotonNetwork.RaiseEvent(evCode, data, raiseEventOptions, sendOptions);
 
@@ -488,7 +501,7 @@ public class Manager : MonoBehaviour
         }
         if (PhotonNetwork.LocalPlayer.ActorNumber != -1)
         {
-            P2.PlayerAttackedNetworking(damage1);
+            P2.PlayerAttackedNetworking(PhotonNetwork.LocalPlayer.ActorNumber, damage1);
         } else
         {
             P2.PlayerAttacked(damage1);
@@ -498,7 +511,7 @@ public class Manager : MonoBehaviour
             P2.health = 100;
         if (PhotonNetwork.LocalPlayer.ActorNumber != -1)
         {
-            P1.PlayerAttackedNetworking(damage2);
+            P1.PlayerAttackedNetworking(PhotonNetwork.LocalPlayer.ActorNumber, damage2);
         }
         else
         {

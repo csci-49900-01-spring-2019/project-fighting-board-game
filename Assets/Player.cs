@@ -67,12 +67,12 @@ public class Player : Photon.Pun.MonoBehaviourPun
 
     }
 
-    public void PlayerAttackedNetworking(int damage)
+    public void PlayerAttackedNetworking(int actorNum,int damage)
     {
         byte evCode = (byte)PhotonEventCodes.takeDamage;
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         SendOptions sendOptions = new SendOptions { Reliability = true };
-        object[] data = new object[] { base.photonView.ViewID, damage };
+        object[] data = new object[] { actorNum, damage };
 
         PhotonNetwork.RaiseEvent(evCode, data, raiseEventOptions, sendOptions);
         Debug.Log("Sent event!");

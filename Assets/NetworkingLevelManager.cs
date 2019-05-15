@@ -13,6 +13,7 @@ public enum PhotonEventCodes
     addPlayer = 2,
     addPlayerMaster = 3,
     movement = 4,
+    recieveEvent = 5,
 }
 
 public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
@@ -46,6 +47,7 @@ public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
             object[] data = (object[])photonEvent.CustomData;
             // Get corresponding player!
             Player playerScript = players[(int)data[0]-1].GetComponent<Player>();
+            Debug.Log("Dealing damage to " + (int)data[1]);
             // Call the damage script.
             playerScript.PlayerAttacked((int)data[1]);
 
@@ -57,6 +59,7 @@ public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
             manager.activePlayer = (int)data[0];
             manager.players[manager.activePlayer].hasMoved = false;
             manager.CameraAdjust();
+            manager.players[manager.activePlayer].StartCoroutine("TakeTurn");
         } else if (eventCode == (byte)PhotonEventCodes.addPlayer)
         {
             Debug.Log("Adding player!");
@@ -83,8 +86,21 @@ public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
             // 0 is player, 1 is position
             object[] data = (object[])photonEvent.CustomData;
             manager.players[(int)data[0]].StartCoroutine("Move", (Vector3)data[1]);
-        }
-        else {
+            string tileName = (string)data[2];
+            GameTile nextTile = GameObject.Find(tileName).GetComponent<GameTile>();
+            manager.players[(int)data[0]].current_tile = nextTile;
+        } else if (eventCode == (byte)PhotonEventCodes.recieveEvent)
+        {
+            Debug.Log("Received Event Change");
+            // 0 is player, 1 is position
+            object[] data = (object[])photonEvent.CustomData;
+            if ((bool)data[1])
+            {
+                manager.combatFlag = true;
+            }
+            manager.ReceiveEvent((string)data[0]); 
+
+        } else {
             Debug.Log("Event received, but does not match any event code. Code = " + eventCode);
         }
     }
