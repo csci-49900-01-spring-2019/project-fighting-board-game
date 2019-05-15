@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     public bool isActive;
     public Dice my_die;
     public GameTile current_tile;
-
+    public int auth_key;
 
     public int totalRubies = 0;
     public int totalDamageDealt = 0;
