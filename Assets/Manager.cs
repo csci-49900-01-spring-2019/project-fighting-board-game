@@ -29,6 +29,7 @@ public class Manager : MonoBehaviour
     public string damText2 = "d2";
     public GameObject fightParticle;
     public GameObject playerPrefab;
+    public postStats api;
     private object photonEvent;
 
     // Start is called before the first frame update
@@ -160,6 +161,7 @@ public class Manager : MonoBehaviour
             sendMovementEvent(activePlayer, backTile.transform.position,backTile.name);
             players[activePlayer].current_tile = backTile;
             TileEffect();
+            players[activePlayer].totalMoves += 1;
         }
         else // if player has selected forward tile
         {
@@ -167,6 +169,7 @@ public class Manager : MonoBehaviour
             sendMovementEvent(activePlayer, forwardTile.transform.position,forwardTile.name);
             players[activePlayer].current_tile = forwardTile;
             TileEffect();
+            players[activePlayer].totalMoves += 1;
         }
         forwardTile.DeactivateOutline();
         backTile.DeactivateOutline();
@@ -203,6 +206,7 @@ public class Manager : MonoBehaviour
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
             ReceiveEvent(players[activePlayer].playerName + " landed on a Healing tile and has healed " + n +" health points!",true);
+            players[activePlayer].totalHealing += n;
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.trap)
         {
@@ -211,12 +215,15 @@ public class Manager : MonoBehaviour
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
             ReceiveEvent(players[activePlayer].playerName + " landed on a Trap tile and lost " + n + " health points!",true);
+            players[activePlayer].totalTraps += 1;
+            players[activePlayer].totalDamageTaken += n;
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.ruby)
         {
             int n = Random.Range(10, 41);
             players[activePlayer].rubies = players[activePlayer].rubies + n;
             ReceiveEvent(players[activePlayer].playerName + " landed on a ruby mine and mined " + n + " rubies!",true);
+            players[activePlayer].totalRubies += n;
         }
     }
 
@@ -291,14 +298,16 @@ public class Manager : MonoBehaviour
         }
     }
 
-    void EndGameTie()
+    public void EndGameTie()
     {
         ReceiveEvent("The game is over! Everyone's dead, nobody wins! Total number of turns taken: " + turnCount,true);
+        api.uploadAllState();
     }
 
-    void EndGameWin(Player winner)
+    public void EndGameWin(Player winner)
     {
         ReceiveEvent("The game is over!" + winner.playerName + " has won! Total number of turns taken: " + turnCount,true);
+        api.uploadAllState();
     }
 
     void CameraAdjustNetworking(int activeCamera)
@@ -528,6 +537,11 @@ public class Manager : MonoBehaviour
         {
             P1.PlayerAttacked(damage2);
         }
+        P1.totalDamageDealt += damage1;
+        P2.totalDamageTaken += damage1;
+        P2.totalDamageDealt += damage2;
+        P1.totalDamageTaken += damage2;
+
         if (P1.health > 100)
             P1.health = 100;
 

@@ -7,11 +7,10 @@ public class Inventory2Text : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        theManager = GameObject.FindObjectOfType<Manager>();
-        theDice = GameObject.FindObjectOfType<Dice>();
+
     }
-    Manager theManager;
-    Dice theDice;
+    public Manager theManager;
+    public Dice theDice;
     // Update is called once per frame
     void Update()
     {
