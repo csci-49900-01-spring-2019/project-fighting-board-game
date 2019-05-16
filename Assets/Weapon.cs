@@ -15,7 +15,7 @@ public class Weapon
     public int range;
     public State statusEffect;
     public int rank;
-    public decimal rubies = 0.00m;
+    public int rubies = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -68,35 +68,35 @@ public class Weapon
                 break;
             case "long":
                 range++;
-                rubies = rubies * 1.75m;
+                rubies = (int)((rubies * 1.75) + 0.5);
                 break;
             case "short":
                 if (range != 0)
                 {
                     range--;
-                    rubies = rubies - (rubies * .25m);
+                    rubies = rubies - (int)((rubies * .25) + 0.5);
                 }
                 break;
             case "strong":
                 dRangeStart = dRangeStart + 3;
                 dRangeLimit = dRangeLimit + 5;
-                rubies = rubies * 1.5m;
+                rubies = (int)((rubies * 1.5) + 0.5);
                 break;
             case "weak":
                 if (dRangeStart > 4)
                     dRangeStart = dRangeStart - 4;
                 dRangeLimit = dRangeLimit - 6;
-                rubies = rubies - (rubies * .5m);
+                rubies = rubies - (int)((rubies * 0.5) + 0.5);
                 break;
             case "quick":
                 dRangeStart = dRangeStart + 2;
-                rubies = rubies * 1.2m;
+                rubies = (int)((rubies * 1.2) + 0.5);
                 break;
             case "grand":
                 if (dRangeStart > 5)
                     dRangeStart = dRangeStart - 5;
                 dRangeLimit = dRangeLimit + 10;
-                rubies = rubies * 1.4m;
+                rubies = (int)((rubies * 1.4) + 0.5);
                 break;
             case "critical":
                 dRangeLimit = dRangeLimit + dRangeLimit;
@@ -105,12 +105,12 @@ public class Weapon
             case "broken":
                 dRangeStart = 6;
                 dRangeLimit = 8;
-                rubies = rubies - (rubies * .9m);
+                rubies = rubies - (int)((rubies * .9) + 0.5);
                 break;
             case "game breaker":
                 dRangeLimit = 50;
                 dRangeStart = dRangeLimit;
-                rubies = rubies * 2.5m;
+                rubies = (int)((rubies * 2.5) + 0.5);
                 break;
             case "chance":
                 dRangeStart = -25;
@@ -129,15 +129,15 @@ public class Weapon
                 break;
             case "burning":
                 statusEffect = State.burned;
-                rubies = rubies + (rubies * .5m);
+                rubies = rubies + (int)((rubies * 0.5) + 0.5);
                 break;
             case "poisoning":
                 statusEffect = State.poisoned;
-                rubies = rubies + (rubies * .7m);
+                rubies = rubies + (int)((rubies * 0.7) + 0.5);
                 break;
             case "stunning":
                 statusEffect = State.stunned;
-                rubies = rubies + (rubies * .9m);
+                rubies = rubies + (int)((rubies * 0.9) + 0.5);
                 break;
         }
     }

@@ -10,6 +10,7 @@ public class GameTile : MonoBehaviour
     public GameTile next_tile;
     public GameTile prev_tile;
     public bool available;
+    public bool has_store = false;
     public TileType tile_type;
 
 
