@@ -40,7 +40,7 @@ public class postStats : MonoBehaviour
     {
         // POST game!
         int gameID = 0;
-        
+        int userID = PlayerPrefs.GetInt("user_id");
         string authenticate = "Bearer " + authToken;
         Debug.Log(authenticate);
         WWWForm form = new WWWForm();
@@ -68,7 +68,7 @@ public class postStats : MonoBehaviour
             Player currentPlayer = playersList[i - 1];
 
             form2.AddField("game_id", gameID);
-            form2.AddField("user_id", i);
+            form2.AddField("user_id", userID);
             form2.AddField("total_damage_taken", currentPlayer.totalDamageTaken);
             form2.AddField("total_damage_dealt", currentPlayer.totalDamageDealt);
             form2.AddField("total_healing", currentPlayer.totalHealing);

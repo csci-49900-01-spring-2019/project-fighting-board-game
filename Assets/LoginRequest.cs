@@ -20,8 +20,10 @@ public class LoginRequest : MonoBehaviour
     string user = "truly";
     string pass = "potato";
     string authToken = "";
+    int userid;
     private string authkey;
     public string url = "http://arcane-forest-85239.herokuapp.com/auth/login";
+    private string getURL = "http://arcane-forest-85239.herokuapp.com/api/v1/users?username=";
     // Update is called once per frame
 
     public void login()
@@ -36,7 +38,7 @@ public class LoginRequest : MonoBehaviour
         SceneManager.LoadScene(2);
     }
 
-    void processResponse()
+    IEnumerator processResponse()
     {
         if (authToken == null)
         {
@@ -48,8 +50,43 @@ public class LoginRequest : MonoBehaviour
         {
             Debug.Log("Success");
             PlayerPrefs.SetString("auth_token", authToken);
-            SceneManager.LoadScene(1);
+
+
         }
+
+        WWWForm form = new WWWForm();
+        form.AddField("username", user);
+        getURL += user;
+
+        Dictionary<string, string> headers = new Dictionary<string, string>();
+        headers.Add("Authorization", "Bearer " + authToken);
+        WWW www = new WWW(getURL,null, headers);
+        yield return www;
+
+        string getResponse = www.text;
+       
+                Debug.Log(getResponse);
+                string temp = "";
+
+                int counter = 0;
+                while (getResponse[counter] != ':') {
+                    counter++;
+                }
+                counter++;
+                while (getResponse[counter] != ',')
+                {
+                    temp += getResponse[counter];
+                 counter++;
+                }
+
+                if (int.TryParse(temp, out userid))
+                {
+                    PlayerPrefs.SetInt("user_id", userid);
+                    SceneManager.LoadScene(1);
+                } else
+                {
+                    Debug.Log("failed");
+                }
     }
 
     IEnumerator GetToken()
@@ -91,6 +128,6 @@ public class LoginRequest : MonoBehaviour
                 
             }
         }
-        processResponse();
+        StartCoroutine(processResponse());
     }  
 }
