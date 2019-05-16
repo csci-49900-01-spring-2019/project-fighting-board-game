@@ -47,6 +47,7 @@ public class LoginRequest : MonoBehaviour
         if (authToken.Length > 20)
         {
             Debug.Log("Success");
+            PlayerPrefs.SetString("auth_token", authToken);
             SceneManager.LoadScene(1);
         }
     }
