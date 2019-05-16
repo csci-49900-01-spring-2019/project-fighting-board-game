@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class LoginRequest : MonoBehaviour
 {
@@ -28,6 +29,26 @@ public class LoginRequest : MonoBehaviour
         user = usernameInput.text;
         pass = passwordInput.text;
         StartCoroutine(GetToken());
+    }
+
+    public void singlePlayer()
+    {
+        SceneManager.LoadScene(2);
+    }
+
+    void processResponse()
+    {
+        if (authToken == null)
+        {
+            Debug.Log("NULL");
+        }
+
+        // Lol never do this 
+        if (authToken.Length > 20)
+        {
+            Debug.Log("Success");
+            SceneManager.LoadScene(1);
+        }
     }
 
     IEnumerator GetToken()
@@ -65,7 +86,9 @@ public class LoginRequest : MonoBehaviour
                 }
                 
                 Debug.Log(authToken);
+                
             }
         }
+        processResponse();
     }  
 }
