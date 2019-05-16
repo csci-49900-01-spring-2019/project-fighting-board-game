@@ -67,7 +67,8 @@ public class LoginRequest : MonoBehaviour
         {
             if (postRequest.isDone)
             {
-                //{ "auth_token":"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMiwiZXhwIjoxNTU4MDYyMzQyfQ.kWzbNRGY71PocNJeGs6xqCDXhJbvD8zijtcP7FIrZOY"}
+                //{ "auth_token":"eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxMiwiZXhwIjoxNTU4MDYyMzQyfQ.kWzbNRGY71PocNJeGs6xqCDXhJbvD8zijtcP7FIrZOY"}
+
                 authkey = System.Text.Encoding.UTF8.GetString(postRequest.downloadHandler.data);
 
                 int counter = 0;
