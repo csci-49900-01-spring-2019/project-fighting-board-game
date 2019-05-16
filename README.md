@@ -5,6 +5,8 @@ API repositoty located at: https://github.com/csci-49900-01-spring-2019/board-ga
 
 Website repository located at: https://github.com/csci-49900-01-spring-2019/ye_olde_fighting_game_website
 
+The website itself is located at: https://limitless-wave-13405.herokuapp.com/
+
 <h1>Final Written Report</h1>
 
 <h2>Abstract</h2>
