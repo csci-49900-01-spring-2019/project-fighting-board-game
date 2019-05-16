@@ -19,7 +19,7 @@ public class Player : Photon.Pun.MonoBehaviourPun
     public State status;
     public int statusTimer;
     public int health;
-    public int rubies = 0;
+    public int rubies;
     public Weapon currentWeapon;
     public List<Weapon> inventory;
     //public string armor;
@@ -53,6 +53,7 @@ public class Player : Photon.Pun.MonoBehaviourPun
         //Debug.Log("My name is " + playerName);
         hasMoved = false;
         health = 100;
+        rubies = 100;
         //Weapon aWeapon;
         currentWeapon = new Weapon("stick","","");
 

@@ -13,6 +13,7 @@ public class Manager : MonoBehaviour
     public Light dayTime; // disable to make night-time. 
     public float timeUntilGameStart = 30f;
     public bool gameOver;
+    public bool storeOpen;
     public int activePlayer;
     public int activeCamera;
     public int turnCount;
@@ -27,6 +28,7 @@ public class Manager : MonoBehaviour
     public string statText2 = "s2";
     public string damText1 = "d1";
     public string damText2 = "d2";
+    Store StoreScreen;
     public GameObject fightParticle;
     public GameObject playerPrefab;
     public postStats api;
@@ -66,6 +68,7 @@ public class Manager : MonoBehaviour
         cameras[activeCamera].enabled = true;
         Debug.Log("active player = " + activePlayer);
         players[activePlayer].StartCoroutine("TakeTurn");
+        StoreScreen = GameObject.Find("StoreCanvas").GetComponent<Store>();
     }
 
 
@@ -190,6 +193,8 @@ public class Manager : MonoBehaviour
 
     void TileEffect()
     {
+        if (players[activePlayer].current_tile.has_store == true)
+            StoreScreen.OpenStore();
         if (players[activePlayer].current_tile.tile_type == TileType.weapon)
         {
             int n = Random.Range(wepDrawStart, wepDrawEnd);
