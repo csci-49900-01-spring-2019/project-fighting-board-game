@@ -7,6 +7,8 @@ Website repository located at: https://github.com/csci-49900-01-spring-2019/ye_o
 
 The website itself is located at: https://limitless-wave-13405.herokuapp.com/
 
+Google Slides presentation located at: https://docs.google.com/presentation/d/1V5NxeH6shId1JJoHbrm_-OGKfc4xlGEJ3FfOz4FnUpg/edit?usp=sharing
+
 <h1>Final Written Report</h1>
 
 <h2>Abstract</h2>
