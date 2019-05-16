@@ -231,8 +231,8 @@ public class Manager : MonoBehaviour
             if (PhotonNetwork.LocalPlayer.ActorNumber != -1)
             sendMovementEvent(activePlayer, backTile.transform.position,backTile.name);
             players[activePlayer].current_tile = backTile;
-            sendTileEvent();
             TileEffect();
+            sendTileEvent(nTile);
             players[activePlayer].totalMoves += 1;
         }
         else // if player has selected forward tile
@@ -240,8 +240,8 @@ public class Manager : MonoBehaviour
             if (PhotonNetwork.LocalPlayer.ActorNumber != -1)
             sendMovementEvent(activePlayer, forwardTile.transform.position,forwardTile.name);
             players[activePlayer].current_tile = forwardTile;
-            sendTileEvent();
             TileEffect();
+            sendTileEvent(nTile);
             players[activePlayer].totalMoves += 1;
         }
         forwardTile.DeactivateOutline();
@@ -261,49 +261,44 @@ public class Manager : MonoBehaviour
 
     }
 
-    public void sendTileEvent()
+    public void sendTileEvent(int effect)
     {
         Debug.Log("Raising tile event");
 
         byte evCode = (byte)PhotonEventCodes.tileEvent;
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
         SendOptions sendOptions = new SendOptions { Reliability = true };
-        object[] data = new object[] { };
+        object[] data = new object[] { effect };
 
         PhotonNetwork.RaiseEvent(evCode, data, raiseEventOptions, sendOptions);
     }
 
-    void TileEffect()
+    public void networkTileEffect(int effect)
     {
-        if (players[activePlayer].current_tile.has_store == true)
-            StoreScreen.OpenStore();
         if (players[activePlayer].current_tile.tile_type == TileType.weapon)
         {
-            int n = Random.Range(wepDrawStart, wepDrawEnd);
-            Weapon draw = listOfWeapons.wepList[n];
+            Weapon draw = listOfWeapons.wepList[effect];
 
             //players[activePlayer].inventory.Add(draw);
             players[activePlayer].currentWeapon = draw;
-            ReceiveEvent(players[activePlayer].playerName + " landed on a weapons tile and drew a " + draw.finalName,true);
+            ReceiveEvent(players[activePlayer].playerName + " landed on a weapons tile and drew a " + draw.finalName, true);
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.heal)
         {
-            int n = Random.Range(10, 41);
-            players[activePlayer].health = players[activePlayer].health + n;
+            players[activePlayer].health = players[activePlayer].health + effect;
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
-            ReceiveEvent(players[activePlayer].playerName + " landed on a Healing tile and has healed " + n +" health points!",true);
-            players[activePlayer].totalHealing += n;
+            ReceiveEvent(players[activePlayer].playerName + " landed on a Healing tile and has healed " + effect + " health points!", true);
+            players[activePlayer].totalHealing += effect;
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.trap)
         {
-            int n = Random.Range(10, 25);
-            players[activePlayer].health = players[activePlayer].health - n;
+            players[activePlayer].health = players[activePlayer].health - effect;
             if (players[activePlayer].health > 100)
                 players[activePlayer].health = 100;
-            ReceiveEvent(players[activePlayer].playerName + " landed on a Trap tile and lost " + n + " health points!",true);
+            ReceiveEvent(players[activePlayer].playerName + " landed on a Trap tile and lost " + effect + " health points!", true);
             players[activePlayer].totalTraps += 1;
-            players[activePlayer].totalDamageTaken += n;
+            players[activePlayer].totalDamageTaken += effect;
             if (players[activePlayer].health <= 0)
             {
                 players[activePlayer].status = State.dead;
@@ -313,10 +308,57 @@ public class Manager : MonoBehaviour
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.ruby)
         {
-            int n = Random.Range(10, 41);
-            players[activePlayer].rubies = players[activePlayer].rubies + n;
-            ReceiveEvent(players[activePlayer].playerName + " landed on a ruby mine and mined " + n + " rubies!",true);
-            players[activePlayer].totalRubies += n;
+            players[activePlayer].rubies = players[activePlayer].rubies + effect;
+            ReceiveEvent(players[activePlayer].playerName + " landed on a ruby mine and mined " + effect + " rubies!", true);
+            players[activePlayer].totalRubies += effect;
+        }
+    }
+
+    int nTile;
+    void TileEffect()
+    {
+        if (players[activePlayer].current_tile.has_store == true)
+            StoreScreen.OpenStore();
+        if (players[activePlayer].current_tile.tile_type == TileType.weapon)
+        {
+            nTile = Random.Range(wepDrawStart, wepDrawEnd);
+            Weapon draw = listOfWeapons.wepList[nTile];
+
+            //players[activePlayer].inventory.Add(draw);
+            players[activePlayer].currentWeapon = draw;
+            ReceiveEvent(players[activePlayer].playerName + " landed on a weapons tile and drew a " + draw.finalName,true);
+        }
+        else if (players[activePlayer].current_tile.tile_type == TileType.heal)
+        {
+            nTile = Random.Range(10, 41);
+            players[activePlayer].health = players[activePlayer].health + nTile;
+            if (players[activePlayer].health > 100)
+                players[activePlayer].health = 100;
+            ReceiveEvent(players[activePlayer].playerName + " landed on a Healing tile and has healed " + nTile +" health points!",true);
+            players[activePlayer].totalHealing += nTile;
+        }
+        else if (players[activePlayer].current_tile.tile_type == TileType.trap)
+        {
+            nTile = Random.Range(10, 25);
+            players[activePlayer].health = players[activePlayer].health - nTile;
+            if (players[activePlayer].health > 100)
+                players[activePlayer].health = 100;
+            ReceiveEvent(players[activePlayer].playerName + " landed on a Trap tile and lost " + nTile + " health points!",true);
+            players[activePlayer].totalTraps += 1;
+            players[activePlayer].totalDamageTaken += nTile;
+            if (players[activePlayer].health <= 0)
+            {
+                players[activePlayer].status = State.dead;
+                players[activePlayer].finalRank = currentRank;
+                currentRank--;
+            }
+        }
+        else if (players[activePlayer].current_tile.tile_type == TileType.ruby)
+        {
+            nTile = Random.Range(10, 41);
+            players[activePlayer].rubies = players[activePlayer].rubies + nTile;
+            ReceiveEvent(players[activePlayer].playerName + " landed on a ruby mine and mined " + nTile + " rubies!",true);
+            players[activePlayer].totalRubies += nTile;
         }
     }
 
