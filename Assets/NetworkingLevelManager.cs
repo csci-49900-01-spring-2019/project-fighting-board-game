@@ -14,6 +14,9 @@ public enum PhotonEventCodes
     addPlayerMaster = 3,
     movement = 4,
     recieveEvent = 5,
+    tileList = 6,
+    tileEvent = 7,
+    wepList = 8,
 }
 
 public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
@@ -103,6 +106,38 @@ public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
                 manager.combatFlag = true;
             }
 
+        } else if (eventCode == (byte)PhotonEventCodes.tileList)
+        {
+            Debug.Log("Received tile list event");
+            object[] data = (object[])photonEvent.CustomData;
+
+            for (int i = 0; i < 28; i++)
+            {
+                manager.tempTile.tile_type = (TileType)data[i];
+                manager.tempTile.InitializeTile();
+                manager.tempTile = manager.tempTile.next_tile;
+            }
+        } else if (eventCode == (byte)PhotonEventCodes.tileEvent)
+        {
+            Debug.Log("Received tile event");
+            object[] data = (object[])photonEvent.CustomData;
+            manager.StartCoroutine("TileEffect");
+        } else if (eventCode == (byte)PhotonEventCodes.wepList)
+        {
+            Debug.Log("Received weapon list event");
+            object[] data = (object[])photonEvent.CustomData;
+            manager.listOfWeapons.wepList = new List<Weapon> { };
+            for (int i = 0; i < 75; i++)
+            {
+                manager.listOfWeapons.wepList.Add(new Weapon((string)data[i], (string)data[i + 1], (string)data[i + 2]));
+                i = i + 2;
+            }
+            //manager.listOfWeapons.wepList = manager.listOfWeapons.wepList.OrderBy(x => x.dRangeLimit).ToList();
+            manager.listOfWeapons.rankList();
+            /*for (int i = 0; i < manager.listOfWeapons.wepList.Count; i++)
+            {
+                Debug.Log(manager.listOfWeapons.wepList[i].finalName + " " + i);
+            }*/
         } else {
             Debug.Log("Event received, but does not match any event code. Code = " + eventCode);
         }

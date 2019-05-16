@@ -9,6 +9,7 @@ public class Manager : MonoBehaviour
 {
     public List<Player> players; // We should instantiate this on runtime instead of hardcoding the list. 
     public List<Camera> cameras;
+    public List<int> allTileTypes;
     public Weapon_List listOfWeapons;
     public Light dayTime; // disable to make night-time. 
     public float timeUntilGameStart = 30f;
@@ -23,14 +24,14 @@ public class Manager : MonoBehaviour
     public bool eventFlag;
     public bool combatFlag;
     public bool isGameStarted = false;
-    public Combat combatSystem;
+    public int currentRank;
     public string statText1 = "s1";
     public string statText2 = "s2";
     public string damText1 = "d1";
     public string damText2 = "d2";
-    Store StoreScreen;
     public GameObject fightParticle;
     public GameObject playerPrefab;
+    public GameTile tempTile;
     public postStats api;
     private object photonEvent;
 
@@ -67,10 +68,75 @@ public class Manager : MonoBehaviour
         activeCamera = 7;
         cameras[activeCamera].enabled = true;
         Debug.Log("active player = " + activePlayer);
+        StartCoroutine(LateStartTiles(.4F));
         players[activePlayer].StartCoroutine("TakeTurn");
-        StoreScreen = GameObject.Find("StoreCanvas").GetComponent<Store>();
+        currentRank = players.Count;
     }
 
+    IEnumerator LateStartTiles(float waitTime)
+    {
+        Debug.Log("Inside LateStartTiles");
+        yield return new WaitForSeconds(waitTime);
+        listTiles();
+        Debug.Log("Listed all tiles");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("I am the master client");
+            yield return new WaitForSeconds(waitTime);
+            sendTilesList(allTileTypes);
+            Debug.Log("I sent out the tile list");
+            yield return new WaitForSeconds(1);
+            sendWeaponList(listOfWeapons.wepList);
+            Debug.Log("I sent out the weapon list");
+        }
+    }
+
+    void listTiles()
+    {
+        Vector3 pos = tempTile.GetTilePosition();
+        allTileTypes.Add((int)tempTile.tile_type);
+        tempTile = tempTile.next_tile;
+        while (tempTile.GetTilePosition() != pos)
+        {
+            allTileTypes.Add((int)tempTile.tile_type);
+            tempTile = tempTile.next_tile;
+        }
+
+    }
+
+
+    public void sendTilesList(List<int> allTiles)
+    {
+        byte evCode = (byte)PhotonEventCodes.tileList;
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
+        SendOptions sendOptions = new SendOptions { Reliability = true };
+        object[] data = new object[28];
+        for (int i = 0; i < 28; i++)
+        {
+            data[i] = allTiles[i];
+        }
+        PhotonNetwork.RaiseEvent(evCode, data, raiseEventOptions, sendOptions);
+        Debug.Log("Sent event tile list");
+    }
+
+    public void sendWeaponList(List<Weapon> allWeapons)
+    {
+        byte evCode = (byte)PhotonEventCodes.wepList;
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
+        SendOptions sendOptions = new SendOptions { Reliability = true };
+        object[] data = new object[75];
+        int j = 0;
+        for (int i = 0; i < 75; i++)
+        {
+            data[i] = allWeapons[j].Wname;
+            data[i + 1] = allWeapons[j].adjective;
+            data[i + 2] = allWeapons[j].adjective2;
+            j++;
+            i = i + 2;
+        }
+        PhotonNetwork.RaiseEvent(evCode, data, raiseEventOptions, sendOptions);
+        Debug.Log("Sent event weapon list");
+    }
 
 
     public void addPlayer(string username,int networkingIndex)
@@ -191,10 +257,20 @@ public class Manager : MonoBehaviour
 
     }
 
+    public void sendTileEvent()
+    {
+        Debug.Log("Raising tile event");
+
+        byte evCode = (byte)PhotonEventCodes.tileEvent;
+        RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
+        SendOptions sendOptions = new SendOptions { Reliability = true };
+        object[] data = new object[] { };
+
+        PhotonNetwork.RaiseEvent(evCode, data, raiseEventOptions, sendOptions);
+    }
+
     void TileEffect()
     {
-        if (players[activePlayer].current_tile.has_store == true)
-            StoreScreen.OpenStore();
         if (players[activePlayer].current_tile.tile_type == TileType.weapon)
         {
             int n = Random.Range(wepDrawStart, wepDrawEnd);
@@ -222,6 +298,12 @@ public class Manager : MonoBehaviour
             ReceiveEvent(players[activePlayer].playerName + " landed on a Trap tile and lost " + n + " health points!",true);
             players[activePlayer].totalTraps += 1;
             players[activePlayer].totalDamageTaken += n;
+            if (players[activePlayer].health <= 0)
+            {
+                players[activePlayer].status = State.dead;
+                players[activePlayer].finalRank = currentRank;
+                currentRank--;
+            }
         }
         else if (players[activePlayer].current_tile.tile_type == TileType.ruby)
         {
@@ -422,7 +504,7 @@ public class Manager : MonoBehaviour
     }
 
 
-    public string inflictStatus(Player P1, Weapon W1) //P1 is target player and W1 is any weapon, preferably the current weapon of attacking player
+    public string inflictStatus(Player P1, Weapon W1, Player P2) //P1 is target player and W1 is any weapon, preferably the current weapon of attacking player
     {
         string effectString;
         if (P1.status == State.normal)
@@ -444,6 +526,7 @@ public class Manager : MonoBehaviour
                     {
                         P1.status = effect;
                         P1.statusTimer = 3;
+                        P2.totalBurns += 1;
                         effectString = P1 + " has been burned!";
                         return effectString;
 
@@ -459,6 +542,7 @@ public class Manager : MonoBehaviour
                     {
                         P1.status = effect;
                         P1.statusTimer = 3;
+                        P2.totalPoisons += 1;
                         effectString = P1 + " has been poisoned!";
                         return effectString;
                     }
@@ -473,6 +557,7 @@ public class Manager : MonoBehaviour
                     {
                         P1.status = effect;
                         P1.statusTimer = 1;
+                        P2.totalStuns += 1;
                         effectString = P1 + " has been stunned!";
                         return effectString;
                     }
@@ -492,7 +577,7 @@ public class Manager : MonoBehaviour
             return;
         int damage1 = P1.currentWeapon.Hit();
         int damage2 = 0;
-        string b1 = " " + inflictStatus(P2, P1.currentWeapon) + "\n"; // inflict status, store event string
+        string b1 = " " + inflictStatus(P2, P1.currentWeapon, P1) + "\n"; // inflict status, store event string
         string b2 = "";
 
         // Spawn particle on fight!
@@ -502,7 +587,7 @@ public class Manager : MonoBehaviour
         if (checkRangeForEnemy(P2, P1))
         {
             damage2 = P2.currentWeapon.Hit();
-            b2 = " " + inflictStatus(P1, P2.currentWeapon);
+            b2 = " " + inflictStatus(P1, P2.currentWeapon, P2);
         }
 
         //modify damage1 and damage2 based on current tiles or otherwise
