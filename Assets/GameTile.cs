@@ -10,9 +10,8 @@ public class GameTile : MonoBehaviour
     public GameTile next_tile;
     public GameTile prev_tile;
     public bool available;
-    public bool has_store = false;
     public TileType tile_type;
-
+    public bool has_store = false;
 
     // Start is called before the first frame update
     void Start()
@@ -44,7 +43,7 @@ public class GameTile : MonoBehaviour
 
     }
 
-    private void InitializeTile()
+    public void InitializeTile()
     {
         Renderer rend = GetComponent<Renderer>();
         switch (tile_type)

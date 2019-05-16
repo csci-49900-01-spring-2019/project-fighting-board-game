@@ -121,7 +121,7 @@ public class NetworkingLevelManager : Photon.Pun.MonoBehaviourPun
         {
             Debug.Log("Received tile event");
             object[] data = (object[])photonEvent.CustomData;
-            manager.StartCoroutine("TileEffect");
+            manager.StartCoroutine("networkTileEffect", (int)data[0]);
         } else if (eventCode == (byte)PhotonEventCodes.wepList)
         {
             Debug.Log("Received weapon list event");
