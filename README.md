@@ -9,6 +9,8 @@ The website itself is located at: https://limitless-wave-13405.herokuapp.com/
 
 Google Slides presentation located at: https://docs.google.com/presentation/d/1V5NxeH6shId1JJoHbrm_-OGKfc4xlGEJ3FfOz4FnUpg/edit?usp=sharing
 
+Mac Build can be downloaded from: https://drive.google.com/file/d/108OTCgegHqAqPEK-l-e_i4TlZmw8WKr2/view?usp=sharing
+
 <h1>Final Written Report</h1>
 
 <h2>Abstract</h2>
